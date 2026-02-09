@@ -1,0 +1,17 @@
+# Fichiers d'environnement (mots de passe Supabase, etc.)
+.env
+.env.local
+.env.*.local
+
+# Fichiers de prod locaux (optionnel)
+docker-compose.prod.yml
+
+# Code source Odoo (on utilise l'image Docker officielle en déploiement)
+odoo-18/
+
+# Python / cache
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/

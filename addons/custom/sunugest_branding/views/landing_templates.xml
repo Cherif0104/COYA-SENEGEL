@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="landing_page" name="COYA.PRO Landing (optionnel, non chargé)">
+        <html lang="fr">
+            <head>
+                <meta charset="UTF-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                <title>COYA.PRO – CITOYENNETÉ, TRANSPARENCE, COMPÉTENCES</title>
+                <meta name="description" content="L'ERP conçu pour nos réalités africaines. Solution tout-en-un pour les entreprises sénégalaises : CRM, Finances, RH, Ventes."/>
+                <link rel="icon" type="image/png" href="/sunugest_branding/static/img/logo_senegel.png"/>
+                <link rel="stylesheet" href="/sunugest_branding/static/landing/css/style.css"/>
+            </head>
+            <body>
+                <header>
+                    <nav class="nav">
+                        <a href="#" class="nav__logo-link">
+                            <img src="/sunugest_branding/static/img/logo_senegel.png" alt="SENEGEL · COYA.PRO" class="nav__logo"/>
+                        </a>
+                        <ul class="nav__links">
+                            <li><a href="#accueil">Accueil</a></li>
+                            <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+                            <li><a href="#tarifs">Tarifs</a></li>
+                            <li class="nav__dropdown">
+                                <a href="#a-propos" class="nav__dropdown-toggle">À propos <span class="nav__arrow">▼</span></a>
+                                <ul class="nav__dropdown-menu">
+                                    <li><a href="#a-propos">Notre mission</a></li>
+                                    <li><a href="#fonctionnalites">Nos solutions</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="/web/login" class="nav__cta">Démo gratuite</a></li>
+                        </ul>
+                    </nav>
+                </header>
+
+                <main>
+                    <section id="accueil" class="hero">
+                        <div class="hero__shapes" aria-hidden="true">
+                            <div class="hero__shape hero__shape--1"/>
+                            <div class="hero__shape hero__shape--2"/>
+                            <div class="hero__shape hero__shape--3"/>
+                            <div class="hero__shape hero__shape--4"/>
+                        </div>
+
+                        <div class="hero__inner">
+                            <div class="hero__content">
+                                <div class="hero__logo-circle">
+                                    <img src="/sunugest_branding/static/img/logo_senegel.png" alt="SENEGEL"/>
+                                </div>
+                                <p class="hero__slogan">Create an opportunity youth of africa</p>
+                                <h1>Simplifiez la gestion, boostez la décision</h1>
+                                <p class="hero__tagline">L'ERP conçu pour nos réalités africaines.</p>
+                                <div class="hero__buttons">
+                                    <a href="/web/login" class="hero__btn hero__btn--primary">Accéder à COYA.PRO</a>
+                                    <a href="#fonctionnalites" class="hero__btn hero__btn--secondary">En savoir plus</a>
+                                </div>
+                            </div>
+
+                            <div class="hero__visual">
+                                <span class="hero__float hero__float--1" title="Documents">📁</span>
+                                <span class="hero__float hero__float--2" title="Collaboration">👥</span>
+                                <span class="hero__float hero__float--3" title="Impression">🖨️</span>
+                                <span class="hero__float hero__float--4" title="Média">📷</span>
+                                <span class="hero__float hero__float--5" title="Ventes">🛒</span>
+                                <span class="hero__plant" aria-hidden="true">🪴</span>
+                                <div class="hero__laptop">
+                                    <div class="hero__laptop-screen">
+                                        <div class="hero__dashboard">
+                                            <div class="hero__dashboard-bar"/>
+                                            <div class="hero__dashboard-chart hero__dashboard-chart--1"/>
+                                            <div class="hero__dashboard-chart hero__dashboard-chart--2"/>
+                                            <div class="hero__dashboard-chart hero__dashboard-chart--3"/>
+                                            <div class="hero__dashboard-chart hero__dashboard-chart--4"/>
+                                        </div>
+                                    </div>
+                                    <div class="hero__laptop-base"/>
+                                </div>
+                                <div class="hero__cloud" aria-hidden="true"/>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="fonctionnalites" class="features">
+                        <h2 class="features__title">La solution de gestion tout-en-un pour les entreprises sénégalaises</h2>
+                        <div class="features__grid">
+                            <article class="feature-card">
+                                <div class="feature-card__icon">🤝</div>
+                                <h3>CRM</h3>
+                                <p>Gérez vos relations clients.</p>
+                            </article>
+                            <article class="feature-card">
+                                <div class="feature-card__icon">📊</div>
+                                <h3>Finances</h3>
+                                <p>Suivez vos finances.</p>
+                            </article>
+                            <article class="feature-card">
+                                <div class="feature-card__icon">👥</div>
+                                <h3>RH</h3>
+                                <p>Pilotez vos ressources humaines.</p>
+                            </article>
+                            <article class="feature-card">
+                                <div class="feature-card__icon">🛒</div>
+                                <h3>Ventes</h3>
+                                <p>Optimisez vos ventes.</p>
+                            </article>
+                        </div>
+                    </section>
+
+                    <section id="a-propos" class="features section-about">
+                        <h2 class="features__title">À propos de COYA.PRO</h2>
+                        <p class="section-about__text">
+                            COYA.PRO (SENEGEL) est une plateforme ERP multi-tenant pour les organisations sénégalaises. CITOYENNETÉ, TRANSPARENCE, COMPÉTENCES.
+                        </p>
+                    </section>
+
+                    <section id="tarifs" class="cta">
+                        <h2>Prêt à simplifier votre gestion ?</h2>
+                        <p>Testez COYA.PRO gratuitement et découvrez l'ERP adapté au Sénégal.</p>
+                        <a href="/web/login" class="hero__btn hero__btn--primary">Accéder à la démo</a>
+                    </section>
+                </main>
+
+                <footer class="footer">
+                    <p><strong>COYA.PRO</strong> – SENEGEL · CITOYENNETÉ, TRANSPARENCE, COMPÉTENCES.</p>
+                    <p><a href="/web/login">Démo</a> · <a href="#a-propos">À propos</a></p>
+                </footer>
+            </body>
+        </html>
+    </template>
+</odoo>
