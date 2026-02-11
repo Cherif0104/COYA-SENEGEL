@@ -19,8 +19,8 @@
     </template>
 
     <!-- Login : deux panneaux (maquette) — gauche formulaire, droit SENEGEL/COYA -->
-    <template id="sunugest_login_layout" inherit_id="web.login_layout">
-        <xpath expr="//div[contains(@class, 'container') and contains(@class, 'py-5')]" position="replace">
+    <template id="sunugest_login_layout" inherit_id="web.login_layout" priority="99">
+        <xpath expr="//div[contains(@class, 'container') and contains(@class, 'py-5')][.//div[contains(@class, 'o_database_list')]]" position="replace">
             <div class="coya-login-split coya-login-page">
                 <div class="coya-login-left">
                     <div class="coya-login-brand">
