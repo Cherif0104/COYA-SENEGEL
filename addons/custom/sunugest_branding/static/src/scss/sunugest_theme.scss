@@ -164,8 +164,22 @@
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   opacity: 0.95;
+}
+
+.coya-trinite-desc {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  max-width: 300px;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  opacity: 0.95;
+  color: rgba(255, 255, 255, 0.95);
+}
+.coya-trinite-desc strong {
+  color: #fff;
+  font-weight: 700;
 }
 
 .coya-btn-outline {
@@ -182,6 +196,19 @@
 .coya-btn-outline:hover {
   background: #fff;
   color: var(--senegel-green) !important;
+}
+
+.coya-login-credit {
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: auto;
+}
+.coya-login-credit a {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: underline;
+}
+.coya-login-credit a:hover {
+  color: var(--senegel-yellow);
 }
 
 @media (max-width: 768px) {
@@ -218,19 +245,23 @@
   font-weight: 500;
 }
 
-// Bouton Se connecter : jaune SENEGEL (aligné au logo)
-.coya-login-page .oe_login_buttons .btn-primary {
+// Bouton Se connecter : jaune SENEGEL, texte blanc
+.coya-login-page .oe_login_buttons .btn-primary,
+.coya-login-page .oe_login_button .btn-primary,
+.coya-login-page button.btn-primary[type="submit"] {
   background: var(--senegel-yellow) !important;
-  color: var(--senegel-green) !important;
+  color: #fff !important;
   border: 2px solid var(--senegel-green) !important;
   border-radius: 0.75rem !important;
   font-weight: 700 !important;
   padding: 0.6rem 1.5rem !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-.coya-login-page .oe_login_buttons .btn-primary:hover {
+.coya-login-page .oe_login_buttons .btn-primary:hover,
+.coya-login-page .oe_login_button .btn-primary:hover,
+.coya-login-page button.btn-primary[type="submit"]:hover {
   background: var(--senegel-yellow-light) !important;
-  color: var(--senegel-green) !important;
+  color: #fff !important;
   border-color: var(--senegel-green) !important;
   filter: brightness(1.05);
 }
