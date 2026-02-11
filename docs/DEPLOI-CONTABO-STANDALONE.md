@@ -30,6 +30,17 @@ docker compose -f docker-compose.contabo.yml up -d
 
 Accès : `http://IP_DU_VPS:8069`
 
+### Définir l’admin (email + mot de passe)
+
+Après la première init, pour mettre l’utilisateur admin à `techsupport@senegel.com` / `Alphatango2026@` :
+
+```bash
+cd /opt/COYA-SENEGEL
+docker compose -f docker-compose.contabo.yml run --rm odoo sh -c "cat /etc/odoo/set_admin_senegal.py | odoo shell -d postgres -c /etc/odoo/odoo-standalone.conf --no-http"
+```
+
+Puis connexion sur `http://IP_DU_VPS:8069/web/login?db=postgres` avec **Email** `techsupport@senegel.com` et **Password** `Alphatango2026@`.
+
 ---
 
 ## Sauvegardes et backups (sans code)
