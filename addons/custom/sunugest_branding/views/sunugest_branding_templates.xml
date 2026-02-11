@@ -27,12 +27,11 @@
                         <div class="coya-login-logo-circle">
                             <img src="/sunugest_branding/static/img/logo_senegel.png" alt="SENEGEL"/>
                         </div>
-                        <p class="coya-login-slogan">Create an opportunity youth in Africa</p>
-                        <p class="coya-login-slogan-fr">Créer une opportunité pour la jeunesse d'Afrique</p>
+                        <p class="coya-login-slogan">Créer une opportunité pour la jeunesse d'Afrique</p>
                     </div>
                     <div class="card border-0 coya-login-card o_database_list">
                         <div class="card-body">
-                            <h2 class="coya-login-title">Sign into Account</h2>
+                            <h2 class="coya-login-title">Connectez-vous</h2>
                             <t t-out="0"/>
                             <div class="text-center small mt-4 pt-3 border-top" t-if="not disable_footer">
                                 <a href="https://www.senegel.org" target="_blank" rel="noopener">© SENEGEL · COYA.PRO</a>
@@ -43,14 +42,47 @@
                     </div>
                 </div>
                 <div class="coya-login-right">
-                    <h2 class="coya-welcome-title">Bonjour !</h2>
-                    <p class="coya-welcome-desc">Renseignez vos informations et commencez l'aventure avec nous.</p>
-                    <p class="coya-tagline">CITOYENNETÉ, TRANSPARENCE, COMPÉTENCES</p>
-                    <p class="coya-trinite-desc">Notre pilier managérial : la <strong>Trinité</strong> — équilibre entre Productivité (Ndiguel), Profitabilité (Barké) et Professionnalisme (Yar).</p>
+                    <div class="coya-welcome-block">
+                        <h2 class="coya-welcome-title">Bonjour JAMBAR Jii</h2>
+                        <p class="coya-welcome-subtitle">— Bonjour le brave</p>
+                        <p class="coya-welcome-desc">Renseignez vos informations et commencez l'aventure avec nous.</p>
+                    </div>
+                    <div class="coya-values-block">
+                        <p class="coya-tagline">CITOYENNETÉ, TRANSPARENCE, COMPÉTENCES</p>
+                        <p class="coya-trinite-desc">Notre pilier managérial : la <strong>Trinité</strong> — équilibre entre Productivité (Ndiguel), Profitabilité (Barké) et Professionnalisme (Yar).</p>
+                    </div>
                     <a href="mailto:techsupport@senegel.org" class="btn coya-btn-outline">Contact · techsupport@senegel.org</a>
-                    <p class="coya-login-credit mt-4 small">Cette plateforme est conçue par <a href="https://impulcia-afrique.com/" target="_blank" rel="noopener">IMPULCIA AFRIQUE</a></p>
+                    <p class="coya-login-credit">Cette plateforme est conçue par <a href="https://impulcia-afrique.com/" target="_blank" rel="noopener">IMPULCIA AFRIQUE</a></p>
                 </div>
             </div>
+        </xpath>
+    </template>
+
+    <!-- Formulaire de login : libellés et bouton en français -->
+    <template id="sunugest_login_form_fr" inherit_id="web.login" priority="99">
+        <xpath expr="//label[@for='db']" position="replace">
+            <label for="db" class="col-form-label">Base de données</label>
+        </xpath>
+        <xpath expr="//a[@href='/web/database/selector']" position="replace">
+            <a role="button" href="/web/database/selector" class="btn btn-secondary">Choisir <i class="fa fa-database" role="img" aria-label="Base de données" title="Base de données"></i></a>
+        </xpath>
+        <xpath expr="//label[@for='login']" position="replace">
+            <label for="login" class="form-label d-flex justify-content-between">Adresse e-mail</label>
+        </xpath>
+        <xpath expr="//input[@name='login']" position="attributes">
+            <attribute name="placeholder">Adresse e-mail</attribute>
+        </xpath>
+        <xpath expr="//label[@for='password']" position="replace">
+            <label for="password" class="form-label d-flex justify-content-between">Mot de passe</label>
+        </xpath>
+        <xpath expr="//input[@id='password']" position="attributes">
+            <attribute name="placeholder">Mot de passe</attribute>
+        </xpath>
+        <xpath expr="//div[contains(@class, 'oe_login_buttons')]//button[@type='submit' and not(@name='redirect')]" position="replace">
+            <button type="submit" class="btn btn-primary">Connexion</button>
+        </xpath>
+        <xpath expr="//button[@name='redirect' and @value='/web/become']" position="replace">
+            <button type="submit" name="redirect" value="/web/become" class="btn btn-link btn-sm">Connexion superutilisateur</button>
         </xpath>
     </template>
 
