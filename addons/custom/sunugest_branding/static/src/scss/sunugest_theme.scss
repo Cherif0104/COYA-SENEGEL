@@ -1,27 +1,42 @@
-// Charte graphique SENEGEL / COYA.PRO
-// Vert foncé #1a5f3a | Jaune/Or #e8b923 | Blanc #F4F8FB
+// Charte graphique COYA Community (Trinité Sénégel 2026)
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap");
+// Émeraude Ndiguel #2E7D32 (discipline, Valider) | Ambre Yar #FF8F00 (éducation, alertes) | Or Barké #FBC02D (impact, récompenses)
+// Typo : Montserrat / Inter (chargées via web.layout)
 :root {
-  --senegel-green: #1a5f3a;
-  --senegel-green-light: #247a4a;
-  --senegel-yellow: #e8b923;
-  --senegel-yellow-light: #f0c94a;
+  --coya-emeraude: #2E7D32;      /* Ndiguel - Productivité */
+  --coya-emeraude-light: #388E3C;
+  --coya-ambre: #FF8F00;        /* Yar - Professionnalisme, alertes */
+  --coya-ambre-light: #FFA726;
+  --coya-or: #FBC02D;           /* Barké - Profitabilité, succès */
+  --coya-or-light: #FDD835;
+  --coya-white: #F4F8FB;
+  /* Rétrocompatibilité + mapping Odoo */
+  --senegel-green: #2E7D32;
+  --senegel-green-light: #388E3C;
+  --senegel-yellow: #FBC02D;
+  --senegel-yellow-light: #FDD835;
   --senegel-white: #F4F8FB;
-  --o-brand-primary: #1a5f3a;
-  --o-brand-optional: #e8b923;
+  --o-brand-primary: #2E7D32;
+  --o-brand-optional: #FBC02D;
 }
 
-// Boutons primaires : jaune SENEGEL (thème aligné au logo vert+jaune)
+// Typographie COYA (Montserrat / Inter)
+body, .o_web_client, .coya-login-page {
+  font-family: "Montserrat", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+// Boutons primaires « Valider » : Émeraude Ndiguel (discipline)
 .btn-primary {
-  background: var(--senegel-yellow) !important;
-  border: 1px solid rgba(26, 95, 58, 0.3) !important;
-  color: var(--senegel-green) !important;
+  background: var(--coya-emeraude) !important;
+  border: 1px solid rgba(46, 125, 50, 0.4) !important;
+  color: white !important;
 }
 
 .btn-primary:hover,
 .btn-primary:focus {
-  background: var(--senegel-yellow-light) !important;
-  border-color: var(--senegel-green) !important;
-  color: var(--senegel-green) !important;
+  background: var(--coya-emeraude-light) !important;
+  border-color: var(--coya-emeraude) !important;
+  color: white !important;
   filter: brightness(1.05);
 }
 
@@ -56,7 +71,7 @@
   left: -10%;
   width: 40%;
   height: 60%;
-  background: linear-gradient(135deg, rgba(168, 230, 207, 0.4) 0%, rgba(45, 138, 90, 0.15) 100%);
+  background: linear-gradient(135deg, rgba(129, 199, 132, 0.35) 0%, rgba(46, 125, 50, 0.12) 100%);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -74,7 +89,7 @@
   height: 120px;
   border-radius: 50%;
   background: #fff;
-  border: 3px solid rgba(26, 95, 58, 0.35);
+  border: 3px solid rgba(46, 125, 50, 0.35);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   padding: 12px;
   margin: 0 auto;
@@ -118,7 +133,7 @@
   border-radius: 1rem !important;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
   background: #fff !important;
-  border: 1px solid rgba(26, 95, 58, 0.12) !important;
+  border: 1px solid rgba(46, 125, 50, 0.12) !important;
 }
 
 .coya-login-page .card-body {
@@ -127,7 +142,7 @@
 
 .coya-login-right {
   flex: 1;
-  background: linear-gradient(160deg, #7dd3a8 0%, #2d8a5a 40%, var(--senegel-green) 100%);
+  background: linear-gradient(160deg, #66BB6A 0%, #388E3C 40%, var(--coya-emeraude) 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -148,7 +163,7 @@
   display: block;
   width: 60px;
   height: 3px;
-  background: var(--senegel-yellow);
+  background: var(--coya-or);
   margin-top: 0.5rem;
 }
 
@@ -164,8 +179,22 @@
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   opacity: 0.95;
+}
+
+.coya-trinite-desc {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  max-width: 300px;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  opacity: 0.95;
+  color: rgba(255, 255, 255, 0.95);
+}
+.coya-trinite-desc strong {
+  color: #fff;
+  font-weight: 700;
 }
 
 .coya-btn-outline {
@@ -181,7 +210,20 @@
 
 .coya-btn-outline:hover {
   background: #fff;
-  color: var(--senegel-green) !important;
+  color: var(--coya-emeraude) !important;
+}
+
+.coya-login-credit {
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: auto;
+}
+.coya-login-credit a {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: underline;
+}
+.coya-login-credit a:hover {
+  color: var(--coya-or);
 }
 
 @media (max-width: 768px) {
@@ -201,37 +243,41 @@
 // Champs login : arrondis, fond légèrement translucide, bordure vert clair
 .coya-login-page .form-control {
   border-radius: 0.75rem !important;
-  border: 1px solid rgba(26, 95, 58, 0.25) !important;
+  border: 1px solid rgba(46, 125, 50, 0.25) !important;
   background: rgba(255, 255, 255, 0.9) !important;
   padding: 0.6rem 1rem !important;
-  color: var(--senegel-green) !important;
+  color: var(--coya-emeraude) !important;
 }
 .coya-login-page .form-control::placeholder {
-  color: rgba(26, 95, 58, 0.6);
+  color: rgba(46, 125, 50, 0.6);
 }
 .coya-login-page .form-control:focus {
-  border-color: var(--senegel-green) !important;
-  box-shadow: 0 0 0 0.2rem rgba(26, 95, 58, 0.2) !important;
+  border-color: var(--coya-emeraude) !important;
+  box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.2) !important;
 }
 .coya-login-page .form-label {
-  color: var(--senegel-green) !important;
+  color: var(--coya-emeraude) !important;
   font-weight: 500;
 }
 
-// Bouton Se connecter : jaune SENEGEL (aligné au logo)
-.coya-login-page .oe_login_buttons .btn-primary {
-  background: var(--senegel-yellow) !important;
-  color: var(--senegel-green) !important;
-  border: 2px solid var(--senegel-green) !important;
+// Bouton Se connecter : Émeraude, texte blanc
+.coya-login-page .oe_login_buttons .btn-primary,
+.coya-login-page .oe_login_button .btn-primary,
+.coya-login-page button.btn-primary[type="submit"] {
+  background: var(--coya-emeraude) !important;
+  color: #fff !important;
+  border: 2px solid var(--coya-emeraude) !important;
   border-radius: 0.75rem !important;
   font-weight: 700 !important;
   padding: 0.6rem 1.5rem !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-.coya-login-page .oe_login_buttons .btn-primary:hover {
-  background: var(--senegel-yellow-light) !important;
-  color: var(--senegel-green) !important;
-  border-color: var(--senegel-green) !important;
+.coya-login-page .oe_login_buttons .btn-primary:hover,
+.coya-login-page .oe_login_button .btn-primary:hover,
+.coya-login-page button.btn-primary[type="submit"]:hover {
+  background: var(--coya-emeraude-light) !important;
+  color: #fff !important;
+  border-color: var(--coya-emeraude) !important;
   filter: brightness(1.05);
 }
 
@@ -240,13 +286,13 @@
   color: var(--senegel-green) !important;
 }
 .coya-login-page .card-body .border-top a:hover {
-  color: var(--senegel-green-light) !important;
+  color: var(--coya-emeraude-light) !important;
 }
 
 // ----- Barre de navigation principale (header backend) -----
 header.o_navbar .o_main_navbar,
 .o_main_navbar {
-  background: linear-gradient(135deg, var(--senegel-green-light), var(--senegel-green)) !important;
+  background: linear-gradient(135deg, var(--coya-emeraude-light), var(--coya-emeraude)) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
@@ -310,8 +356,8 @@ header.o_navbar .o_main_navbar,
 .o_switch_view.btn-secondary:hover,
 .o_switch_view.btn-secondary.active {
   color: white !important;
-  background: linear-gradient(135deg, var(--senegel-green-light), var(--senegel-green)) !important;
-  border-color: var(--senegel-green) !important;
+  background: linear-gradient(135deg, var(--coya-emeraude-light), var(--coya-emeraude)) !important;
+  border-color: var(--coya-emeraude) !important;
 }
 
 // ===== Backend (utilisateur connecté) : charte alignée au logo SENEGEL (vert + jaune) =====
@@ -324,29 +370,36 @@ a:not(.btn):not(.o_nav_entry):not(.dropdown-item):hover {
   color: var(--senegel-green-light) !important;
 }
 
-// Boutons success / CTA positifs : jaune (aligné au logo)
+// Boutons success / récompenses : Or Barké
 .btn-success {
-  background: var(--senegel-yellow) !important;
-  border-color: rgba(26, 95, 58, 0.3) !important;
-  color: var(--senegel-green) !important;
+  background: var(--coya-or) !important;
+  border-color: rgba(46, 125, 50, 0.3) !important;
+  color: var(--coya-emeraude) !important;
 }
 .btn-success:hover,
 .btn-success:focus {
-  background: var(--senegel-yellow-light) !important;
-  border-color: var(--senegel-green) !important;
-  color: var(--senegel-green) !important;
+  background: var(--coya-or-light) !important;
+  border-color: var(--coya-emeraude) !important;
+  color: var(--coya-emeraude) !important;
 }
 
-// Bouton info : vert
+// Alertes / suivi qualité : Ambre Yar
+.btn-warning, .alert-warning {
+  background: var(--coya-ambre) !important;
+  border-color: var(--coya-ambre) !important;
+  color: #fff !important;
+}
+
+// Bouton info : Émeraude
 .btn-info {
-  background: var(--senegel-green-light) !important;
-  border-color: var(--senegel-green) !important;
+  background: var(--coya-emeraude-light) !important;
+  border-color: var(--coya-emeraude) !important;
   color: white !important;
 }
 .btn-info:hover,
 .btn-info:focus {
-  background: var(--senegel-green) !important;
-  border-color: var(--senegel-green) !important;
+  background: var(--coya-emeraude) !important;
+  border-color: var(--coya-emeraude) !important;
   color: white !important;
 }
 
@@ -356,87 +409,92 @@ a:not(.btn):not(.o_nav_entry):not(.dropdown-item):hover {
 .btn:focus-visible,
 .input-group-text:focus,
 .dropdown-toggle:focus {
-  border-color: var(--senegel-green) !important;
-  box-shadow: 0 0 0 0.2rem rgba(26, 95, 58, 0.25) !important;
+  border-color: var(--coya-emeraude) !important;
+  box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25) !important;
 }
 
-// Badges et indicateurs primaires : jaune
+// Badges / récompenses : Or Barké
 .badge.bg-primary,
 .badge.text-bg-primary {
-  background: var(--senegel-yellow) !important;
-  color: var(--senegel-green) !important;
+  background: var(--coya-or) !important;
+  color: var(--coya-emeraude) !important;
 }
 
 // Bordures et séparateurs "primary"
 .border-primary {
-  border-color: var(--senegel-green) !important;
+  border-color: var(--coya-emeraude) !important;
 }
 
-// Onglets / nav : actif = vert
+// Onglets / nav : actif = Émeraude
 .nav-tabs .nav-link.active,
 .nav-pills .nav-link.active,
 .list-group-item.active {
-  background: var(--senegel-green) !important;
-  border-color: var(--senegel-green) !important;
+  background: var(--coya-emeraude) !important;
+  border-color: var(--coya-emeraude) !important;
   color: white !important;
 }
 
-// Pagination active
+// Pagination active : Or Barké
 .pagination .page-item.active .page-link {
-  background: var(--senegel-yellow) !important;
-  border-color: var(--senegel-green) !important;
-  color: var(--senegel-green) !important;
+  background: var(--coya-or) !important;
+  border-color: var(--coya-emeraude) !important;
+  color: var(--coya-emeraude) !important;
 }
 .pagination .page-link:hover {
-  color: var(--senegel-green) !important;
+  color: var(--coya-emeraude) !important;
 }
 
 // Dropdown : élément actif / hover
 .dropdown-item.active,
 .dropdown-item:focus {
-  background: rgba(26, 95, 58, 0.1) !important;
-  color: var(--senegel-green) !important;
+  background: rgba(46, 125, 50, 0.1) !important;
+  color: var(--coya-emeraude) !important;
 }
 .dropdown-item:hover {
-  background: rgba(232, 185, 35, 0.2) !important;
-  color: var(--senegel-green) !important;
+  background: rgba(251, 192, 45, 0.2) !important;
+  color: var(--coya-emeraude) !important;
 }
 
-// Barre de progression (primary)
+// Barre de progression : Émeraude → Or
 .progress-bar {
-  background: linear-gradient(90deg, var(--senegel-yellow), var(--senegel-green)) !important;
+  background: linear-gradient(90deg, var(--coya-or), var(--coya-emeraude)) !important;
 }
 
-// Statusbar Odoo (états)
+// Statusbar (états) : Émeraude
 .o_statusbar_status .o_arrow_button.btn-primary,
 .o_statusbar_status .o_arrow_button.o_arrow_button_current {
-  background: var(--senegel-green) !important;
+  background: var(--coya-emeraude) !important;
   color: white !important;
-  border-color: var(--senegel-green) !important;
+  border-color: var(--coya-emeraude) !important;
 }
 
 // Bouton box (formulaire) : CTA principaux
 .o_form_view .oe_button_box .btn.oe_stat_button {
-  color: var(--senegel-green) !important;
+  color: var(--coya-emeraude) !important;
 }
 .o_form_view .oe_button_box .btn.oe_stat_button:hover {
-  color: var(--senegel-green-light) !important;
-  background: rgba(26, 95, 58, 0.08) !important;
+  color: var(--coya-emeraude-light) !important;
+  background: rgba(46, 125, 50, 0.08) !important;
 }
 
-// Checkbox / radio : couleur cochée
+// Checkbox / radio : Émeraude
 .form-check-input:checked {
-  background-color: var(--senegel-green) !important;
-  border-color: var(--senegel-green) !important;
+  background-color: var(--coya-emeraude) !important;
+  border-color: var(--coya-emeraude) !important;
 }
 
-// Alertes : lien et bordure cohérents
+// Alertes qualité / suivi : Ambre Yar
+.alert-warning {
+  background: rgba(255, 143, 0, 0.12) !important;
+  border-color: var(--coya-ambre) !important;
+  color: #E65100 !important;
+}
 .alert-primary {
-  background: rgba(232, 185, 35, 0.15) !important;
-  border-color: var(--senegel-yellow) !important;
-  color: var(--senegel-green) !important;
+  background: rgba(251, 192, 45, 0.15) !important;
+  border-color: var(--coya-or) !important;
+  color: var(--coya-emeraude) !important;
 }
 .alert a {
-  color: var(--senegel-green) !important;
+  color: var(--coya-emeraude) !important;
   font-weight: 600;
 }

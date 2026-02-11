@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Titre des pages : COYA.PRO (remplace Odoo) -->
+    <!-- Titre des pages : COYA ERP (debranding / Guide implantation) -->
     <template id="sunugest_web_layout" inherit_id="web.layout">
         <xpath expr="//title" position="replace">
-            <title>COYA.PRO</title>
+            <title>COYA ERP · SENEGEL</title>
         </xpath>
     </template>
 
@@ -35,9 +35,6 @@
                             <h2 class="coya-login-title">Sign into Account</h2>
                             <t t-out="0"/>
                             <div class="text-center small mt-4 pt-3 border-top" t-if="not disable_footer">
-                                <t t-if="not disable_database_manager">
-                                    <a class="border-end pe-2 me-1" href="/web/database/manager">Manage Databases</a>
-                                </t>
                                 <a href="https://www.senegel.org" target="_blank" rel="noopener">© SENEGEL · COYA.PRO</a>
                                 <span> — </span>
                                 <a href="mailto:techsupport@senegel.org">Assistance: techsupport@senegel.org</a>
@@ -46,10 +43,12 @@
                     </div>
                 </div>
                 <div class="coya-login-right">
-                    <h2 class="coya-welcome-title">Hello, Friend!</h2>
-                    <p class="coya-welcome-desc">Fill up personal information and start journey with us.</p>
+                    <h2 class="coya-welcome-title">Bonjour !</h2>
+                    <p class="coya-welcome-desc">Renseignez vos informations et commencez l'aventure avec nous.</p>
                     <p class="coya-tagline">CITOYENNETÉ, TRANSPARENCE, COMPÉTENCES</p>
+                    <p class="coya-trinite-desc">Notre pilier managérial : la <strong>Trinité</strong> — équilibre entre Productivité (Ndiguel), Profitabilité (Barké) et Professionnalisme (Yar).</p>
                     <a href="mailto:techsupport@senegel.org" class="btn coya-btn-outline">Contact · techsupport@senegel.org</a>
+                    <p class="coya-login-credit mt-4 small">Cette plateforme est conçue par <a href="https://impulcia-afrique.com/" target="_blank" rel="noopener">IMPULCIA AFRIQUE</a></p>
                 </div>
             </div>
         </xpath>
@@ -66,7 +65,7 @@
                     document.addEventListener("DOMContentLoaded", () => {
                         const cookies = document.cookie.split(';').map(c => c.trim());
                         if (cookies.includes('color_scheme=dark')) {
-                            document.body.style.backgroundColor = "#1a2e24";
+                            document.body.style.backgroundColor = "#1B2E1F";
                             document.body.style.color = "#F4F8FB";
                         }
                     });
@@ -74,10 +73,10 @@
                 </script>
                 <style>
                     body {
-                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                        font-family: "Montserrat", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
                         padding: 0; margin: 0;
-                        background: linear-gradient(135deg, #a8e6cf 0%, #7dd3a8 40%, #2d8a5a 70%, #1a5f3a 100%);
-                        color: #1a5f3a;
+                        background: linear-gradient(135deg, #81C784 0%, #66BB6A 40%, #388E3C 70%, #2E7D32 100%);
+                        color: #2E7D32;
                         display: flex; align-items: center; justify-content: center; text-align: center;
                         min-height: 100vh; width: 100vw; user-select: none;
                     }
@@ -86,25 +85,25 @@
                         border-radius: 1rem;
                         padding: 2.5rem;
                         box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-                        border: 1px solid rgba(26,95,58,0.2);
+                        border: 1px solid rgba(46,125,50,0.2);
                         max-width: 420px;
                     }
                     .card .coya-offline-logo {
                         width: 100px; height: auto; margin-bottom: 1rem;
                     }
-                    .card h1 { color: #1a5f3a; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; }
-                    .card p { color: #247a4a; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.5; }
+                    .card h1 { color: #2E7D32; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; }
+                    .card p { color: #388E3C; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.5; }
                     .card button {
-                        background: #e8b923;
-                        color: #1a5f3a;
-                        border: 2px solid #1a5f3a;
+                        background: #2E7D32;
+                        color: #fff;
+                        border: 2px solid #2E7D32;
                         border-radius: 0.5rem;
                         padding: 0.6rem 1.5rem;
                         cursor: pointer;
                         font-size: 1rem;
                         font-weight: 700;
                     }
-                    .card button:hover { background: #f0c94a; filter: brightness(1.05); }
+                    .card button:hover { background: #388E3C; filter: brightness(1.05); }
                 </style>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
             </t>
@@ -114,7 +113,7 @@
                 <img class="coya-offline-logo" src="/sunugest_branding/static/img/logo_senegel.png" alt="SENEGEL"/>
                 <h1>Vous êtes hors ligne</h1>
                 <p>Vérifiez votre connexion réseau et revenez ici. COYA.PRO se rechargera dès que vous serez en ligne.</p>
-                <p class="small mt-2"><a href="mailto:techsupport@senegel.org" style="color: #1a5f3a; font-weight: 600;">Assistance : techsupport@senegel.org</a></p>
+                <p class="small mt-2"><a href="mailto:techsupport@senegel.org" style="color: #2E7D32; font-weight: 600;">Assistance : techsupport@senegel.org</a></p>
                 <button type="button" onclick="location.reload()">Revérifier</button>
             </div>
         </xpath>
