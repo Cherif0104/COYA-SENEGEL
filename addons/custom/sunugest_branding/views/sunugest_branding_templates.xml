@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Titre des pages : COYA.PRO (remplace Odoo) -->
+    <!-- Titre + favicon : COYA.PRO (remplace Odoo) -->
     <template id="sunugest_web_layout" inherit_id="web.layout">
         <xpath expr="//title" position="replace">
             <title>COYA.PRO</title>
+        </xpath>
+        <xpath expr="//link[@rel='shortcut icon' or (@rel='icon' and not(@sizes))]" position="replace">
+            <link type="image/png" rel="icon" href="/sunugest_branding/static/img/logo_senegel.png"/>
+        </xpath>
+    </template>
+
+    <!-- Backend (webclient) : theme-color charte SENEGEL -->
+    <template id="sunugest_webclient_theme" inherit_id="web.webclient_bootstrap">
+        <xpath expr="//meta[@name='theme-color']" position="attributes">
+            <attribute name="content">#1a5f3a</attribute>
         </xpath>
     </template>
 
@@ -83,6 +93,16 @@
         </xpath>
         <xpath expr="//button[@name='redirect' and @value='/web/become']" position="replace">
             <button type="submit" name="redirect" value="/web/become" class="btn btn-link btn-sm">Connexion superutilisateur</button>
+        </xpath>
+    </template>
+
+    <!-- Page « Vous êtes connecté » : textes en français -->
+    <template id="sunugest_login_successful_fr" inherit_id="web.login_successful" priority="99">
+        <xpath expr="//div[contains(@class, 'oe_login_form')]/p" position="replace">
+            <p>Vous êtes connecté.</p>
+        </xpath>
+        <xpath expr="//a[@href='/web/session/logout']" position="replace">
+            <a class="btn btn-primary btn-block" href="/web/session/logout">Déconnexion</a>
         </xpath>
     </template>
 

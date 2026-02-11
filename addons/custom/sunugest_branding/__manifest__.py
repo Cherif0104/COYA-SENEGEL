@@ -18,6 +18,7 @@
         ],
         "web.assets_backend": [
             "sunugest_branding/static/src/scss/sunugest_theme.scss",
+            "sunugest_branding/static/src/js/coya_splash_overlay.js",
         ],
     },
     "installable": True,

@@ -8,6 +8,9 @@
   --senegel-white: #F4F8FB;
   --o-brand-primary: #1a5f3a;
   --o-brand-optional: #e8b923;
+  // Neutraliser les couleurs Odoo par défaut (mauve #71639e) si utilisées ailleurs
+  --brand-primary: #1a5f3a;
+  --brand-optional: #e8b923;
 }
 
 // Boutons primaires : jaune SENEGEL (thème aligné au logo vert+jaune)
@@ -511,4 +514,97 @@ a:not(.btn):not(.o_nav_entry):not(.dropdown-item):hover {
 .alert a {
   color: var(--senegel-green) !important;
   font-weight: 600;
+}
+
+// Page « Vous êtes connecté » (hors coya-login-page) : bouton Déconnexion charte
+.oe_login_form .btn-primary {
+  background: var(--senegel-yellow) !important;
+  border-color: var(--senegel-green) !important;
+  color: var(--senegel-green) !important;
+}
+.oe_login_form .btn-primary:hover {
+  background: var(--senegel-yellow-light) !important;
+  color: var(--senegel-green) !important;
+}
+
+// ----- Overlay de chargement (splash) backend — style moderne, charte COYA -----
+.coya-splash-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+.coya-splash-overlay.coya-splash-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.coya-splash-backdrop {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(165deg, rgba(26, 95, 58, 0.97) 0%, #1a5f3a 40%, #0f3d26 100%);
+  backdrop-filter: blur(12px);
+}
+
+.coya-splash-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 2rem;
+}
+
+.coya-splash-logo-wrap {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1.25rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+.coya-splash-logo {
+  max-width: 72%;
+  max-height: 72%;
+  object-fit: contain;
+}
+
+.coya-splash-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.35rem 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.coya-splash-tagline {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--senegel-yellow);
+  margin: 0 0 1.5rem 0;
+  opacity: 0.95;
+}
+
+.coya-splash-spinner {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--senegel-yellow);
+  border-radius: 50%;
+  animation: coya-splash-spin 0.9s linear infinite;
+}
+@keyframes coya-splash-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
