@@ -8,6 +8,7 @@
     "license": "LGPL-3",
     "depends": ["base", "web", "senegal_base"],
     "data": [
+        "security/ir.model.access.csv",
         "views/coya_dashboard_views.xml",
     ],
     "installable": True,

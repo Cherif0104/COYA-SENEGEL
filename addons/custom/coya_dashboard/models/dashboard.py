@@ -19,16 +19,16 @@ class CoyaDashboard(models.Model):
     open_invoice_count = fields.Integer(string="Factures ouvertes", compute="_compute_metrics", store=False)
 
     trinite_productivite = fields.Float(string="Productivité (Ndiguel)", compute="_compute_trinite", store=False)
-    trinite_profitabilite = fields.Float(string="Profitabilité (Barké)", compute="_compute_trinite", store=False)
+    trinite_profitabilite = fields.Float(string="Profitabilité (Yéene)", compute="_compute_trinite", store=False)
     trinite_professionnalisme = fields.Float(string="Professionnalisme (Yar)", compute="_compute_trinite", store=False)
 
-    @api.model
-    def create(self, vals):
+    @api.model_create_multi
+    def create(self, vals_list):
         """Forcer un seul enregistrement (singleton) pour le dashboard."""
-        if self.search([], limit=1):
-            # Toujours retourner le premier dashboard existant
-            return self.search([], limit=1)
-        return super().create(vals)
+        existing = self.search([], limit=1)
+        if existing:
+            return existing
+        return super().create(vals_list)
 
     @api.model
     def get_singleton(self):

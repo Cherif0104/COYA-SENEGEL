@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <kanban class="coya-dashboard-kanban" create="false" quick_create="false">
                 <templates>
-                    <t t-name="kanban-box">
+                    <t t-name="card">
                         <div class="coya-dashboard-root o_kanban_record">
                             <div class="coya-dashboard-layout">
                                 <!-- Sidebar -->
