@@ -6,14 +6,13 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//notebook/page[@name='personal_information']" position="after">
-                <page string="Trinité COYA">
+            <xpath expr="//notebook" position="inside">
+                <page name="coya_trinite" string="Trinité COYA">
                     <group>
                         <field name="coya_trinite_axis"/>
                         <field name="coya_trinite_score"/>
                     </group>
-                    <label string="La Trinité COYA : Ndiguel (Productivité), Yéene (Profitabilité), Yar (Professionnalisme)."
-                           class="text-muted"/>
+                    <group string="La Trinité COYA : Ndiguel (Productivité), Yéene (Profitabilité), Yar (Professionnalisme)."/>
                 </page>
             </xpath>
         </field>
