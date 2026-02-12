@@ -58,7 +58,7 @@
     <record id="action_coya_budget" model="ir.actions.act_window">
         <field name="name">Budgets COYA</field>
         <field name="res_model">coya.budget</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p>Suivez ici vos budgets par projet, département et axe Trinité.</p>
         </field>
