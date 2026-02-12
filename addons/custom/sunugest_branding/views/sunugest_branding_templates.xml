@@ -23,7 +23,8 @@
 
     <!-- Login : deux panneaux (maquette) — gauche formulaire, droit SENEGEL/COYA -->
     <template id="sunugest_login_layout" inherit_id="web.login_layout" priority="99">
-        <xpath expr="//div[contains(@class, 'container') and contains(@class, 'py-5')][.//div[contains(@class, 'o_database_list')]]" position="replace">
+        <!-- Cible de manière plus robuste le conteneur principal autour de .o_database_list -->
+        <xpath expr="//div[contains(@class, 'container')][.//div[contains(@class, 'o_database_list')]]" position="replace">
             <div class="coya-login-split coya-login-page">
                 <div class="coya-login-left">
                     <div class="coya-login-brand">
@@ -52,7 +53,7 @@
                     </div>
                     <div class="coya-values-block">
                         <p class="coya-tagline">CITOYENNETÉ, TRANSPARENCE, COMPÉTENCES</p>
-                        <p class="coya-trinite-desc">Notre pilier managérial : la <strong>Trinité</strong> — équilibre entre Productivité (Ndiguel), Profitabilité (Barké) et Professionnalisme (Yar).</p>
+                        <p class="coya-trinite-desc">Notre pilier managérial : la <strong>Trinité</strong> — équilibre entre Productivité (Ndiguel), Profitabilité (Yéene) et Professionnalisme (Yar).</p>
                     </div>
                     <a href="mailto:techsupport@senegel.org" class="btn coya-btn-outline">Contact · techsupport@senegel.org</a>
                     <p class="coya-login-credit">Cette plateforme est conçue par <a href="https://impulcia-afrique.com/" target="_blank" rel="noopener">IMPULCIA AFRIQUE</a></p>
