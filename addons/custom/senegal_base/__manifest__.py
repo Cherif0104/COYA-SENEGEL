@@ -13,6 +13,7 @@
         "views/coya_justificatif_views.xml",
         "views/coya_budget_views.xml",
         "views/coya_trinite_extension_views.xml",
+        "data/coya_budget_cron.xml",
     ],
     "installable": True,
     "application": False,
