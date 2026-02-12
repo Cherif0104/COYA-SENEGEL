@@ -4,7 +4,7 @@
         <field name="name">coya.budget.tree</field>
         <field name="model">coya.budget</field>
         <field name="arch" type="xml">
-            <tree string="Budgets COYA">
+            <list string="Budgets COYA">
                 <field name="name"/>
                 <field name="date_from"/>
                 <field name="date_to"/>
@@ -18,7 +18,7 @@
                 <field name="percent_used"/>
                 <field name="alert_threshold"/>
                 <field name="active"/>
-            </tree>
+            </list>
         </field>
     </record>
 

@@ -4,7 +4,7 @@
         <field name="name">coya.justificatif.tree</field>
         <field name="model">coya.justificatif</field>
         <field name="arch" type="xml">
-            <tree string="Pièces justificatives">
+            <list string="Pièces justificatives">
                 <field name="name"/>
                 <field name="type"/>
                 <field name="date"/>
@@ -15,7 +15,7 @@
                 <field name="project_id"/>
                 <field name="department_id"/>
                 <field name="coya_axis"/>
-            </tree>
+            </list>
         </field>
     </record>
 
