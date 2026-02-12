@@ -4,9 +4,9 @@
     <record id="view_hr_employee_form_coya_trinite" model="ir.ui.view">
         <field name="name">hr.employee.form.coya.trinite</field>
         <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="hr.hr_employee_view_form"/>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//notebook/page[@name='private_information']" position="after">
+            <xpath expr="//notebook/page[@name='personal_information']" position="after">
                 <page string="Trinité COYA">
                     <group>
                         <field name="coya_trinite_axis"/>
