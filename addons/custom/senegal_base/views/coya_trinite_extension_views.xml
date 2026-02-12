@@ -17,34 +17,6 @@
             </xpath>
         </field>
     </record>
-
-    <!-- Axe Trinité sur les projets -->
-    <record id="view_project_form_coya_trinite" model="ir.ui.view">
-        <field name="name">project.project.form.coya.trinite</field>
-        <field name="model">project.project</field>
-        <field name="inherit_id" ref="project.edit_project"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='user_id']" position="after">
-                <group string="Trinité COYA">
-                    <field name="coya_trinite_axis"/>
-                    <field name="coya_trinite_score_ndiguel"/>
-                    <field name="coya_trinite_score_barke"/>
-                    <field name="coya_trinite_score_yar"/>
-                </group>
-            </xpath>
-        </field>
-    </record>
-
-    <!-- Axe Trinité sur les comptes analytiques (pour les budgets) -->
-    <record id="view_account_analytic_coya_trinite" model="ir.ui.view">
-        <field name="name">account.analytic.account.form.coya.trinite</field>
-        <field name="model">account.analytic.account</field>
-        <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='company_id']" position="after">
-                <field name="coya_trinite_axis"/>
-            </xpath>
-        </field>
-    </record>
+    <!-- Vues Trinité Projet / Analytique : retirées (refs Odoo 18 instables). À recréer en UI ou via vues dédiées si besoin. -->
 </odoo>
 

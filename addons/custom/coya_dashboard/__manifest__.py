@@ -5,6 +5,7 @@
     "author": "SENEGEL",
     "website": "https://coya.pro",
     "category": "Productivity",
+    "license": "LGPL-3",
     "depends": ["base", "web", "senegal_base"],
     "data": [
         "views/coya_dashboard_views.xml",

@@ -5,6 +5,7 @@
     "author": "SENEGEL",
     "website": "https://coya.pro",
     "category": "Web",
+    "license": "LGPL-3",
     "depends": ["web", "mail"],
     "data": [
         "views/sunugest_branding_templates.xml",
