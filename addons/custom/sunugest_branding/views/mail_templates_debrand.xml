@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Layout principal des emails : remplacer "Powered by Odoo" et couleurs Odoo par COYA.PRO / SENEGEL -->
+    <template id="mail_notification_layout_coya" inherit_id="mail.mail_notification_layout" priority="99">
+        <!-- Remplacer le bloc "Powered by Odoo" par COYA.PRO · SENEGEL -->
+        <xpath expr="//div[contains(@style, 'color: #555555') and .//a[contains(@href, 'odoo.com')]]" position="replace">
+            <div style="color: #555555; font-size:11px;">
+                <span style="color: #1a5f3a; font-weight: bold;">COYA.PRO</span> · <a target="_blank" href="https://www.senegel.org" style="color: #1a5f3a; text-decoration: none;">SENEGEL</a>
+                <span id="mail_unfollow">
+                    | <a href="/mail/unfollow" style="text-decoration:none; color:#555555;">Unfollow</a>
+                </span>
+            </div>
+        </xpath>
+        <!-- Bouton d'accès : vert COYA au lieu du mauve Odoo -->
+        <xpath expr="//td[contains(@style, '875A7B')]" position="attributes">
+            <attribute name="style">border-radius: 3px; text-align: center; background: #1a5f3a;</attribute>
+        </xpath>
+    </template>
+
+    <!-- Layout "light" des emails : idem -->
+    <template id="mail_notification_light_coya" inherit_id="mail.mail_notification_light" priority="99">
+        <xpath expr="//tr[.//a[contains(@href, 'odoo.com')]]//a[contains(@href, 'odoo.com')]" position="replace">
+            <span style="color: #1a5f3a; font-weight: bold;">COYA.PRO</span> · <a target="_blank" href="https://www.senegel.org" style="color: #1a5f3a; text-decoration: none;">SENEGEL</a>
+        </xpath>
+        <xpath expr="//td[.//a[contains(@href, 'odoo.com')]]" position="replace">
+            <td align="center" style="min-width: 590px;">
+                <span style="color: #1a5f3a; font-weight: bold;">COYA.PRO</span> · <a target="_blank" href="https://www.senegel.org" style="color: #1a5f3a; text-decoration: none;">SENEGEL</a>
+                <span id="mail_unfollow">
+                    | <a href="/mail/unfollow" style="text-decoration:none; color:#555555;">Unfollow</a>
+                </span>
+            </td>
+        </xpath>
+    </template>
+</odoo>

@@ -5,8 +5,15 @@
     "author": "SENEGEL",
     "website": "https://coya.pro",
     "category": "Localization",
-    "depends": ["base"],
-    "data": [],
+    "depends": ["base", "account", "project", "hr", "mail"],
+    "data": [
+        "security/coya_groups.xml",
+        "security/ir.model.access.csv",
+        "views/coya_justificatif_views.xml",
+        "views/coya_budget_views.xml",
+        "views/coya_trinite_extension_views.xml",
+        "data/coya_budget_cron.xml",
+    ],
     "installable": True,
     "application": False,
 }

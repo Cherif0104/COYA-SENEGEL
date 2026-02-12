@@ -8,7 +8,7 @@ class Home(web_home.Home):
 
     @http.route('/', type='http', auth='none')
     def index(self, s_action=None, db=None, **kw):
-        # Si déjà connecté (base + session + utilisateur interne), aller vers l'app Odoo
+        # Si déjà connecté (base + session + utilisateur interne), aller vers l'app COYA
         if request.db and request.session.uid:
             try:
                 if web_home.is_user_internal(request.session.uid):

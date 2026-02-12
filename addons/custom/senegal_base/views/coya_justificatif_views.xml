@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_coya_justificatif_tree" model="ir.ui.view">
+        <field name="name">coya.justificatif.tree</field>
+        <field name="model">coya.justificatif</field>
+        <field name="arch" type="xml">
+            <tree string="Pièces justificatives">
+                <field name="name"/>
+                <field name="type"/>
+                <field name="date"/>
+                <field name="amount"/>
+                <field name="currency_id"/>
+                <field name="move_id"/>
+                <field name="payment_id"/>
+                <field name="project_id"/>
+                <field name="department_id"/>
+                <field name="coya_axis"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_coya_justificatif_form" model="ir.ui.view">
+        <field name="name">coya.justificatif.form</field>
+        <field name="model">coya.justificatif</field>
+        <field name="arch" type="xml">
+            <form string="Pièce justificative">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="type"/>
+                        <field name="date"/>
+                        <field name="amount"/>
+                        <field name="currency_id"/>
+                        <field name="coya_axis"/>
+                    </group>
+                    <group>
+                        <field name="move_id"/>
+                        <field name="payment_id"/>
+                        <field name="project_id"/>
+                        <field name="department_id"/>
+                    </group>
+                    <group>
+                        <field name="file" filename="filename"/>
+                        <field name="filename"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_coya_justificatif" model="ir.actions.act_window">
+        <field name="name">Pièces justificatives</field>
+        <field name="res_model">coya.justificatif</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>Enregistrez ici toutes les factures, reçus et preuves de paiement liées à COYA.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_coya_root" name="COYA" sequence="50"/>
+    <menuitem id="menu_coya_finance" name="Finance" parent="menu_coya_root" sequence="10"/>
+    <menuitem id="menu_coya_justificatif"
+              name="Pièces justificatives"
+              parent="menu_coya_finance"
+              action="action_coya_justificatif"
+              sequence="10"/>
+</odoo>
+

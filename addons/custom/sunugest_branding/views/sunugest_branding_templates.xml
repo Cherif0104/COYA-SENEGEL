@@ -3,17 +3,10 @@
     <!-- Titre + favicon : COYA.PRO (remplace Odoo) -->
     <template id="sunugest_web_layout" inherit_id="web.layout">
         <xpath expr="//title" position="replace">
-            <title>COYA.PRO</title>
+            <title>COYA ERP · SENEGEL</title>
         </xpath>
         <xpath expr="//link[@rel='shortcut icon' or (@rel='icon' and not(@sizes))]" position="replace">
             <link type="image/png" rel="icon" href="/sunugest_branding/static/img/logo_senegel.png"/>
-        </xpath>
-    </template>
-
-    <!-- Backend (webclient) : theme-color charte SENEGEL -->
-    <template id="sunugest_webclient_theme" inherit_id="web.webclient_bootstrap">
-        <xpath expr="//meta[@name='theme-color']" position="attributes">
-            <attribute name="content">#1a5f3a</attribute>
         </xpath>
     </template>
 
@@ -101,7 +94,7 @@
         <xpath expr="//div[contains(@class, 'oe_login_form')]/p" position="replace">
             <p>Vous êtes connecté.</p>
         </xpath>
-        <xpath expr="//a[@href='/web/session/logout']" position="replace">
+        <xpath expr="//a[contains(@href, '/web/session/logout')]" position="replace">
             <a class="btn btn-primary btn-block" href="/web/session/logout">Déconnexion</a>
         </xpath>
     </template>

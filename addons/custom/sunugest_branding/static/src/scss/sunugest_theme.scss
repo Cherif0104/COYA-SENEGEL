@@ -527,6 +527,42 @@ a:not(.btn):not(.o_nav_entry):not(.dropdown-item):hover {
   color: var(--senegel-green) !important;
 }
 
+// ===== Listes, kanban, formulaires : fond et cartes alignés COYA =====
+
+// Fond général du contenu backend
+.o_web_client .o_action_manager,
+.o_web_client .o_content {
+  background-color: #f4f8fb !important;
+}
+
+// Cartes kanban génériques
+.o_kanban_view .o_kanban_record {
+  border-radius: 0.85rem;
+  border: 1px solid rgba(26, 95, 58, 0.06);
+  box-shadow: 0 4px 18px rgba(26, 95, 58, 0.06);
+}
+.o_kanban_view .o_kanban_record:hover {
+  box-shadow: 0 6px 24px rgba(26, 95, 58, 0.12);
+}
+
+// Lignes de liste survolées
+.o_list_view tbody tr.o_data_row:hover {
+  background-color: rgba(125, 211, 168, 0.12) !important;
+}
+
+// En-têtes de tableau
+.o_list_view thead tr th {
+  background-color: #e6f3ec !important;
+  color: var(--senegel-green) !important;
+}
+
+// Sélection / enregistrement actif
+.o_list_view tbody tr.o_selected_row,
+.o_kanban_view .o_kanban_record.o_kanban_record_selected {
+  border-color: var(--senegel-green) !important;
+  box-shadow: 0 0 0 1px rgba(26, 95, 58, 0.35) !important;
+}
+
 // ----- Overlay de chargement (splash) backend — style moderne, charte COYA -----
 .coya-splash-overlay {
   position: fixed;

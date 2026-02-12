@@ -5,9 +5,10 @@
     "author": "SENEGEL",
     "website": "https://coya.pro",
     "category": "Web",
-    "depends": ["web"],
+    "depends": ["web", "mail"],
     "data": [
         "views/sunugest_branding_templates.xml",
+        "views/mail_templates_debrand.xml",
     ],
     "assets": {
         "web.assets_common": [
