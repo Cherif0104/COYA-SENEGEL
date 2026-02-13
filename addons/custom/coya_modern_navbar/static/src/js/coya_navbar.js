@@ -158,7 +158,6 @@ patch(NavBar.prototype, {
 export class CoyaHomeDashboard extends Component {
     setup() {
         this.menuService = useService("menu");
-        this.userService = useService("user");
         this.actionService = useService("action");
         this.state = useState({
             apps: [],
