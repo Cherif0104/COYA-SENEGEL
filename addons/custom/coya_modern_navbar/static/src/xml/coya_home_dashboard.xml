@@ -9,7 +9,7 @@
                 </div>
                 <div class="coya-apps-grid" t-if="state.apps.length > 0">
                     <t t-foreach="state.apps" t-as="app" t-key="app.id">
-                        <div class="coya-app-card" t-on-click="() => this.actionService.doAction(app.action.id)">
+                        <div class="coya-app-card" t-on-click="() => this.actionService.doAction(app.actionId)">
                             <div class="coya-app-icon">
                                 <i t-att-class="app.icon ? (app.icon.split(',')[1] || app.icon.split(',')[0] || 'fa fa-cube') : 'fa fa-cube'" aria-hidden="true"></i>
                             </div>

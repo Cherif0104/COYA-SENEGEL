@@ -85,21 +85,21 @@ patch(NavBar.prototype, {
         this.loadAppsInSidebar();
     },
 
-    async loadAppsInSidebar() {
+    loadAppsInSidebar() {
         const menuService = this.env.services.menu;
         const actionService = this.env.services.action;
         const navList = document.getElementById("coya-nav-apps");
         if (!navList) return;
 
         try {
-            const menuItems = await menuService.load("root");
-            const apps = this.extractApps(menuItems);
+            const root = menuService.getMenuAsTree("root");
+            const apps = this.extractApps(root);
 
             navList.innerHTML = apps
                 .map(
                     (app) => `
                     <li class="coya-nav-item">
-                        <a href="#" class="coya-nav-link" data-action-id="${app.action?.id || ''}" data-menu-id="${app.id}">
+                        <a href="#" class="coya-nav-link" data-action-id="${app.actionId || ''}" data-menu-id="${app.id}">
                             <i class="${(app.icon || "fa fa-cube").split(",")[1] || "fa fa-cube"}" aria-hidden="true"></i>
                             <span class="coya-nav-text">${app.name}</span>
                         </a>
@@ -108,38 +108,54 @@ patch(NavBar.prototype, {
                 )
                 .join("");
 
-            // Gérer les clics
             navList.querySelectorAll(".coya-nav-link").forEach((link) => {
                 link.addEventListener("click", (e) => {
                     e.preventDefault();
                     const actionId = link.dataset.actionId;
                     const menuId = link.dataset.menuId;
                     if (actionId) {
-                        actionService.doAction(actionId);
+                        actionService.doAction(parseInt(actionId, 10));
                     } else if (menuId) {
-                        menuService.selectMenu(menuId);
+                        menuService.selectMenu(parseInt(menuId, 10));
                     }
                     navList.querySelectorAll(".coya-nav-link").forEach((l) => l.classList.remove("active"));
                     link.classList.add("active");
                 });
             });
+
+            this.bindFooterMenuLinks();
         } catch (error) {
             console.error("Erreur chargement apps sidebar:", error);
         }
     },
 
-    extractApps(menuItems) {
+    bindFooterMenuLinks() {
+        const menuService = this.env.services.menu;
+        document.querySelectorAll(".coya-sidebar-footer .coya-nav-link[data-menu-xmlid]").forEach((link) => {
+            link.addEventListener("click", async (e) => {
+                e.preventDefault();
+                const xmlid = link.getAttribute("data-menu-xmlid");
+                const allMenus = menuService.getAll();
+                const menu = allMenus.find((m) => m.xmlid === xmlid);
+                if (menu && menu.actionID) {
+                    await menuService.selectMenu(menu);
+                }
+            });
+        });
+    },
+
+    extractApps(menuNode) {
         const apps = [];
         const processMenu = (items) => {
             if (!items || !Array.isArray(items)) return;
             for (const item of items) {
-                if (item.action && item.action.type === "ir.actions.act_window") {
+                if (item.actionID) {
                     apps.push({
                         id: item.id,
                         name: item.name,
-                        icon: item.web_icon || "fa fa-cube",
-                        action: item.action,
-                        sequence: item.sequence || 9999,
+                        icon: item.webIcon || "fa fa-cube",
+                        actionId: item.actionID,
+                        sequence: item.sequence ?? 9999,
                     });
                 }
                 if (item.childrenTree) {
@@ -147,7 +163,7 @@ patch(NavBar.prototype, {
                 }
             }
         };
-        processMenu(menuItems.childrenTree || []);
+        processMenu(menuNode.childrenTree || []);
         return apps.sort((a, b) => a.sequence - b.sequence);
     },
 });
@@ -169,10 +185,10 @@ export class CoyaHomeDashboard extends Component {
         });
     }
 
-    async loadApps() {
+    loadApps() {
         try {
-            const menuItems = await this.menuService.load("root");
-            const apps = this.extractApps(menuItems);
+            const root = this.menuService.getMenuAsTree("root");
+            const apps = this.extractAppsDashboard(root);
             this.state.apps = apps;
             this.state.loading = false;
         } catch (error) {
@@ -181,18 +197,18 @@ export class CoyaHomeDashboard extends Component {
         }
     }
 
-    extractApps(menuItems) {
+    extractAppsDashboard(menuNode) {
         const apps = [];
         const processMenu = (items) => {
             if (!items || !Array.isArray(items)) return;
             for (const item of items) {
-                if (item.action && item.action.type === "ir.actions.act_window") {
+                if (item.actionID) {
                     apps.push({
                         id: item.id,
                         name: item.name,
-                        icon: item.web_icon || "fa fa-cube",
-                        action: item.action,
-                        sequence: item.sequence || 9999,
+                        icon: item.webIcon || "fa fa-cube",
+                        actionId: item.actionID,
+                        sequence: item.sequence ?? 9999,
                     });
                 }
                 if (item.childrenTree) {
@@ -200,7 +216,7 @@ export class CoyaHomeDashboard extends Component {
                 }
             }
         };
-        processMenu(menuItems.childrenTree || []);
+        processMenu(menuNode.childrenTree || []);
         return apps.sort((a, b) => a.sequence - b.sequence);
     }
 }
