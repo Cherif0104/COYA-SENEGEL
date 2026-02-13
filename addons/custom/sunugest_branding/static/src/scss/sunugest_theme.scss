@@ -17,22 +17,36 @@
 .btn-primary {
   background: var(--senegel-yellow) !important;
   border: 1px solid rgba(26, 95, 58, 0.3) !important;
-  color: var(--senegel-green) !important;
+  // Texte blanc pour un meilleur contraste sur fond jaune
+  color: #fff !important;
 }
 
 .btn-primary:hover,
 .btn-primary:focus {
   background: var(--senegel-yellow-light) !important;
   border-color: var(--senegel-green) !important;
-  color: var(--senegel-green) !important;
+  color: #fff !important;
   filter: brightness(1.05);
 }
 
-// ----- Page de login : deux panneaux (maquette) — gauche formulaire, droit SENEGEL/COYA -----
-#wrapwrap main:has(.coya-login-page) {
+// ----- Page de login : fond plein écran, charte COYA -----
+main.coya-login-page,
+#wrapwrap main.coya-login-page {
   min-height: 100vh;
-  padding: 0 !important;
-  background: var(--senegel-white) !important;
+  padding: 2rem 1rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(165deg, rgba(168, 230, 207, 0.25) 0%, rgba(125, 211, 168, 0.15) 30%, var(--senegel-white) 70%) !important;
+}
+
+#wrapwrap main.coya-login-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(135deg, rgba(26, 95, 58, 0.06) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .coya-login-split {
@@ -361,6 +375,44 @@ header.o_navbar .o_main_navbar,
   color: white !important;
 }
 
+// Menu déroulant (sections, apps) : rester vert / blanc, pas de bleu Odoo
+.o_main_navbar .dropdown-menu,
+.o_main_navbar .o-dropdown-menu,
+.o_navbar .dropdown-menu {
+  background: linear-gradient(180deg, var(--senegel-green-light), var(--senegel-green)) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.o_main_navbar .dropdown-menu .dropdown-item,
+.o_main_navbar .o-dropdown-menu a,
+.o_navbar .dropdown-menu .dropdown-item {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.o_main_navbar .dropdown-menu .dropdown-item:hover,
+.o_main_navbar .dropdown-menu .dropdown-item:focus,
+.o_navbar .dropdown-menu .dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
+}
+
+// Grille Applications (drawer plein écran) : header et liens charte
+.o_web_client .o_apps_menu,
+.o_web_client .o_menu_apps,
+.o_web_client [class*="apps"] .o_app {
+  --o-apps-menu-bg: var(--senegel-green);
+}
+
+.o_apps_menu .o_apps_menu_title,
+.o_menu_apps .o_menu_title {
+  color: #fff !important;
+}
+
+.o_apps_menu .o_app .o_app_name,
+.o_menu_apps .o_app .o_app_name {
+  color: var(--senegel-green) !important;
+}
+
 // ----- Icônes et couleurs "primary" (panneau de recherche, listes) -----
 .text-primary,
 .o_search_panel_section_icon.text-primary,
@@ -403,13 +455,14 @@ a:not(.btn):not(.o_nav_entry):not(.dropdown-item):hover {
 .btn-success {
   background: var(--senegel-yellow) !important;
   border-color: rgba(26, 95, 58, 0.3) !important;
-  color: var(--senegel-green) !important;
+  // Texte blanc pour éviter vert sur jaune
+  color: #fff !important;
 }
 .btn-success:hover,
 .btn-success:focus {
   background: var(--senegel-yellow-light) !important;
   border-color: var(--senegel-green) !important;
-  color: var(--senegel-green) !important;
+  color: #fff !important;
 }
 
 // Bouton info : vert
@@ -520,11 +573,11 @@ a:not(.btn):not(.o_nav_entry):not(.dropdown-item):hover {
 .oe_login_form .btn-primary {
   background: var(--senegel-yellow) !important;
   border-color: var(--senegel-green) !important;
-  color: var(--senegel-green) !important;
+  color: #fff !important;
 }
 .oe_login_form .btn-primary:hover {
   background: var(--senegel-yellow-light) !important;
-  color: var(--senegel-green) !important;
+  color: #fff !important;
 }
 
 // ===== Listes, kanban, formulaires : fond et cartes alignés COYA =====

@@ -77,7 +77,8 @@ COYA.PRO/
 │   ├── oca/                 # Modules OCA (optionnel)
 │   └── custom/              # Modules personnalisés
 │       ├── sunugest_branding/  # Branding COYA.PRO / SENEGEL
-│       ├── senegal_base/    # Base Sénégal (localisation, etc.)
+│       ├── coya_modern_navbar/  # Navbar moderne + dashboard accueil
+│       # senegal_base/ (mis en pause - sera réintégré plus tard)
 │       └── platform_admin/  # Super-admin plateforme
 ├── config/
 │   └── odoo.conf
@@ -269,7 +270,7 @@ volumes:
 4. Créer une nouvelle base PostgreSQL.
 5. Lancer Odoo et créer la première base via l’interface.
 6. Activer multi-company et configurer 2 companies de test.
-7. ~~Créer le squelette du module `senegal_base`.~~ ✓ (dans `addons/custom/senegal_base/`). À finaliser : XOF, TVA, formes juridiques. Créer `platform_admin` si besoin.
+7. ~~Créer le squelette du module `senegal_base`.~~ ✓ (mis en pause - sera réintégré plus tard). À finaliser : XOF, TVA, formes juridiques. Créer `platform_admin` si besoin.
 
 ---
 

@@ -1,0 +1,405 @@
+// Navbar moderne COYA : sidebar fixe gauche + dashboard droite
+// Fond vert SENEGEL, texte blanc, dépliable au survol
+
+:root {
+  --coya-sidebar-width-collapsed: 70px;
+  --coya-sidebar-width-expanded: 260px;
+  --coya-sidebar-bg: linear-gradient(180deg, #1a5f3a 0%, #0f3d26 100%);
+  --coya-sidebar-hover-bg: rgba(255, 255, 255, 0.1);
+  --coya-sidebar-active-bg: rgba(255, 255, 255, 0.15);
+  --coya-transition-speed: 0.3s;
+}
+
+// ===== SIDEBAR FIXE GAUCHE =====
+.coya-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: var(--coya-sidebar-width-collapsed);
+  background: var(--coya-sidebar-bg);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  transition: width var(--coya-transition-speed) ease;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+
+  // État expanded au survol
+  &:hover {
+    width: var(--coya-sidebar-width-expanded);
+
+    .coya-sidebar-brand-text,
+    .coya-nav-text {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .coya-nav-section-title {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
+// Brand / Logo
+.coya-sidebar-brand {
+  padding: 1.25rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  min-height: 70px;
+}
+
+.coya-sidebar-logo {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 6px;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+}
+
+.coya-sidebar-brand-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity var(--coya-transition-speed) ease, transform var(--coya-transition-speed) ease;
+}
+
+// Navigation
+.coya-sidebar-nav {
+  flex: 1;
+  padding: 1rem 0;
+  overflow-y: auto;
+}
+
+.coya-nav-section {
+  margin-bottom: 1.5rem;
+}
+
+.coya-nav-section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 0.5rem 1rem;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity var(--coya-transition-speed) ease, transform var(--coya-transition-speed) ease;
+  pointer-events: none;
+}
+
+.coya-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.coya-nav-item {
+  margin: 0.25rem 0;
+}
+
+.coya-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  border-radius: 8px;
+  margin: 0 0.5rem;
+  transition: background var(--coya-transition-speed) ease, color var(--coya-transition-speed) ease;
+  position: relative;
+
+  i {
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+  }
+
+  &:hover {
+    background: var(--coya-sidebar-hover-bg);
+    color: #fff;
+  }
+
+  &.active {
+    background: var(--coya-sidebar-active-bg);
+    color: #fff;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 60%;
+      background: var(--senegel-yellow);
+      border-radius: 0 2px 2px 0;
+    }
+  }
+}
+
+.coya-nav-text {
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity var(--coya-transition-speed) ease, transform var(--coya-transition-speed) ease;
+  font-weight: 500;
+}
+
+// Footer sidebar (Settings, Help, Logout)
+.coya-sidebar-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 0;
+}
+
+// ===== ZONE PRINCIPALE (DASHBOARD) À DROITE =====
+.coya-main-content {
+  margin-left: var(--coya-sidebar-width-collapsed);
+  min-height: 100vh;
+  background: #f4f8fb;
+  transition: margin-left var(--coya-transition-speed) ease;
+}
+
+// Ajuster le margin quand la sidebar est expanded
+body:has(.coya-sidebar:hover) .coya-main-content,
+.coya-sidebar:hover ~ .coya-main-content {
+  margin-left: var(--coya-sidebar-width-expanded);
+}
+
+// Top header (recherche, notifications, profil)
+.coya-top-header {
+  background: #fff;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.coya-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f4f8fb;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  flex: 1;
+  max-width: 500px;
+
+  i {
+    color: rgba(26, 95, 58, 0.5);
+  }
+}
+
+.coya-search-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  flex: 1;
+  color: var(--senegel-green);
+  font-size: 0.95rem;
+
+  &::placeholder {
+    color: rgba(26, 95, 58, 0.4);
+  }
+}
+
+.coya-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.coya-header-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: var(--senegel-green);
+  text-decoration: none;
+  transition: background var(--coya-transition-speed) ease;
+
+  &:hover {
+    background: rgba(26, 95, 58, 0.1);
+  }
+}
+
+.coya-user-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background var(--coya-transition-speed) ease;
+
+  &:hover {
+    background: rgba(26, 95, 58, 0.05);
+  }
+}
+
+.coya-user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--senegel-green);
+}
+
+.coya-user-name {
+  font-weight: 600;
+  color: var(--senegel-green);
+  font-size: 0.9rem;
+}
+
+// Scrollbar personnalisée pour la sidebar
+.coya-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.coya-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.coya-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+// Responsive : sur mobile, sidebar devient un drawer
+@media (max-width: 768px) {
+  .coya-sidebar {
+    transform: translateX(-100%);
+    width: var(--coya-sidebar-width-expanded);
+
+    &.coya-sidebar-open {
+      transform: translateX(0);
+    }
+  }
+
+  .coya-main-content {
+    margin-left: 0;
+  }
+}
+
+// Masquer la navbar Odoo par défaut
+.o_main_navbar {
+  display: none !important;
+}
+
+// Ajuster le contenu principal Odoo pour la sidebar
+.o_action_manager {
+  margin-left: 0 !important;
+}
+
+// ===== DASHBOARD D'ACCUEIL =====
+.coya-home-dashboard {
+  padding: 2rem;
+  min-height: calc(100vh - 80px);
+}
+
+.coya-dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.coya-dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--senegel-green);
+  margin-bottom: 0.5rem;
+}
+
+.coya-dashboard-subtitle {
+  color: rgba(26, 95, 58, 0.7);
+  font-size: 1rem;
+}
+
+// Grille des applications
+.coya-apps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.coya-app-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 2px solid transparent;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(26, 95, 58, 0.15);
+    border-color: var(--senegel-green);
+  }
+}
+
+.coya-app-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(26, 95, 58, 0.1), rgba(232, 185, 35, 0.1));
+  border-radius: 12px;
+  font-size: 1.8rem;
+  color: var(--senegel-green);
+}
+
+.coya-app-name {
+  font-weight: 600;
+  color: var(--senegel-green);
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.coya-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.coya-no-apps {
+  text-align: center;
+  padding: 3rem;
+  color: rgba(26, 95, 58, 0.6);
+}

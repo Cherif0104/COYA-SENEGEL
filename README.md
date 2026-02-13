@@ -72,5 +72,4 @@ Si le module n’apparaît pas : redémarrer les conteneurs (`docker compose dow
 
 1. Configurer la base (locale ou Supabase).
 2. Activer les applications métier (CRM, Ventes, Comptabilité, etc.) selon [docs/PLAN-ENGINEERING-ODOO-MULTI-EXPERTISE.md](docs/PLAN-ENGINEERING-ODOO-MULTI-EXPERTISE.md) (phases 1–3).
-3. Localisation Sénégal : activer et finaliser le module **senegal_base** (`addons/custom/senegal_base/`) – XOF, TVA, formes juridiques sénégalaises.
-4. Dashboards : utiliser les vues tableau de bord Odoo ; dashboards personnalisés ou prédictifs à prévoir en module custom ou outil BI si besoin.
+3. Dashboards : utiliser les vues tableau de bord Odoo ; dashboards personnalisés ou prédictifs à prévoir en module custom ou outil BI si besoin.

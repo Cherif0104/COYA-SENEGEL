@@ -21,44 +21,10 @@
         </xpath>
     </template>
 
-    <!-- Login : deux panneaux (maquette) — gauche formulaire, droit SENEGEL/COYA -->
-    <template id="sunugest_login_layout" inherit_id="web.login_layout" priority="99">
-        <!-- Cible de manière plus robuste le conteneur principal autour de .o_database_list -->
-        <xpath expr="//div[contains(@class, 'container')][.//div[contains(@class, 'o_database_list')]]" position="replace">
-            <div class="coya-login-split coya-login-page">
-                <div class="coya-login-left">
-                    <div class="coya-login-brand">
-                        <div class="coya-login-logo-circle">
-                            <img src="/sunugest_branding/static/img/logo_senegel.png" alt="SENEGEL"/>
-                        </div>
-                        <p class="coya-login-slogan">Créer une opportunité pour la jeunesse d'Afrique</p>
-                    </div>
-                    <div class="card border-0 coya-login-card o_database_list">
-                        <div class="card-body">
-                            <h2 class="coya-login-title">Connectez-vous</h2>
-                            <t t-out="0"/>
-                            <div class="text-center small mt-4 pt-3 border-top" t-if="not disable_footer">
-                                <a href="https://www.senegel.org" target="_blank" rel="noopener">© SENEGEL · COYA.PRO</a>
-                                <span> — </span>
-                                <a href="mailto:techsupport@senegel.org">Assistance: techsupport@senegel.org</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="coya-login-right">
-                    <div class="coya-welcome-block">
-                        <h2 class="coya-welcome-title">Bonjour JAMBAR Jii</h2>
-                        <p class="coya-welcome-subtitle">— Bonjour le brave</p>
-                        <p class="coya-welcome-desc">Renseignez vos informations et commencez l'aventure avec nous.</p>
-                    </div>
-                    <div class="coya-values-block">
-                        <p class="coya-tagline">CITOYENNETÉ, TRANSPARENCE, COMPÉTENCES</p>
-                        <p class="coya-trinite-desc">Notre pilier managérial : la <strong>Trinité</strong> — équilibre entre Productivité (Ndiguel), Profitabilité (Yéene) et Professionnalisme (Yar).</p>
-                    </div>
-                    <a href="mailto:techsupport@senegel.org" class="btn coya-btn-outline">Contact · techsupport@senegel.org</a>
-                    <p class="coya-login-credit">Cette plateforme est conçue par <a href="https://impulcia-afrique.com/" target="_blank" rel="noopener">IMPULCIA AFRIQUE</a></p>
-                </div>
-            </div>
+    <!-- Page de login : classe pour appliquer la charte COYA (layout + fond) -->
+    <template id="sunugest_login_page_class" inherit_id="web.login" priority="50">
+        <xpath expr="//main" position="attributes">
+            <attribute name="class" add="coya-login-page" separator=" "/>
         </xpath>
     </template>
 

@@ -1,9 +1,14 @@
+# Déploiement automatique sur Contabo (optionnel).
+# Par défaut désactivé : pas besoin de configurer les secrets GitHub.
+# Pour l'activer : décommenter "push" ci-dessous et ajouter les secrets VPS_SSH_*.
+
 name: Deploy to Contabo VPS
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:  # Déclenchement manuel depuis l'onglet Actions
+  # push:
+  #   branches:
+  #     - main
 
 jobs:
   deploy:

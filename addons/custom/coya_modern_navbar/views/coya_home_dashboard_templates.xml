@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Template pour le dashboard d'accueil COYA -->
+    <templates xml:space="preserve">
+        <t t-name="coya_modern_navbar.CoyaHomeDashboard">
+            <div class="coya-home-dashboard">
+                <div class="container-fluid p-4">
+                    <!-- En-tête du dashboard -->
+                    <div class="coya-dashboard-header mb-4">
+                        <h1 class="coya-dashboard-title">Tableau de bord COYA</h1>
+                        <p class="coya-dashboard-subtitle">Vue 360° de vos applications et fonctionnalités</p>
+                    </div>
+
+                    <!-- Grille des applications accessibles -->
+                    <div class="coya-apps-grid" t-if="state.apps.length > 0">
+                        <t t-foreach="state.apps" t-as="app" t-key="app.id">
+                            <div class="coya-app-card" t-on-click="() => this.actionService.doAction(app.action.id)">
+                                <div class="coya-app-icon">
+                                    <i t-attf-class="{{ app.icon.split(',')[1] or 'fa fa-cube' }}" aria-hidden="true"></i>
+                                </div>
+                                <div class="coya-app-name" t-esc="app.name"/>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- État de chargement -->
+                    <div class="coya-loading" t-if="state.loading">
+                        <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Chargement...</span>
+                        </div>
+                    </div>
+
+                    <!-- Message si aucune app -->
+                    <div class="coya-no-apps" t-if="!state.loading and state.apps.length === 0">
+                        <p>Aucune application disponible.</p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </templates>
+</odoo>

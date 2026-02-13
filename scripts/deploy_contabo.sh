@@ -9,7 +9,7 @@ set -e
 REPO_DIR="/opt/COYA-SENEGEL"
 COMPOSE_FILE="docker-compose.contabo.yml"
 DB_NAME="postgres"
-MODULES="senegal_base,sunugest_branding,coya_dashboard"
+MODULES="sunugest_branding"
 ODOO_CONF="/etc/odoo/odoo-standalone.conf"
 
 cd "$REPO_DIR"

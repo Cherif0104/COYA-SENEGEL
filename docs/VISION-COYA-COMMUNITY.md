@@ -8,7 +8,7 @@ Document de référence pour aligner la plateforme COYA.PRO (Odoo 18) avec la st
 
 - **COYA** : Create Opportunity Youth of Africa — plateforme au service de la jeunesse africaine.
 - **Objectif** : faire de COYA le « sanctuaire de la souveraineté » : outil maîtrisé, debrandé (sans identité éditeur), adapté aux valeurs et processus de Sénégel.
-- **Pilier managérial** : la **Trinité** — équilibre entre **Productivité** (Ndiguel / discipline), **Profitabilité** (Barké / impact), **Professionnalisme** (Yar / éthique). Un pilier sous 30 % déclenche une intervention du Conseil de la Trinité.
+- **Pilier managérial** : la **Trinité** — équilibre entre **Productivité** (Ndiguel / discipline), **Profitabilité** (Barké / impact), **Professionnalisme** (Yar / éthique). Un pilier sous 30 % déclenche une intervention du Conseil de la Trinité. _(Note: Module Trinité mis en pause dans la V1, sera réintégré plus tard)_
 - **Standards** : ISO 9001, méthodologies Agiles (SCRUM), objectifs SMART.
 
 ---
@@ -80,7 +80,7 @@ Référence déploiement : `docker-compose.contabo.yml`, `docs/DEPLOI-CONTABO-ST
 ### 4.7 Expansion & gouvernance
 
 - **Multi-sociétés** (natif Odoo) : siège Dakar + antennes (Sénégal, Gambie, Guinée, etc.), journaux et devises par entité, consolidation.
-- **kpi_dashboard** (ou vues custom) : tableau de bord Trinité (Productivité, Profitabilité, Professionnalisme), alertes, vue consolidée réseau.
+- **kpi_dashboard** (ou vues custom) : tableau de bord Trinité (Productivité, Profitabilité, Professionnalisme), alertes, vue consolidée réseau. _(Note: Dashboard Trinité mis en pause dans la V1)_
 
 ---
 
@@ -93,7 +93,7 @@ Référence déploiement : `docker-compose.contabo.yml`, `docs/DEPLOI-CONTABO-ST
 5. **RH & performance** — hr_attendance, hr_appraisal, gamification (Barké, Ngor).
 6. **Finances ONG** — ngo_management_system, donation, budgets analytiques.
 7. **Xalima** — voice-to-text Chatter, audio_note.
-8. **Dashboard Trinité** — KPI Productivité / Profitabilité / Professionnalisme, consolidation multi-sociétés.
+8. **Dashboard Trinité** — KPI Productivité / Profitabilité / Professionnalisme, consolidation multi-sociétés. _(Note: Mis en pause dans la V1)_
 
 ---
 
