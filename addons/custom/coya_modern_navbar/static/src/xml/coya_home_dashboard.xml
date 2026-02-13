@@ -5,25 +5,46 @@
             <div class="container-fluid p-4">
                 <div class="coya-dashboard-header mb-4">
                     <h1 class="coya-dashboard-title">Tableau de bord COYA</h1>
-                    <p class="coya-dashboard-subtitle">Vue 360° de vos applications et fonctionnalités</p>
+                    <p class="coya-dashboard-subtitle">Vue 360° par domaine — raccourcis et indicateurs</p>
                 </div>
-                <div class="coya-apps-grid" t-if="state.apps.length > 0">
-                    <t t-foreach="state.apps" t-as="app" t-key="app.id">
-                        <div class="coya-app-card" t-on-click="() => this.actionService.doAction(app.actionId)">
-                            <div class="coya-app-icon">
-                                <i t-att-class="app.icon ? (app.icon.split(',')[1] || app.icon.split(',')[0] || 'fa fa-cube') : 'fa fa-cube'" aria-hidden="true"></i>
-                            </div>
-                            <div class="coya-app-name" t-esc="app.name"/>
-                        </div>
-                    </t>
-                </div>
+
                 <div class="coya-loading" t-if="state.loading">
                     <div class="spinner-border text-success" role="status">
                         <span class="visually-hidden">Chargement...</span>
                     </div>
                 </div>
-                <div class="coya-no-apps" t-if="!state.loading and state.apps.length === 0">
-                    <p>Aucune application disponible.</p>
+
+                <t t-if="!state.loading and state.domains.length > 0">
+                    <t t-foreach="state.domains" t-as="domain" t-key="domain.id">
+                        <div class="coya-dashboard-domain mb-5">
+                            <div class="coya-domain-header d-flex align-items-center gap-2 mb-3">
+                                <i t-att-class="'coya-domain-icon ' + (domain.icon ? (domain.icon.split(',')[1] || 'fa fa-cube') : 'fa fa-cube')" aria-hidden="true"/>
+                                <h2 class="coya-domain-title mb-0" t-esc="domain.name"/>
+                            </div>
+                            <!-- Zone widget : KPI / graphiques à brancher (vues ou rapports Odoo) -->
+                            <div class="coya-widget-placeholder mb-4">
+                                <div class="coya-widget-box">
+                                    <span class="coya-widget-label">Widgets</span>
+                                    <span class="coya-widget-hint">KPIs, graphiques, prédictif (à brancher)</span>
+                                </div>
+                            </div>
+                            <!-- Raccourcis du domaine -->
+                            <div class="coya-apps-grid">
+                                <t t-foreach="domain.shortcuts" t-as="shortcut" t-key="shortcut.id">
+                                    <div class="coya-app-card" t-on-click="() => this.actionService.doAction(shortcut.actionId)">
+                                        <div class="coya-app-icon">
+                                            <i class="fa fa-external-link" aria-hidden="true"/>
+                                        </div>
+                                        <div class="coya-app-name" t-esc="shortcut.name"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+
+                <div class="coya-no-apps" t-if="!state.loading and state.domains.length === 0">
+                    <p>Aucune application disponible pour votre profil.</p>
                 </div>
             </div>
         </div>

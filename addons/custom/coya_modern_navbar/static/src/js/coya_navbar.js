@@ -92,19 +92,24 @@ patch(NavBar.prototype, {
         if (!navList) return;
 
         try {
-            const root = menuService.getMenuAsTree("root");
-            const apps = this.extractApps(root);
+            // Applications racines uniquement (CRM, Ventes, Paramètres, etc.) — déjà filtrées par droits backend
+            const apps = menuService.getApps();
+            const sorted = [...apps].sort((a, b) => (a.sequence ?? 9999) - (b.sequence ?? 9999));
 
-            navList.innerHTML = apps
+            navList.innerHTML = sorted
                 .map(
-                    (app) => `
+                    (app) => {
+                        const iconClass = (app.webIcon || "fa fa-cube").split(",")[1] || "fa fa-cube";
+                        const actionId = app.actionID || "";
+                        return `
                     <li class="coya-nav-item">
-                        <a href="#" class="coya-nav-link" data-action-id="${app.actionId || ''}" data-menu-id="${app.id}">
-                            <i class="${(app.icon || "fa fa-cube").split(",")[1] || "fa fa-cube"}" aria-hidden="true"></i>
+                        <a href="#" class="coya-nav-link" data-action-id="${actionId}" data-menu-id="${app.id}">
+                            <i class="${iconClass}" aria-hidden="true"></i>
                             <span class="coya-nav-text">${app.name}</span>
                         </a>
                     </li>
-                `
+                `;
+                    }
                 )
                 .join("");
 
@@ -143,81 +148,71 @@ patch(NavBar.prototype, {
             });
         });
     },
-
-    extractApps(menuNode) {
-        const apps = [];
-        const processMenu = (items) => {
-            if (!items || !Array.isArray(items)) return;
-            for (const item of items) {
-                if (item.actionID) {
-                    apps.push({
-                        id: item.id,
-                        name: item.name,
-                        icon: item.webIcon || "fa fa-cube",
-                        actionId: item.actionID,
-                        sequence: item.sequence ?? 9999,
-                    });
-                }
-                if (item.childrenTree) {
-                    processMenu(item.childrenTree);
-                }
-            }
-        };
-        processMenu(menuNode.childrenTree || []);
-        return apps.sort((a, b) => a.sequence - b.sequence);
-    },
 });
 
 /**
  * Client Action : Tableau de bord d'accueil COYA
+ * — Regroupement par domaine (application racine), raccourcis + zones widgets (KPI/graphiques à brancher).
+ * — Droits : uniquement ce que le backend renvoie (menu déjà filtré).
  */
 export class CoyaHomeDashboard extends Component {
     setup() {
         this.menuService = useService("menu");
         this.actionService = useService("action");
         this.state = useState({
-            apps: [],
+            domains: [],
             loading: true,
         });
 
         onMounted(() => {
-            this.loadApps();
+            this.loadDashboard();
         });
     }
 
-    loadApps() {
+    loadDashboard() {
         try {
             const root = this.menuService.getMenuAsTree("root");
-            const apps = this.extractAppsDashboard(root);
-            this.state.apps = apps;
+            const domains = this.buildDomainsWithShortcuts(root);
+            this.state.domains = domains;
             this.state.loading = false;
         } catch (error) {
-            console.error("Erreur chargement apps:", error);
+            console.error("Erreur chargement dashboard:", error);
             this.state.loading = false;
         }
     }
 
-    extractAppsDashboard(menuNode) {
-        const apps = [];
-        const processMenu = (items) => {
-            if (!items || !Array.isArray(items)) return;
-            for (const item of items) {
-                if (item.actionID) {
-                    apps.push({
-                        id: item.id,
-                        name: item.name,
-                        icon: item.webIcon || "fa fa-cube",
-                        actionId: item.actionID,
-                        sequence: item.sequence ?? 9999,
-                    });
+    /**
+     * Construit les domaines (apps racines) avec raccourcis (app + enfants directs avec action).
+     * Prêt pour widgets KPI/graphiques par domaine (à brancher sur vues/rapports Odoo).
+     */
+    buildDomainsWithShortcuts(menuNode) {
+        const items = menuNode.childrenTree || [];
+        return items
+            .map((app) => {
+                const shortcuts = [];
+                if (app.actionID) {
+                    shortcuts.push({ id: app.id, name: app.name, actionId: app.actionID });
                 }
-                if (item.childrenTree) {
-                    processMenu(item.childrenTree);
-                }
-            }
-        };
-        processMenu(menuNode.childrenTree || []);
-        return apps.sort((a, b) => a.sequence - b.sequence);
+                (app.childrenTree || []).forEach((child) => {
+                    if (child.actionID) {
+                        shortcuts.push({
+                            id: child.id,
+                            name: child.name,
+                            actionId: child.actionID,
+                        });
+                    }
+                });
+                return {
+                    id: app.id,
+                    name: app.name,
+                    icon: app.webIcon || "fa fa-cube",
+                    actionId: app.actionID,
+                    sequence: app.sequence ?? 9999,
+                    shortcuts,
+                };
+            })
+            .filter((d) => d.shortcuts.length > 0)
+            .sort((a, b) => a.sequence - b.sequence);
     }
 }
 

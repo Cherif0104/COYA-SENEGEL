@@ -412,3 +412,53 @@ body:has(.coya-sidebar:hover) .o_web_client {
   padding: 3rem;
   color: rgba(26, 95, 58, 0.6);
 }
+
+// Dashboard par domaine (section + widgets + raccourcis)
+.coya-dashboard-domain {
+  border-bottom: 1px solid rgba(26, 95, 58, 0.1);
+  padding-bottom: 2rem;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.coya-domain-header {
+  padding-bottom: 0.5rem;
+}
+
+.coya-domain-icon {
+  font-size: 1.25rem;
+  color: var(--senegel-green);
+  opacity: 0.9;
+}
+
+.coya-domain-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--senegel-green);
+}
+
+.coya-widget-placeholder {
+  margin-bottom: 1rem;
+}
+
+.coya-widget-box {
+  display: block;
+  background: linear-gradient(135deg, rgba(26, 95, 58, 0.06), rgba(232, 185, 35, 0.06));
+  border: 2px dashed rgba(26, 95, 58, 0.25);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  color: rgba(26, 95, 58, 0.6);
+  font-size: 0.9rem;
+}
+
+.coya-widget-label {
+  font-weight: 700;
+  color: var(--senegel-green);
+  margin-right: 0.5rem;
+}
+
+.coya-widget-hint {
+  font-style: italic;
+}
