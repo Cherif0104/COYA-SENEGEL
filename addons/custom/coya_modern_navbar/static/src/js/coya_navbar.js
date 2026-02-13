@@ -42,13 +42,8 @@ patch(NavBar.prototype, {
                 </div>
                 <span class="coya-sidebar-brand-text">COYA.PRO</span>
             </div>
-            <nav class="coya-sidebar-nav">
-                <div class="coya-nav-section">
-                    <div class="coya-nav-section-title">MENU</div>
-                    <ul class="coya-nav-list" id="coya-nav-apps">
-                        <!-- Apps injectées par JS -->
-                    </ul>
-                </div>
+            <nav class="coya-sidebar-nav" id="coya-sidebar-nav">
+                <!-- Sections injectées par JS (Core, Business, Opérations, RH, etc.) -->
             </nav>
             <div class="coya-sidebar-footer">
                 <ul class="coya-nav-list">
@@ -88,6 +83,7 @@ patch(NavBar.prototype, {
         const header = document.createElement("header");
         header.id = "coya-leader";
         header.className = "coya-leader";
+        const initial = (userName || "U").charAt(0).toUpperCase();
         header.innerHTML = `
             <div class="coya-leader-inner">
                 <div class="coya-leader-left">
@@ -98,6 +94,9 @@ patch(NavBar.prototype, {
                         <span class="coya-leader-meta" id="coya-leader-department"></span>
                     </p>
                     <p class="coya-leader-datetime" id="coya-leader-datetime"></p>
+                </div>
+                <div class="coya-leader-center">
+                    <input type="search" class="coya-leader-search" id="coya-leader-search" placeholder="Rechercher menu, action..." aria-label="Recherche globale"/>
                 </div>
                 <div class="coya-leader-right">
                     <div class="coya-leader-presence">
@@ -116,12 +115,26 @@ patch(NavBar.prototype, {
                             </div>
                         </div>
                     </div>
+                    <button type="button" class="coya-leader-icon-btn" id="coya-leader-notif" title="Notifications" aria-label="Notifications">
+                        <i class="fa fa-bell"></i>
+                        <span class="coya-notif-dot" id="coya-notif-dot" style="display: none;"></span>
+                    </button>
                     <a href="#" class="coya-leader-link" data-menu-xmlid="base.menu_administration" title="Paramètres">
                         <i class="fa fa-cog"></i> Paramètres
                     </a>
                     <a href="#" class="coya-leader-link" data-menu-xmlid="base.menu_help" title="Aide">
                         <i class="fa fa-question-circle"></i> Aide
                     </a>
+                    <div class="coya-leader-profile">
+                        <button type="button" class="coya-leader-profile-btn" id="coya-leader-profile-btn" title="Profil">
+                            <span class="coya-avatar">${initial}</span>
+                            <span class="coya-leader-profile-name">${userName}</span>
+                            <i class="fa fa-chevron-down" style="font-size: 0.75rem;"></i>
+                        </button>
+                        <div class="coya-leader-profile-menu" id="coya-leader-profile-menu">
+                            <a href="/web/session/logout"><i class="fa fa-sign-out"></i> Déconnexion</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
@@ -191,6 +204,45 @@ patch(NavBar.prototype, {
                 }
             });
         });
+
+        // Recherche globale : filtrer et ouvrir un menu
+        const searchEl = document.getElementById("coya-leader-search");
+        if (searchEl) {
+            searchEl.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    const q = searchEl.value.trim().toLowerCase();
+                    if (!q) return;
+                    const allMenus = menuService.getAll();
+                    const match = allMenus.find((m) => m.name && m.name.toLowerCase().includes(q));
+                    if (match && match.actionID) {
+                        actionService.doAction(match.actionID);
+                        searchEl.value = "";
+                    }
+                }
+            });
+        }
+
+        // Notifications (placeholder)
+        const notifBtn = document.getElementById("coya-leader-notif");
+        if (notifBtn) {
+            notifBtn.addEventListener("click", () => {
+                const allMenus = menuService.getAll();
+                const discuss = allMenus.find((m) => m.name && (m.name.toLowerCase().includes("discussion") || m.name.toLowerCase().includes("discuss")));
+                if (discuss && discuss.actionID) actionService.doAction(discuss.actionID);
+            });
+        }
+
+        // Profil dropdown
+        const profileBtn = document.getElementById("coya-leader-profile-btn");
+        const profileMenu = document.getElementById("coya-leader-profile-menu");
+        if (profileBtn && profileMenu) {
+            profileBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                profileMenu.classList.toggle("show");
+            });
+            document.addEventListener("click", () => profileMenu.classList.remove("show"));
+        }
     },
 
     async loadUserRoleDepartment() {
@@ -218,35 +270,66 @@ patch(NavBar.prototype, {
         }
     },
 
+    /** Mapping des apps Odoo vers sections sidebar (ERP moderne) */
+    getSidebarSectionForApp(appName) {
+        const n = (appName || "").toLowerCase();
+        if (n.includes("accueil") || n.includes("home") || n.includes("discussion") || n.includes("discuss") || n.includes("calendrier") || n.includes("calendar") || n.includes("to-do") || n.includes("todo") || n.includes("tâches")) return "Core";
+        if (n.includes("crm") || n.includes("ventes") || n.includes("sale") || n.includes("facturation") || n.includes("invoic") || n.includes("projet") || n.includes("project") || n.includes("feuille") || n.includes("timesheet")) return "Business";
+        if (n.includes("achat") || n.includes("purchase") || n.includes("inventaire") || n.includes("stock") || n.includes("dépense") || n.includes("expense")) return "Opérations";
+        if (n.includes("employé") || n.includes("employee") || n.includes("présence") || n.includes("attendance") || n.includes("recrutement") || n.includes("recruit") || n.includes("congé") || n.includes("leave") || n.includes("déjeuner") || n.includes("lunch") || n.includes("hr ") || n === "hr") return "RH";
+        if (n.includes("événement") || n.includes("event") || n.includes("sondage") || n.includes("survey")) return "Marketing";
+        if (n.includes("app") || n.includes("paramètre") || n.includes("setting") || n.includes("administration")) return "Système";
+        return "Business";
+    },
+
     loadAppsInSidebar() {
         const menuService = this.env.services.menu;
         const actionService = this.env.services.action;
-        const navList = document.getElementById("coya-nav-apps");
-        if (!navList) return;
+        const nav = document.getElementById("coya-sidebar-nav");
+        if (!nav) return;
 
         try {
-            // Applications racines uniquement (CRM, Ventes, Paramètres, etc.) — déjà filtrées par droits backend
             const apps = menuService.getApps();
             const sorted = [...apps].sort((a, b) => (a.sequence ?? 9999) - (b.sequence ?? 9999));
 
-            navList.innerHTML = sorted
+            const sectionOrder = ["Core", "Business", "Opérations", "RH", "Marketing", "Système"];
+            const sectionLabels = { Core: "Principal", Business: "Business", Opérations: "Opérations", RH: "RH", Marketing: "Marketing", Système: "Système" };
+            const bySection = {};
+            sectionOrder.forEach((s) => (bySection[s] = []));
+            sorted.forEach((app) => {
+                const section = this.getSidebarSectionForApp(app.name);
+                if (bySection[section]) bySection[section].push(app);
+                else bySection["Business"].push(app);
+            });
+
+            nav.innerHTML = sectionOrder
+                .filter((section) => bySection[section].length > 0)
                 .map(
-                    (app) => {
-                        const iconClass = (app.webIcon || "fa fa-cube").split(",")[1] || "fa fa-cube";
-                        const actionId = app.actionID || "";
+                    (section) => {
+                        const label = sectionLabels[section] || section;
+                        const items = bySection[section]
+                            .map((app) => {
+                                const iconClass = (app.webIcon || "fa fa-cube").split(",")[1] || "fa fa-cube";
+                                const actionId = app.actionID || "";
+                                return `
+                            <li class="coya-nav-item">
+                                <a href="#" class="coya-nav-link" data-action-id="${actionId}" data-menu-id="${app.id}">
+                                    <i class="${iconClass}" aria-hidden="true"></i>
+                                    <span class="coya-nav-text">${app.name}</span>
+                                </a>
+                            </li>`;
+                            })
+                            .join("");
                         return `
-                    <li class="coya-nav-item">
-                        <a href="#" class="coya-nav-link" data-action-id="${actionId}" data-menu-id="${app.id}">
-                            <i class="${iconClass}" aria-hidden="true"></i>
-                            <span class="coya-nav-text">${app.name}</span>
-                        </a>
-                    </li>
-                `;
+                    <div class="coya-nav-section">
+                        <div class="coya-nav-section-title">${label}</div>
+                        <ul class="coya-nav-list">${items}</ul>
+                    </div>`;
                     }
                 )
                 .join("");
 
-            navList.querySelectorAll(".coya-nav-link").forEach((link) => {
+            nav.querySelectorAll(".coya-nav-link").forEach((link) => {
                 link.addEventListener("click", (e) => {
                     e.preventDefault();
                     const actionId = link.dataset.actionId;
@@ -256,7 +339,7 @@ patch(NavBar.prototype, {
                     } else if (menuId) {
                         menuService.selectMenu(parseInt(menuId, 10));
                     }
-                    navList.querySelectorAll(".coya-nav-link").forEach((l) => l.classList.remove("active"));
+                    nav.querySelectorAll(".coya-nav-link").forEach((l) => l.classList.remove("active"));
                     link.classList.add("active");
                 });
             });
@@ -280,6 +363,8 @@ export class CoyaHomeDashboard extends Component {
         this.state = useState({
             domains: [],
             kpis: [],
+            insights: [],
+            activity: [],
             loading: true,
         });
 
@@ -293,12 +378,53 @@ export class CoyaHomeDashboard extends Component {
             const root = this.menuService.getMenuAsTree("root");
             const domains = this.buildDomainsWithShortcuts(root);
             this.state.domains = domains;
-            await Promise.all([this.loadKpis(), this.loadDomainPreviews(domains)]);
+            await Promise.all([
+                this.loadKpis(),
+                this.loadDomainPreviews(domains),
+                this.loadInsights(),
+                this.loadGlobalActivity(),
+            ]);
         } catch (error) {
             console.error("Erreur chargement dashboard:", error);
         } finally {
             this.state.loading = false;
         }
+    }
+
+    /** Bloc 3 – Insights (alertes métier) */
+    async loadInsights() {
+        const insights = [];
+        try {
+            const orm = this.orm;
+            const draftCount = await orm.searchCount("sale.order", [["state", "=", "draft"]]).catch(() => 0);
+            if (draftCount > 0) {
+                insights.push({ id: "draft_so", type: "warning", title: "Commandes brouillon", message: `${draftCount} commande(s) en attente`, action: "sale.action_orders" });
+            }
+            try {
+                const today = new Date().toISOString().split("T")[0];
+                const overdue = await orm.searchCount("account.move", [["move_type", "=", "out_invoice"], ["payment_state", "!=", "paid"], ["invoice_date_due", "<", today]]);
+                if (overdue > 0) insights.push({ id: "overdue_inv", type: "danger", title: "Factures en retard", message: `${overdue} facture(s) à échéance dépassée`, action: "account.action_out_invoice_tree" });
+            } catch (_) {}
+            if (insights.length === 0) insights.push({ id: "ok", type: "success", title: "Tout va bien", message: "Aucune alerte pour le moment.", action: null });
+        } catch (_) {}
+        this.state.insights = insights;
+    }
+
+    /** Bloc 4 – Activité globale (dernières actions) */
+    async loadGlobalActivity() {
+        const activity = [];
+        const models = [
+            { model: "sale.order", nameField: "name", dateField: "date_order", label: "Commande" },
+            { model: "crm.lead", nameField: "name", dateField: "create_date", label: "Lead" },
+            { model: "project.task", nameField: "name", dateField: "write_date", label: "Tâche" },
+        ];
+        for (const { model, nameField, dateField, label } of models) {
+            try {
+                const records = await this.orm.searchRead(model, [], [nameField, dateField], { limit: 3, order: dateField + " desc" });
+                records.forEach((r) => activity.push({ id: `${model}-${r.id}`, type: label, name: r[nameField] || r.display_name, date: r[dateField] }));
+            } catch (_) {}
+        }
+        this.state.activity = activity.slice(0, 10).sort((a, b) => new Date(b.date) - new Date(a.date));
     }
 
     /**
@@ -470,6 +596,11 @@ export class CoyaHomeDashboard extends Component {
             })
             .filter((d) => d.shortcuts.length > 0)
             .sort((a, b) => a.sequence - b.sequence);
+    }
+
+    /** Ouvre l'action associée à un insight (Bloc 3) */
+    openInsight(insight) {
+        if (insight.action) this.actionService.doAction(insight.action);
     }
 }
 

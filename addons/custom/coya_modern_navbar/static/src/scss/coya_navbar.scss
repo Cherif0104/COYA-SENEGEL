@@ -1,13 +1,39 @@
-// Navbar moderne COYA : sidebar fixe gauche + dashboard droite
-// Fond vert SENEGEL, texte blanc, dépliable au survol
+// =============================================================================
+// COYA Design System — SaaS ERP moderne
+// Rounded cards, soft shadows, generous spacing, clear typography
+// =============================================================================
 
 :root {
+  --senegel-green: #1a5f3a;
+  --senegel-green-light: #247a4a;
+
+  // Sidebar
   --coya-sidebar-width-collapsed: 70px;
-  --coya-sidebar-width-expanded: 260px;
+  --coya-sidebar-width-expanded: 280px;
   --coya-sidebar-bg: linear-gradient(180deg, #1a5f3a 0%, #0f3d26 100%);
   --coya-sidebar-hover-bg: rgba(255, 255, 255, 0.1);
   --coya-sidebar-active-bg: rgba(255, 255, 255, 0.15);
   --coya-transition-speed: 0.3s;
+
+  // Design tokens
+  --coya-radius-sm: 8px;
+  --coya-radius-md: 12px;
+  --coya-radius-lg: 16px;
+  --coya-radius-xl: 20px;
+  --coya-shadow-soft: 0 2px 12px rgba(26, 95, 58, 0.08);
+  --coya-shadow-card: 0 4px 20px rgba(26, 95, 58, 0.06);
+  --coya-shadow-hover: 0 8px 28px rgba(26, 95, 58, 0.12);
+  --coya-spacing-unit: 8px;
+  --coya-spacing-sm: calc(var(--coya-spacing-unit) * 1);
+  --coya-spacing-md: calc(var(--coya-spacing-unit) * 2);
+  --coya-spacing-lg: calc(var(--coya-spacing-unit) * 3);
+  --coya-spacing-xl: calc(var(--coya-spacing-unit) * 4);
+  --coya-font-heading: inherit;
+  --coya-font-body: inherit;
+  --coya-surface: #ffffff;
+  --coya-surface-alt: #f8faf8;
+  --coya-border: rgba(26, 95, 58, 0.12);
+  --coya-border-strong: rgba(26, 95, 58, 0.2);
 }
 
 // ===== SIDEBAR FIXE GAUCHE =====
@@ -330,12 +356,13 @@ body:has(.coya-sidebar:hover) .o_web_client {
   margin-left: var(--coya-sidebar-width-expanded) !important;
 }
 
-// ===== HEADER / LEADER (bienvenue, user, date/heure, pointage, Paramètres, Aide) =====
+// ===== HEADER / LEADER (topbar moderne: recherche, user, présence, notifications, profil) =====
 .coya-leader {
-  background: linear-gradient(135deg, rgba(26, 95, 58, 0.08), rgba(232, 185, 35, 0.06));
-  border-bottom: 1px solid rgba(26, 95, 58, 0.15);
-  padding: 0.75rem 1.5rem;
+  background: var(--coya-surface);
+  border-bottom: 1px solid var(--coya-border);
+  padding: var(--coya-spacing-md) var(--coya-spacing-xl);
   flex-shrink: 0;
+  box-shadow: var(--coya-shadow-soft);
 }
 
 .coya-leader-inner {
@@ -386,10 +413,38 @@ body:has(.coya-sidebar:hover) .o_web_client {
   margin: 0;
 }
 
+.coya-leader-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 0 var(--coya-spacing-lg);
+  max-width: 400px;
+}
+
+.coya-leader-search {
+  width: 100%;
+  padding: var(--coya-spacing-sm) var(--coya-spacing-md);
+  border: 1px solid var(--coya-border);
+  border-radius: var(--coya-radius-lg);
+  font-size: 0.9rem;
+  background: var(--coya-surface-alt);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--senegel-green);
+    box-shadow: 0 0 0 3px rgba(26, 95, 58, 0.1);
+  }
+
+  &::placeholder {
+    color: rgba(26, 95, 58, 0.5);
+  }
+}
+
 .coya-leader-right {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--coya-spacing-md);
   flex-wrap: wrap;
 }
 
@@ -408,14 +463,126 @@ body:has(.coya-sidebar:hover) .o_web_client {
   position: relative;
 }
 
+.coya-leader-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--coya-border);
+  border-radius: var(--coya-radius-md);
+  background: var(--coya-surface);
+  color: var(--senegel-green);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  position: relative;
+
+  &:hover {
+    background: var(--coya-surface-alt);
+    border-color: var(--senegel-green);
+  }
+
+  .coya-notif-dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid var(--coya-surface);
+  }
+}
+
+.coya-leader-profile {
+  position: relative;
+}
+
+.coya-leader-profile-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--coya-spacing-sm);
+  padding: var(--coya-spacing-sm) var(--coya-spacing-md);
+  border: 1px solid var(--coya-border);
+  border-radius: var(--coya-radius-md);
+  background: var(--coya-surface);
+  color: var(--senegel-green);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    background: var(--coya-surface-alt);
+    border-color: var(--senegel-green);
+  }
+
+  .coya-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--senegel-green-light), var(--senegel-green));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .coya-leader-profile-name {
+    @media (max-width: 1100px) {
+      display: none;
+    }
+  }
+}
+
+.coya-leader-profile-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  min-width: 200px;
+  background: var(--coya-surface);
+  border-radius: var(--coya-radius-md);
+  box-shadow: var(--coya-shadow-hover);
+  border: 1px solid var(--coya-border);
+  z-index: 100;
+  padding: var(--coya-spacing-sm);
+
+  &.show {
+    display: block;
+  }
+
+  a, button {
+    display: flex;
+    align-items: center;
+    gap: var(--coya-spacing-sm);
+    width: 100%;
+    padding: var(--coya-spacing-md);
+    border: none;
+    background: transparent;
+    font-size: 0.9rem;
+    color: var(--senegel-green);
+    cursor: pointer;
+    border-radius: var(--coya-radius-sm);
+    text-align: left;
+    text-decoration: none;
+
+    &:hover {
+      background: var(--coya-surface-alt);
+    }
+  }
+}
+
 .coya-presence-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.4rem 0.75rem;
-  border: 1px solid rgba(26, 95, 58, 0.3);
-  border-radius: 8px;
-  background: #fff;
+  border: 1px solid var(--coya-border-strong);
+  border-radius: var(--coya-radius-md);
+  background: var(--coya-surface);
   color: var(--senegel-green);
   font-size: 0.9rem;
   cursor: pointer;
@@ -462,12 +629,12 @@ body:has(.coya-sidebar:hover) .o_web_client {
   right: 0;
   margin-top: 4px;
   min-width: 180px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-  border: 1px solid rgba(26, 95, 58, 0.15);
+  background: var(--coya-surface);
+  border-radius: var(--coya-radius-md);
+  box-shadow: var(--coya-shadow-card);
+  border: 1px solid var(--coya-border);
   z-index: 100;
-  padding: 0.5rem;
+  padding: var(--coya-spacing-sm);
 
   &.show {
     display: block;
@@ -510,36 +677,42 @@ body:has(.coya-sidebar:hover) .o_web_client {
   align-items: center;
   gap: 0.4rem;
   padding: 0.4rem 0.75rem;
-  border-radius: 8px;
+  border-radius: var(--coya-radius-md);
   color: var(--senegel-green);
   font-size: 0.9rem;
   text-decoration: none;
   transition: background 0.2s ease;
 
   &:hover {
-    background: rgba(26, 95, 58, 0.1);
+    background: var(--coya-surface-alt);
   }
 }
 
-// ===== DASHBOARD D'ACCUEIL =====
-// Conteneur scrollable (évite que le dashboard ne déborde sans scroll)
+// ===== DASHBOARD D'ACCUEIL (SaaS ERP moderne) =====
 .coya-home-dashboard {
-  padding: 2rem;
+  padding: var(--coya-spacing-xl);
   min-height: calc(100vh - 140px);
   max-height: calc(100vh - 120px);
   overflow-y: auto;
   overflow-x: hidden;
+  background: var(--coya-surface-alt);
 }
 
 .coya-dashboard-header {
-  margin-bottom: 2rem;
+  margin-bottom: var(--coya-spacing-xl);
 }
 
 .coya-dashboard-title {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: var(--senegel-green);
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--coya-spacing-sm);
+  letter-spacing: -0.02em;
+}
+
+.coya-dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .coya-dashboard-subtitle {
@@ -547,44 +720,159 @@ body:has(.coya-sidebar:hover) .o_web_client {
   font-size: 1rem;
 }
 
-// Ligne KPIs (cartes indicateurs)
+// Bloc 3 – Insights & Bloc 4 – Activité (grille 2 colonnes)
+.coya-dashboard-blocks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--coya-spacing-xl);
+  margin-bottom: var(--coya-spacing-xl);
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.coya-block-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--senegel-green);
+  margin-bottom: var(--coya-spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--coya-spacing-sm);
+
+  i {
+    opacity: 0.9;
+  }
+}
+
+.coya-block-insights,
+.coya-block-activity {
+  background: var(--coya-surface);
+  border-radius: var(--coya-radius-lg);
+  padding: var(--coya-spacing-lg);
+  box-shadow: var(--coya-shadow-soft);
+  border: 1px solid var(--coya-border);
+}
+
+.coya-insights-list,
+.coya-activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--coya-spacing-sm);
+}
+
+.coya-insight-item {
+  padding: var(--coya-spacing-md);
+  border-radius: var(--coya-radius-md);
+  border-left: 4px solid var(--senegel-green);
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &[data-type="warning"] {
+    border-left-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.06);
+  }
+
+  &[data-type="danger"] {
+    border-left-color: #ef4444;
+    background: rgba(239, 68, 68, 0.06);
+  }
+
+  &[data-type="success"] {
+    border-left-color: #22c55e;
+    background: rgba(34, 197, 94, 0.06);
+  }
+
+  &:hover {
+    background: var(--coya-surface-alt);
+  }
+}
+
+.coya-insight-title {
+  display: block;
+  font-weight: 600;
+  color: var(--senegel-green);
+  font-size: 0.95rem;
+}
+
+.coya-insight-message {
+  display: block;
+  font-size: 0.85rem;
+  color: rgba(26, 95, 58, 0.7);
+  margin-top: 2px;
+}
+
+.coya-activity-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--coya-spacing-sm);
+  padding: var(--coya-spacing-sm) 0;
+  border-bottom: 1px solid var(--coya-border);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.coya-activity-type {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--senegel-green);
+  background: rgba(26, 95, 58, 0.1);
+  padding: 2px 8px;
+  border-radius: var(--coya-radius-sm);
+}
+
+.coya-activity-name {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--senegel-green);
+}
+
+.coya-activity-date {
+  font-size: 0.8rem;
+  color: rgba(26, 95, 58, 0.6);
+}
+
+// Bloc 1 – KPI Cards
 .coya-kpis-row {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1rem;
-  margin-left: 0;
-  margin-right: 0;
+  gap: var(--coya-spacing-lg);
+  margin-bottom: var(--coya-spacing-xl);
 }
 
 .coya-kpi-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 1.25rem;
-  box-shadow: 0 2px 12px rgba(26, 95, 58, 0.08);
-  border: 1px solid rgba(26, 95, 58, 0.12);
+  background: var(--coya-surface);
+  border-radius: var(--coya-radius-lg);
+  padding: var(--coya-spacing-lg);
+  box-shadow: var(--coya-shadow-soft);
+  border: 1px solid var(--coya-border);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.5rem;
+  gap: var(--coya-spacing-md);
   transition: box-shadow 0.2s ease, transform 0.2s ease;
   cursor: pointer;
 
   &:hover {
-    box-shadow: 0 6px 20px rgba(26, 95, 58, 0.15);
+    box-shadow: var(--coya-shadow-hover);
     transform: translateY(-2px);
     border-color: var(--senegel-green);
   }
 }
 
 .coya-kpi-icon {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(26, 95, 58, 0.12), rgba(232, 185, 35, 0.1));
-  border-radius: 10px;
-  font-size: 1.1rem;
+  background: linear-gradient(135deg, rgba(26, 95, 58, 0.1), rgba(232, 185, 35, 0.08));
+  border-radius: var(--coya-radius-md);
+  font-size: 1.2rem;
   color: var(--senegel-green);
 }
 

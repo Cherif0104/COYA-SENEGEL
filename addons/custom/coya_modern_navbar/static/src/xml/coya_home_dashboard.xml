@@ -2,16 +2,22 @@
 <templates xml:space="preserve">
     <t t-name="coya_modern_navbar.CoyaHomeDashboard">
         <div class="coya-home-dashboard">
-            <div class="container-fluid p-4">
-                <div class="coya-dashboard-header mb-4">
+            <div class="coya-dashboard-container">
+                <div class="coya-dashboard-header">
                     <h1 class="coya-dashboard-title">Tableau de bord COYA</h1>
-                    <p class="coya-dashboard-subtitle">Vue 360° par domaine — raccourcis et indicateurs</p>
+                    <p class="coya-dashboard-subtitle">Vue 360° — KPIs, indicateurs et activité</p>
                 </div>
 
-                <!-- Ligne KPIs (comptages réels, cliquables) -->
-                <div class="coya-kpis-row mb-4" t-if="!state.loading and state.kpis.length > 0">
+                <div class="coya-loading" t-if="state.loading">
+                    <div class="spinner-border text-success" role="status">
+                        <span class="visually-hidden">Chargement...</span>
+                    </div>
+                </div>
+
+                <!-- Bloc 1 – KPI Cards -->
+                <div class="coya-kpis-row" t-if="!state.loading and state.kpis.length > 0">
                     <t t-foreach="state.kpis" t-as="kpi" t-key="kpi.id">
-                        <div class="coya-kpi-card" t-on-click="() => this.openKpiList(kpi)" t-att-title="'Cliquer pour voir tous les ' + kpi.label">
+                        <div class="coya-kpi-card" t-on-click="() => this.openKpiList(kpi)" t-att-title="'Voir tous les ' + kpi.label">
                             <div class="coya-kpi-icon">
                                 <i t-att-class="kpi.icon" aria-hidden="true"/>
                             </div>
@@ -21,12 +27,34 @@
                     </t>
                 </div>
 
-                <div class="coya-loading" t-if="state.loading">
-                    <div class="spinner-border text-success" role="status">
-                        <span class="visually-hidden">Chargement...</span>
+                <!-- Bloc 3 – Insights / Bloc 4 – Activité (grille 2 colonnes) -->
+                <div class="coya-dashboard-blocks" t-if="!state.loading and (state.insights.length > 0 or state.activity.length > 0)">
+                    <div class="coya-block-insights" t-if="state.insights.length > 0">
+                        <h3 class="coya-block-title"><i class="fa fa-lightbulb-o"/> Insights</h3>
+                        <div class="coya-insights-list">
+                            <t t-foreach="state.insights" t-as="insight" t-key="insight.id">
+                                <div class="coya-insight-item" t-att-data-type="insight.type" t-on-click="() => this.openInsight(insight)">
+                                    <span class="coya-insight-title" t-esc="insight.title"/>
+                                    <span class="coya-insight-message" t-esc="insight.message"/>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="coya-block-activity" t-if="state.activity.length > 0">
+                        <h3 class="coya-block-title"><i class="fa fa-bolt"/> Activité récente</h3>
+                        <div class="coya-activity-list">
+                            <t t-foreach="state.activity" t-as="item" t-key="item.id">
+                                <div class="coya-activity-item">
+                                    <span class="coya-activity-type" t-esc="item.type"/>
+                                    <span class="coya-activity-name" t-esc="item.name"/>
+                                    <span class="coya-activity-date" t-esc="this.formatDate(item.date)"/>
+                                </div>
+                            </t>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Bloc 2 – Graphiques par domaine + raccourcis -->
                 <t t-if="!state.loading and state.domains.length > 0">
                     <t t-foreach="state.domains" t-as="domain" t-key="domain.id">
                         <div class="coya-dashboard-domain mb-5">
