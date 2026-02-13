@@ -11,10 +11,6 @@
                 </span>
             </div>
         </xpath>
-        <!-- Bouton d'accès : vert COYA au lieu du mauve Odoo -->
-        <xpath expr="//td[contains(@style, '875A7B')]" position="attributes">
-            <attribute name="style">border-radius: 3px; text-align: center; background: #1a5f3a;</attribute>
-        </xpath>
     </template>
 
     <!-- Layout "light" des emails : idem -->
