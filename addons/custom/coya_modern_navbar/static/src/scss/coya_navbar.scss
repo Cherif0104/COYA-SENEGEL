@@ -6,6 +6,7 @@
 :root {
   --senegel-green: #1a5f3a;
   --senegel-green-light: #247a4a;
+  --senegel-yellow: #e8b923;
 
   // Sidebar
   --coya-sidebar-width-collapsed: 70px;
@@ -190,12 +191,6 @@
   transform: translateX(-10px);
   transition: opacity var(--coya-transition-speed) ease, transform var(--coya-transition-speed) ease;
   font-weight: 500;
-}
-
-// Footer sidebar (Settings, Help, Logout)
-.coya-sidebar-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.75rem 0;
 }
 
 // ===== ZONE PRINCIPALE (DASHBOARD) À DROITE =====
@@ -688,14 +683,14 @@ body:has(.coya-sidebar:hover) .o_web_client {
   }
 }
 
-// ===== DASHBOARD D'ACCUEIL (SaaS ERP moderne) =====
+// ===== DASHBOARD D'ACCUEIL (fond blanc, charte SENEGEL) =====
 .coya-home-dashboard {
   padding: var(--coya-spacing-xl);
   min-height: calc(100vh - 140px);
   max-height: calc(100vh - 120px);
   overflow-y: auto;
   overflow-x: hidden;
-  background: var(--coya-surface-alt);
+  background: #fff;
 }
 
 .coya-dashboard-header {
@@ -716,11 +711,117 @@ body:has(.coya-sidebar:hover) .o_web_client {
 }
 
 .coya-dashboard-subtitle {
-  color: rgba(26, 95, 58, 0.7);
+  color: var(--senegel-green);
+  opacity: 0.8;
   font-size: 1rem;
 }
 
-// Bloc 3 – Insights & Bloc 4 – Activité (grille 2 colonnes)
+// Grille des blocs dashboard (alertes, tâches, indicateurs, suggestions, activité)
+.coya-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--coya-spacing-lg);
+  margin-top: var(--coya-spacing-xl);
+}
+
+.coya-dash-block {
+  background: #fff;
+  border: 1px solid rgba(26, 95, 58, 0.15);
+  border-radius: var(--coya-radius-lg);
+  padding: var(--coya-spacing-lg);
+  box-shadow: 0 1px 4px rgba(26, 95, 58, 0.06);
+}
+
+.coya-dash-block-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--senegel-green);
+  margin: 0 0 var(--coya-spacing-md) 0;
+  padding-bottom: var(--coya-spacing-sm);
+  border-bottom: 2px solid var(--senegel-yellow);
+  display: flex;
+  align-items: center;
+  gap: var(--coya-spacing-sm);
+
+  i {
+    color: var(--senegel-yellow);
+  }
+}
+
+.coya-dash-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--coya-spacing-sm);
+}
+
+.coya-dash-item {
+  padding: var(--coya-spacing-md);
+  border-radius: var(--coya-radius-sm);
+  background: rgba(26, 95, 58, 0.03);
+  border-left: 3px solid var(--senegel-green);
+}
+
+.coya-dash-item-click {
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(26, 95, 58, 0.08);
+  }
+}
+
+.coya-dash-item[data-type="warning"] {
+  border-left-color: var(--senegel-yellow);
+}
+
+.coya-dash-item[data-type="danger"] {
+  border-left-color: #dc3545;
+}
+
+.coya-dash-item[data-type="success"] {
+  border-left-color: #28a745;
+}
+
+.coya-dash-item-title {
+  display: block;
+  font-weight: 600;
+  color: var(--senegel-green);
+  font-size: 0.95rem;
+}
+
+.coya-dash-item-desc,
+.coya-dash-item-meta {
+  font-size: 0.85rem;
+  color: rgba(26, 95, 58, 0.7);
+  margin-top: 2px;
+}
+
+.coya-dash-item-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--senegel-green);
+  display: block;
+}
+
+.coya-dash-item-badge,
+.coya-dash-item-type {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--senegel-green);
+  background: rgba(26, 95, 58, 0.12);
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.coya-dash-item-date {
+  font-size: 0.8rem;
+  color: rgba(26, 95, 58, 0.6);
+  margin-top: 4px;
+}
+
+// Ancien bloc Insights / Activité (conservé pour compat)
 .coya-dashboard-blocks {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -845,20 +946,20 @@ body:has(.coya-sidebar:hover) .o_web_client {
 }
 
 .coya-kpi-card {
-  background: var(--coya-surface);
+  background: #fff;
   border-radius: var(--coya-radius-lg);
   padding: var(--coya-spacing-lg);
-  box-shadow: var(--coya-shadow-soft);
-  border: 1px solid var(--coya-border);
+  box-shadow: 0 2px 8px rgba(26, 95, 58, 0.1);
+  border: 1px solid rgba(26, 95, 58, 0.2);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--coya-spacing-md);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
   cursor: pointer;
 
   &:hover {
-    box-shadow: var(--coya-shadow-hover);
+    box-shadow: 0 4px 16px rgba(26, 95, 58, 0.15);
     transform: translateY(-2px);
     border-color: var(--senegel-green);
   }
@@ -870,10 +971,10 @@ body:has(.coya-sidebar:hover) .o_web_client {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(26, 95, 58, 0.1), rgba(232, 185, 35, 0.08));
+  background: linear-gradient(135deg, var(--senegel-green), var(--senegel-green-light));
   border-radius: var(--coya-radius-md);
   font-size: 1.2rem;
-  color: var(--senegel-green);
+  color: #fff;
 }
 
 .coya-kpi-value {

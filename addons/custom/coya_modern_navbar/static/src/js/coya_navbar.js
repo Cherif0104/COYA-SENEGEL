@@ -45,16 +45,6 @@ patch(NavBar.prototype, {
             <nav class="coya-sidebar-nav" id="coya-sidebar-nav">
                 <!-- Sections injectées par JS (Core, Business, Opérations, RH, etc.) -->
             </nav>
-            <div class="coya-sidebar-footer">
-                <ul class="coya-nav-list">
-                    <li class="coya-nav-item">
-                        <a href="/web/session/logout" class="coya-nav-link">
-                            <i class="fa fa-sign-out" aria-hidden="true"></i>
-                            <span class="coya-nav-text">Déconnexion</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
         `;
 
         // Injecter la sidebar au début du body
@@ -361,9 +351,12 @@ export class CoyaHomeDashboard extends Component {
         this.actionService = useService("action");
         this.orm = useService("orm");
         this.state = useState({
-            domains: [],
             kpis: [],
             insights: [],
+            tasks: [],
+            actionsDue: [],
+            suggestions: [],
+            userIndicators: [],
             activity: [],
             loading: true,
         });
@@ -375,13 +368,13 @@ export class CoyaHomeDashboard extends Component {
 
     async loadDashboard() {
         try {
-            const root = this.menuService.getMenuAsTree("root");
-            const domains = this.buildDomainsWithShortcuts(root);
-            this.state.domains = domains;
             await Promise.all([
                 this.loadKpis(),
-                this.loadDomainPreviews(domains),
                 this.loadInsights(),
+                this.loadTasks(),
+                this.loadActionsDue(),
+                this.loadSuggestions(),
+                this.loadUserIndicators(),
                 this.loadGlobalActivity(),
             ]);
         } catch (error) {
@@ -391,26 +384,86 @@ export class CoyaHomeDashboard extends Component {
         }
     }
 
-    /** Bloc 3 – Insights (alertes métier) */
+    /** Alertes métier */
     async loadInsights() {
         const insights = [];
         try {
             const orm = this.orm;
             const draftCount = await orm.searchCount("sale.order", [["state", "=", "draft"]]).catch(() => 0);
-            if (draftCount > 0) {
-                insights.push({ id: "draft_so", type: "warning", title: "Commandes brouillon", message: `${draftCount} commande(s) en attente`, action: "sale.action_orders" });
-            }
+            if (draftCount > 0) insights.push({ id: "draft_so", type: "warning", title: "Commandes brouillon", message: `${draftCount} commande(s) en attente`, action: "sale.action_orders" });
             try {
                 const today = new Date().toISOString().split("T")[0];
                 const overdue = await orm.searchCount("account.move", [["move_type", "=", "out_invoice"], ["payment_state", "!=", "paid"], ["invoice_date_due", "<", today]]);
                 if (overdue > 0) insights.push({ id: "overdue_inv", type: "danger", title: "Factures en retard", message: `${overdue} facture(s) à échéance dépassée`, action: "account.action_out_invoice_tree" });
             } catch (_) {}
-            if (insights.length === 0) insights.push({ id: "ok", type: "success", title: "Tout va bien", message: "Aucune alerte pour le moment.", action: null });
+            if (insights.length === 0) insights.push({ id: "ok", type: "success", title: "Tout va bien", message: "Aucune alerte.", action: null });
         } catch (_) {}
         this.state.insights = insights;
     }
 
-    /** Bloc 4 – Activité globale (dernières actions) */
+    /** Mes tâches (assignées à moi) */
+    async loadTasks() {
+        try {
+            const uid = this.env.services.user?.userId;
+            if (!uid) return;
+            const records = await this.orm.searchRead(
+                "project.task",
+                [["user_ids", "in", [uid]]],
+                ["name", "project_id", "date_deadline", "priority"],
+                { limit: 8, order: "date_deadline asc, priority desc" }
+            );
+            this.state.tasks = records;
+        } catch (_) {
+            this.state.tasks = [];
+        }
+    }
+
+    /** Actions à faire (commandes brouillon, factures, etc.) */
+    async loadActionsDue() {
+        const actions = [];
+        try {
+            const draftSo = await this.orm.searchRead("sale.order", [["state", "=", "draft"]], ["name", "partner_id", "amount_total"], { limit: 3 }).catch(() => []);
+            draftSo.forEach((r) => actions.push({ id: `so-${r.id}`, type: "Commande brouillon", name: r.name, extra: r.partner_id?.[1], model: "sale.order", resId: r.id }));
+            const today = new Date().toISOString().split("T")[0];
+            const overdue = await this.orm.searchRead("account.move", [["move_type", "=", "out_invoice"], ["payment_state", "!=", "paid"], ["invoice_date_due", "<", today]], ["name", "partner_id", "amount_residual"], { limit: 3 }).catch(() => []);
+            overdue.forEach((r) => actions.push({ id: `inv-${r.id}`, type: "Facture impayée", name: r.name, extra: r.partner_id?.[1], model: "account.move", resId: r.id }));
+            this.state.actionsDue = actions;
+        } catch (_) {
+            this.state.actionsDue = [];
+        }
+    }
+
+    /** Suggestions (leads à relancer, opportunités) */
+    async loadSuggestions() {
+        try {
+            const leads = await this.orm.searchRead("crm.lead", [["type", "=", "opportunity"]], ["name", "partner_id", "expected_revenue", "date_deadline"], { limit: 5, order: "date_deadline asc" }).catch(() => []);
+            this.state.suggestions = leads.map((r) => ({ id: r.id, name: r.name, partner: r.partner_id?.[1], revenue: r.expected_revenue, date: r.date_deadline, action: "crm.crm_lead_action_opportunities" }));
+        } catch (_) {
+            this.state.suggestions = [];
+        }
+    }
+
+    /** Indicateurs de performance de l'utilisateur */
+    async loadUserIndicators() {
+        const indicators = [];
+        try {
+            const uid = this.env.services.user?.userId;
+            const orm = this.orm;
+            const myTasksTotal = await orm.searchCount("project.task", [["user_ids", "in", [uid]]]).catch(() => 0);
+            const myTasksDone = await orm.searchCount("project.task", [["user_ids", "in", [uid]], ["stage_id.fold", "=", true]]).catch(() => 0);
+            indicators.push({ id: "tasks", label: "Mes tâches actives", value: myTasksTotal, icon: "fa fa-tasks", action: "project.action_view_task" });
+            indicators.push({ id: "done", label: "Tâches complétées", value: myTasksDone, icon: "fa fa-check-circle", action: "project.action_view_task" });
+            const myLeads = await orm.searchCount("crm.lead", [["user_id", "=", uid]]).catch(() => 0);
+            if (myLeads > 0) indicators.push({ id: "leads", label: "Mes opportunités", value: myLeads, icon: "fa fa-bullhorn", action: "crm.crm_lead_action_opportunities" });
+            const mySales = await orm.searchCount("sale.order", [["user_id", "=", uid], ["state", "in", ["sale", "done"]]]).catch(() => 0);
+            if (mySales > 0) indicators.push({ id: "sales", label: "Mes ventes", value: mySales, icon: "fa fa-shopping-cart", action: "sale.action_orders" });
+            this.state.userIndicators = indicators;
+        } catch (_) {
+            this.state.userIndicators = [];
+        }
+    }
+
+    /** Activité récente globale */
     async loadGlobalActivity() {
         const activity = [];
         const models = [
@@ -420,11 +473,11 @@ export class CoyaHomeDashboard extends Component {
         ];
         for (const { model, nameField, dateField, label } of models) {
             try {
-                const records = await this.orm.searchRead(model, [], [nameField, dateField], { limit: 3, order: dateField + " desc" });
+                const records = await this.orm.searchRead(model, [], [nameField, dateField], { limit: 4, order: dateField + " desc" });
                 records.forEach((r) => activity.push({ id: `${model}-${r.id}`, type: label, name: r[nameField] || r.display_name, date: r[dateField] }));
             } catch (_) {}
         }
-        this.state.activity = activity.slice(0, 10).sort((a, b) => new Date(b.date) - new Date(a.date));
+        this.state.activity = activity.slice(0, 12).sort((a, b) => new Date(b.date) - new Date(a.date));
     }
 
     /**
@@ -448,76 +501,6 @@ export class CoyaHomeDashboard extends Component {
             }
         }
         this.state.kpis = kpis;
-    }
-
-    /**
-     * Charge les aperçus (dernières activités) par domaine.
-     */
-    async loadDomainPreviews(domains) {
-        const domainModelMap = {
-            "CRM": { model: "crm.lead", fields: ["name", "partner_id", "stage_id", "date_deadline"], limit: 5 },
-            "Ventes": { model: "sale.order", fields: ["name", "partner_id", "amount_total", "state", "date_order"], limit: 5 },
-            "Projets": { model: "project.task", fields: ["name", "project_id", "stage_id", "date_deadline"], limit: 5 },
-            "Contacts": { model: "res.partner", fields: ["name", "email", "phone", "category_id"], limit: 5 },
-        };
-        for (const domain of domains) {
-            const config = domainModelMap[domain.name];
-            if (!config) continue;
-            try {
-                const records = await this.orm.searchRead(
-                    config.model,
-                    [],
-                    config.fields,
-                    { limit: config.limit, order: "write_date desc" }
-                );
-                domain.preview = { model: config.model, records, fields: config.fields };
-                // Charger les données pour les graphiques (7 derniers jours)
-                await this.loadDomainChart(domain, config.model);
-            } catch (_e) {
-                // Module non installé ou pas de droit : on ignore
-            }
-        }
-    }
-
-    /**
-     * Charge les données pour les graphiques par domaine (7 derniers jours).
-     */
-    async loadDomainChart(domain, model) {
-        try {
-            const today = new Date();
-            const sevenDaysAgo = new Date(today);
-            sevenDaysAgo.setDate(today.getDate() - 7);
-            const dateField = model === "sale.order" ? "date_order" : model === "crm.lead" ? "create_date" : "create_date";
-            const records = await this.orm.searchRead(
-                model,
-                [[dateField, ">=", sevenDaysAgo.toISOString().split("T")[0]]],
-                [dateField],
-                { order: dateField + " asc" }
-            );
-            // Grouper par jour
-            const dailyCounts = {};
-            records.forEach((r) => {
-                const date = r[dateField] ? r[dateField].split("T")[0] : null;
-                if (date) {
-                    dailyCounts[date] = (dailyCounts[date] || 0) + 1;
-                }
-            });
-            // Créer un tableau pour les 7 derniers jours
-            const chartData = [];
-            for (let i = 6; i >= 0; i--) {
-                const date = new Date(today);
-                date.setDate(today.getDate() - i);
-                const dateStr = date.toISOString().split("T")[0];
-                chartData.push({ date: dateStr, count: dailyCounts[dateStr] || 0 });
-            }
-            if (domain.preview) {
-                domain.preview.chartData = chartData;
-            } else {
-                domain.preview = { chartData };
-            }
-        } catch (_e) {
-            // Ignorer les erreurs
-        }
     }
 
     /**
@@ -564,43 +547,24 @@ export class CoyaHomeDashboard extends Component {
         return date.toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
     }
 
-    /**
-     * Construit les domaines (apps racines) avec raccourcis (app + enfants directs avec action).
-     * Prêt pour widgets KPI/graphiques par domaine (à brancher sur vues/rapports Odoo).
-     */
-    buildDomainsWithShortcuts(menuNode) {
-        const items = menuNode.childrenTree || [];
-        return items
-            .map((app) => {
-                const shortcuts = [];
-                if (app.actionID) {
-                    shortcuts.push({ id: app.id, name: app.name, actionId: app.actionID });
-                }
-                (app.childrenTree || []).forEach((child) => {
-                    if (child.actionID) {
-                        shortcuts.push({
-                            id: child.id,
-                            name: child.name,
-                            actionId: child.actionID,
-                        });
-                    }
-                });
-                return {
-                    id: app.id,
-                    name: app.name,
-                    icon: app.webIcon || "fa fa-cube",
-                    actionId: app.actionID,
-                    sequence: app.sequence ?? 9999,
-                    shortcuts,
-                };
-            })
-            .filter((d) => d.shortcuts.length > 0)
-            .sort((a, b) => a.sequence - b.sequence);
-    }
-
-    /** Ouvre l'action associée à un insight (Bloc 3) */
     openInsight(insight) {
         if (insight.action) this.actionService.doAction(insight.action);
+    }
+
+    openActionDue(item) {
+        if (item.model && item.resId) this.actionService.doAction({ type: "ir.actions.act_window", res_model: item.model, res_id: item.resId, views: [[false, "form"]], target: "current" });
+    }
+
+    openTask(task) {
+        this.actionService.doAction({ type: "ir.actions.act_window", res_model: "project.task", res_id: task.id, views: [[false, "form"]], target: "current" });
+    }
+
+    openSuggestion(s) {
+        if (s.action) this.actionService.doAction(s.action);
+    }
+
+    openUserIndicator(ind) {
+        if (ind.action) this.actionService.doAction(ind.action);
     }
 }
 

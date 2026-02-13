@@ -5,7 +5,7 @@
             <div class="coya-dashboard-container">
                 <div class="coya-dashboard-header">
                     <h1 class="coya-dashboard-title">Tableau de bord COYA</h1>
-                    <p class="coya-dashboard-subtitle">Vue 360° — KPIs, indicateurs et activité</p>
+                    <p class="coya-dashboard-subtitle">Vue 360° — Alertes, tâches et indicateurs</p>
                 </div>
 
                 <div class="coya-loading" t-if="state.loading">
@@ -14,140 +14,102 @@
                     </div>
                 </div>
 
-                <!-- Bloc 1 – KPI Cards -->
-                <div class="coya-kpis-row" t-if="!state.loading and state.kpis.length > 0">
-                    <t t-foreach="state.kpis" t-as="kpi" t-key="kpi.id">
-                        <div class="coya-kpi-card" t-on-click="() => this.openKpiList(kpi)" t-att-title="'Voir tous les ' + kpi.label">
-                            <div class="coya-kpi-icon">
-                                <i t-att-class="kpi.icon" aria-hidden="true"/>
+                <t t-if="!state.loading">
+                    <!-- KPIs globaux -->
+                    <div class="coya-kpis-row" t-if="state.kpis.length > 0">
+                        <t t-foreach="state.kpis" t-as="kpi" t-key="kpi.id">
+                            <div class="coya-kpi-card" t-on-click="() => this.openKpiList(kpi)" t-att-title="'Voir ' + kpi.label">
+                                <div class="coya-kpi-icon"><i t-att-class="kpi.icon" aria-hidden="true"/></div>
+                                <div class="coya-kpi-value" t-esc="kpi.value"/>
+                                <div class="coya-kpi-label" t-esc="kpi.label"/>
                             </div>
-                            <div class="coya-kpi-value" t-esc="kpi.value"/>
-                            <div class="coya-kpi-label" t-esc="kpi.label"/>
-                        </div>
-                    </t>
-                </div>
-
-                <!-- Bloc 3 – Insights / Bloc 4 – Activité (grille 2 colonnes) -->
-                <div class="coya-dashboard-blocks" t-if="!state.loading and (state.insights.length > 0 or state.activity.length > 0)">
-                    <div class="coya-block-insights" t-if="state.insights.length > 0">
-                        <h3 class="coya-block-title"><i class="fa fa-lightbulb-o"/> Insights</h3>
-                        <div class="coya-insights-list">
-                            <t t-foreach="state.insights" t-as="insight" t-key="insight.id">
-                                <div class="coya-insight-item" t-att-data-type="insight.type" t-on-click="() => this.openInsight(insight)">
-                                    <span class="coya-insight-title" t-esc="insight.title"/>
-                                    <span class="coya-insight-message" t-esc="insight.message"/>
-                                </div>
-                            </t>
-                        </div>
+                        </t>
                     </div>
-                    <div class="coya-block-activity" t-if="state.activity.length > 0">
-                        <h3 class="coya-block-title"><i class="fa fa-bolt"/> Activité récente</h3>
-                        <div class="coya-activity-list">
-                            <t t-foreach="state.activity" t-as="item" t-key="item.id">
-                                <div class="coya-activity-item">
-                                    <span class="coya-activity-type" t-esc="item.type"/>
-                                    <span class="coya-activity-name" t-esc="item.name"/>
-                                    <span class="coya-activity-date" t-esc="this.formatDate(item.date)"/>
-                                </div>
-                            </t>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Bloc 2 – Graphiques par domaine + raccourcis -->
-                <t t-if="!state.loading and state.domains.length > 0">
-                    <t t-foreach="state.domains" t-as="domain" t-key="domain.id">
-                        <div class="coya-dashboard-domain mb-5">
-                            <div class="coya-domain-header d-flex align-items-center gap-2 mb-3">
-                                <i t-att-class="'coya-domain-icon ' + (domain.icon ? (domain.icon.split(',')[1] || 'fa fa-cube') : 'fa fa-cube')" aria-hidden="true"/>
-                                <h2 class="coya-domain-title mb-0" t-esc="domain.name"/>
-                            </div>
-                            <!-- Aperçu : dernières activités du domaine -->
-                            <div class="coya-domain-preview mb-4" t-if="domain.preview and domain.preview.records.length > 0">
-                                <h3 class="coya-preview-title mb-3">
-                                    <i class="fa fa-clock-o me-2" aria-hidden="true"/>
-                                    Dernières activités
-                                </h3>
-                                <div class="coya-preview-list">
-                                    <t t-foreach="domain.preview.records" t-as="record" t-key="record.id">
-                                        <div class="coya-preview-item">
-                                            <div class="coya-preview-main">
-                                                <span class="coya-preview-name" t-esc="record.name or record.display_name"/>
-                                                <t t-if="record.partner_id and Array.isArray(record.partner_id)">
-                                                    <span class="coya-preview-meta"> — <t t-esc="record.partner_id[1]"/></span>
-                                                </t>
-                                                <t t-if="record.project_id and Array.isArray(record.project_id)">
-                                                    <span class="coya-preview-meta"> — <t t-esc="record.project_id[1]"/></span>
-                                                </t>
-                                                <t t-if="record.stage_id and Array.isArray(record.stage_id)">
-                                                    <span class="coya-preview-badge" t-esc="record.stage_id[1]"/>
-                                                </t>
-                                                <t t-if="record.state">
-                                                    <span class="coya-preview-badge" t-esc="record.state"/>
-                                                </t>
-                                            </div>
-                                            <div class="coya-preview-footer">
-                                                <t t-if="record.amount_total">
-                                                    <span class="coya-preview-amount">
-                                                        <t t-esc="this.formatCurrency(record.amount_total)"/>
-                                                    </span>
-                                                </t>
-                                                <t t-if="record.date_order or record.date_deadline">
-                                                    <span class="coya-preview-date">
-                                                        <i class="fa fa-calendar me-1" aria-hidden="true"/>
-                                                        <t t-esc="this.formatDate(record.date_order or record.date_deadline)"/>
-                                                    </span>
-                                                </t>
-                                            </div>
-                                        </div>
-                                    </t>
-                                </div>
-                            </div>
-                            <!-- Graphique simple (7 derniers jours) -->
-                            <div class="coya-domain-chart mb-4" t-if="domain.preview and domain.preview.chartData and domain.preview.chartData.length > 0">
-                                <h4 class="coya-chart-title mb-3">
-                                    <i class="fa fa-chart-line me-2" aria-hidden="true"/>
-                                    Évolution (7 derniers jours)
-                                </h4>
-                                <div class="coya-chart-container">
-                                    <div class="coya-chart-bars">
-                                        <t t-foreach="domain.preview.chartData" t-as="day" t-key="day.date">
-                                            <div class="coya-chart-bar-wrapper">
-                                                <div class="coya-chart-bar" t-att-style="'height: ' + (day.count > 0 ? Math.max(20, (day.count / Math.max(...domain.preview.chartData.map(d => d.count || 1))) * 100) : 0) + '%'">
-                                                    <span class="coya-chart-value" t-esc="day.count"/>
-                                                </div>
-                                                <div class="coya-chart-label" t-esc="this.formatShortDate(day.date)"/>
-                                            </div>
-                                        </t>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Zone widget par domaine (graphiques avancés / rapports à brancher) -->
-                            <div class="coya-widget-placeholder mb-4" t-if="!domain.preview or !domain.preview.chartData">
-                                <div class="coya-widget-box">
-                                    <i class="fa fa-chart-line me-2" aria-hidden="true"/>
-                                    <span class="coya-widget-label">Indicateurs</span>
-                                    <span class="coya-widget-hint">Graphiques avancés et rapports par module (à brancher)</span>
-                                </div>
-                            </div>
-                            <!-- Raccourcis du domaine -->
-                            <div class="coya-apps-grid">
-                                <t t-foreach="domain.shortcuts" t-as="shortcut" t-key="shortcut.id">
-                                    <div class="coya-app-card" t-on-click="() => this.actionService.doAction(shortcut.actionId)">
-                                        <div class="coya-app-icon">
-                                            <i class="fa fa-external-link" aria-hidden="true"/>
-                                        </div>
-                                        <div class="coya-app-name" t-esc="shortcut.name"/>
+                    <!-- Grille principale : Alertes | Mes indicateurs | Tâches | Actions à faire | Suggestions | Activité -->
+                    <div class="coya-dashboard-grid">
+                        <!-- Alertes -->
+                        <div class="coya-dash-block coya-dash-alerts" t-if="state.insights.length > 0">
+                            <h3 class="coya-dash-block-title"><i class="fa fa-exclamation-triangle"/> Alertes</h3>
+                            <div class="coya-dash-list">
+                                <t t-foreach="state.insights" t-as="insight" t-key="insight.id">
+                                    <div class="coya-dash-item" t-att-data-type="insight.type" t-on-click="() => this.openInsight(insight)">
+                                        <span class="coya-dash-item-title" t-esc="insight.title"/>
+                                        <span class="coya-dash-item-desc" t-esc="insight.message"/>
                                     </div>
                                 </t>
                             </div>
                         </div>
-                    </t>
-                </t>
 
-                <div class="coya-no-apps" t-if="!state.loading and state.domains.length === 0">
-                    <p>Aucune application disponible pour votre profil.</p>
-                </div>
+                        <!-- Mes indicateurs de performance -->
+                        <div class="coya-dash-block coya-dash-indicators" t-if="state.userIndicators.length > 0">
+                            <h3 class="coya-dash-block-title"><i class="fa fa-line-chart"/> Mes indicateurs</h3>
+                            <div class="coya-dash-list">
+                                <t t-foreach="state.userIndicators" t-as="ind" t-key="ind.id">
+                                    <div class="coya-dash-item coya-dash-item-click" t-on-click="() => this.openUserIndicator(ind)">
+                                        <span class="coya-dash-item-value" t-esc="ind.value"/>
+                                        <span class="coya-dash-item-title" t-esc="ind.label"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- Mes tâches -->
+                        <div class="coya-dash-block coya-dash-tasks" t-if="state.tasks.length > 0">
+                            <h3 class="coya-dash-block-title"><i class="fa fa-tasks"/> Planning — Mes tâches</h3>
+                            <div class="coya-dash-list">
+                                <t t-foreach="state.tasks" t-as="task" t-key="task.id">
+                                    <div class="coya-dash-item coya-dash-item-click" t-on-click="() => this.openTask(task)">
+                                        <span class="coya-dash-item-title" t-esc="task.name"/>
+                                        <span class="coya-dash-item-meta" t-if="task.project_id" t-esc="task.project_id[1]"/>
+                                        <span class="coya-dash-item-date" t-if="task.date_deadline" t-esc="this.formatDate(task.date_deadline)"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- Actions à faire -->
+                        <div class="coya-dash-block coya-dash-actions" t-if="state.actionsDue.length > 0">
+                            <h3 class="coya-dash-block-title"><i class="fa fa-wrench"/> Actions à faire</h3>
+                            <div class="coya-dash-list">
+                                <t t-foreach="state.actionsDue" t-as="item" t-key="item.id">
+                                    <div class="coya-dash-item coya-dash-item-click" t-on-click="() => this.openActionDue(item)">
+                                        <span class="coya-dash-item-badge" t-esc="item.type"/>
+                                        <span class="coya-dash-item-title" t-esc="item.name"/>
+                                        <span class="coya-dash-item-meta" t-if="item.extra" t-esc="item.extra"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- Suggestions (opportunités à relancer) -->
+                        <div class="coya-dash-block coya-dash-suggestions" t-if="state.suggestions.length > 0">
+                            <h3 class="coya-dash-block-title"><i class="fa fa-lightbulb-o"/> Suggestions</h3>
+                            <div class="coya-dash-list">
+                                <t t-foreach="state.suggestions" t-as="s" t-key="s.id">
+                                    <div class="coya-dash-item coya-dash-item-click" t-on-click="() => this.openSuggestion(s)">
+                                        <span class="coya-dash-item-title" t-esc="s.name"/>
+                                        <span class="coya-dash-item-meta" t-if="s.partner" t-esc="s.partner"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- Activité récente -->
+                        <div class="coya-dash-block coya-dash-activity" t-if="state.activity.length > 0">
+                            <h3 class="coya-dash-block-title"><i class="fa fa-bolt"/> Activité récente</h3>
+                            <div class="coya-dash-list">
+                                <t t-foreach="state.activity" t-as="item" t-key="item.id">
+                                    <div class="coya-dash-item">
+                                        <span class="coya-dash-item-type" t-esc="item.type"/>
+                                        <span class="coya-dash-item-title" t-esc="item.name"/>
+                                        <span class="coya-dash-item-date" t-esc="this.formatDate(item.date)"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </t>
             </div>
         </div>
     </t>
