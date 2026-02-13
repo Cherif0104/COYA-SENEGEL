@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<odoo>
-    <!-- Note: En Odoo 18, la navbar est un composant JS OWL, on ne peut pas la remplacer directement par XML.
-         La sidebar sera injectée via JavaScript (voir coya_navbar.js) et la navbar Odoo sera masquée par CSS. -->
-</odoo>

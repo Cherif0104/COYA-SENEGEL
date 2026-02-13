@@ -8,12 +8,11 @@
     "license": "LGPL-3",
     "depends": ["web", "base"],
     "data": [
-        "views/coya_navbar_templates.xml",
         "views/coya_home_dashboard_views.xml",
-        "views/coya_home_dashboard_templates.xml",
     ],
     "assets": {
         "web.assets_backend": [
+            "coya_modern_navbar/static/src/xml/coya_home_dashboard.xml",
             "coya_modern_navbar/static/src/scss/coya_navbar.scss",
             "coya_modern_navbar/static/src/js/coya_navbar.js",
         ],

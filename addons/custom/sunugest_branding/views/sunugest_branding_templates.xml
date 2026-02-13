@@ -47,7 +47,7 @@
         <xpath expr="//div[contains(@class, 'oe_login_buttons')]//button[@type='submit' and not(@name='redirect')]" position="replace">
             <button type="submit" class="btn btn-primary">Connexion</button>
         </xpath>
-        <xpath expr="//button[@name='redirect' and @value='/web/become']" position="replace">
+        <xpath expr="//button[@name='redirect']" position="replace">
             <button type="submit" name="redirect" value="/web/become" class="btn btn-link btn-sm">Connexion superutilisateur</button>
         </xpath>
     </template>
