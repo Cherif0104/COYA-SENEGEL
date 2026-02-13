@@ -15,7 +15,7 @@ Odoo Community + nos modules custom, hébergé sur le VPS Contabo. Pas de déplo
    ```bash
    cd /opt/COYA-SENEGEL
    git pull origin main
-   docker compose -f docker-compose.contabo.yml run --rm odoo odoo -c /etc/odoo/odoo-standalone.conf -u sunugest_branding -d postgres --stop-after-init
+   docker compose -f docker-compose.contabo.yml run --rm odoo odoo -c /etc/odoo/odoo-standalone.conf -u sunugest_branding,coya_modern_navbar -d postgres --stop-after-init
    docker compose -f docker-compose.contabo.yml restart odoo
    ```
 
