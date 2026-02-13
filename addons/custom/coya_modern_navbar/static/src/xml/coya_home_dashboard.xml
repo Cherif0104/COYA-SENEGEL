@@ -8,6 +8,19 @@
                     <p class="coya-dashboard-subtitle">Vue 360° par domaine — raccourcis et indicateurs</p>
                 </div>
 
+                <!-- Ligne KPIs (comptages réels, cliquables) -->
+                <div class="coya-kpis-row mb-4" t-if="!state.loading and state.kpis.length > 0">
+                    <t t-foreach="state.kpis" t-as="kpi" t-key="kpi.id">
+                        <div class="coya-kpi-card" t-on-click="() => this.openKpiList(kpi)" t-att-title="'Cliquer pour voir tous les ' + kpi.label">
+                            <div class="coya-kpi-icon">
+                                <i t-att-class="kpi.icon" aria-hidden="true"/>
+                            </div>
+                            <div class="coya-kpi-value" t-esc="kpi.value"/>
+                            <div class="coya-kpi-label" t-esc="kpi.label"/>
+                        </div>
+                    </t>
+                </div>
+
                 <div class="coya-loading" t-if="state.loading">
                     <div class="spinner-border text-success" role="status">
                         <span class="visually-hidden">Chargement...</span>
@@ -21,11 +34,72 @@
                                 <i t-att-class="'coya-domain-icon ' + (domain.icon ? (domain.icon.split(',')[1] || 'fa fa-cube') : 'fa fa-cube')" aria-hidden="true"/>
                                 <h2 class="coya-domain-title mb-0" t-esc="domain.name"/>
                             </div>
-                            <!-- Zone widget : KPI / graphiques à brancher (vues ou rapports Odoo) -->
-                            <div class="coya-widget-placeholder mb-4">
+                            <!-- Aperçu : dernières activités du domaine -->
+                            <div class="coya-domain-preview mb-4" t-if="domain.preview and domain.preview.records.length > 0">
+                                <h3 class="coya-preview-title mb-3">
+                                    <i class="fa fa-clock-o me-2" aria-hidden="true"/>
+                                    Dernières activités
+                                </h3>
+                                <div class="coya-preview-list">
+                                    <t t-foreach="domain.preview.records" t-as="record" t-key="record.id">
+                                        <div class="coya-preview-item">
+                                            <div class="coya-preview-main">
+                                                <span class="coya-preview-name" t-esc="record.name or record.display_name"/>
+                                                <t t-if="record.partner_id and Array.isArray(record.partner_id)">
+                                                    <span class="coya-preview-meta"> — <t t-esc="record.partner_id[1]"/></span>
+                                                </t>
+                                                <t t-if="record.project_id and Array.isArray(record.project_id)">
+                                                    <span class="coya-preview-meta"> — <t t-esc="record.project_id[1]"/></span>
+                                                </t>
+                                                <t t-if="record.stage_id and Array.isArray(record.stage_id)">
+                                                    <span class="coya-preview-badge" t-esc="record.stage_id[1]"/>
+                                                </t>
+                                                <t t-if="record.state">
+                                                    <span class="coya-preview-badge" t-esc="record.state"/>
+                                                </t>
+                                            </div>
+                                            <div class="coya-preview-footer">
+                                                <t t-if="record.amount_total">
+                                                    <span class="coya-preview-amount">
+                                                        <t t-esc="this.formatCurrency(record.amount_total)"/>
+                                                    </span>
+                                                </t>
+                                                <t t-if="record.date_order or record.date_deadline">
+                                                    <span class="coya-preview-date">
+                                                        <i class="fa fa-calendar me-1" aria-hidden="true"/>
+                                                        <t t-esc="this.formatDate(record.date_order or record.date_deadline)"/>
+                                                    </span>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                            <!-- Graphique simple (7 derniers jours) -->
+                            <div class="coya-domain-chart mb-4" t-if="domain.preview and domain.preview.chartData and domain.preview.chartData.length > 0">
+                                <h4 class="coya-chart-title mb-3">
+                                    <i class="fa fa-chart-line me-2" aria-hidden="true"/>
+                                    Évolution (7 derniers jours)
+                                </h4>
+                                <div class="coya-chart-container">
+                                    <div class="coya-chart-bars">
+                                        <t t-foreach="domain.preview.chartData" t-as="day" t-key="day.date">
+                                            <div class="coya-chart-bar-wrapper">
+                                                <div class="coya-chart-bar" t-att-style="'height: ' + (day.count > 0 ? Math.max(20, (day.count / Math.max(...domain.preview.chartData.map(d => d.count || 1))) * 100) : 0) + '%'">
+                                                    <span class="coya-chart-value" t-esc="day.count"/>
+                                                </div>
+                                                <div class="coya-chart-label" t-esc="this.formatShortDate(day.date)"/>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Zone widget par domaine (graphiques avancés / rapports à brancher) -->
+                            <div class="coya-widget-placeholder mb-4" t-if="!domain.preview or !domain.preview.chartData">
                                 <div class="coya-widget-box">
-                                    <span class="coya-widget-label">Widgets</span>
-                                    <span class="coya-widget-hint">KPIs, graphiques, prédictif (à brancher)</span>
+                                    <i class="fa fa-chart-line me-2" aria-hidden="true"/>
+                                    <span class="coya-widget-label">Indicateurs</span>
+                                    <span class="coya-widget-hint">Graphiques avancés et rapports par module (à brancher)</span>
                                 </div>
                             </div>
                             <!-- Raccourcis du domaine -->

@@ -330,10 +330,205 @@ body:has(.coya-sidebar:hover) .o_web_client {
   margin-left: var(--coya-sidebar-width-expanded) !important;
 }
 
+// ===== HEADER / LEADER (bienvenue, user, date/heure, pointage, Paramètres, Aide) =====
+.coya-leader {
+  background: linear-gradient(135deg, rgba(26, 95, 58, 0.08), rgba(232, 185, 35, 0.06));
+  border-bottom: 1px solid rgba(26, 95, 58, 0.15);
+  padding: 0.75rem 1.5rem;
+  flex-shrink: 0;
+}
+
+.coya-leader-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.coya-leader-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.coya-leader-welcome {
+  font-size: 0.85rem;
+  color: rgba(26, 95, 58, 0.8);
+  margin: 0;
+  font-weight: 600;
+}
+
+.coya-leader-user {
+  font-size: 1rem;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.coya-leader-name {
+  font-weight: 700;
+  color: var(--senegel-green);
+}
+
+.coya-leader-meta {
+  font-size: 0.9rem;
+  color: rgba(26, 95, 58, 0.7);
+}
+
+.coya-leader-datetime {
+  font-size: 0.8rem;
+  color: rgba(26, 95, 58, 0.6);
+  margin: 0;
+}
+
+.coya-leader-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.coya-leader-presence {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.coya-presence-label {
+  font-size: 0.85rem;
+  color: rgba(26, 95, 58, 0.7);
+}
+
+.coya-presence-dropdown {
+  position: relative;
+}
+
+.coya-presence-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid rgba(26, 95, 58, 0.3);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--senegel-green);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    background: rgba(26, 95, 58, 0.06);
+    border-color: var(--senegel-green);
+  }
+
+  .fa-chevron-down {
+    font-size: 0.7rem;
+    opacity: 0.8;
+  }
+}
+
+.coya-presence-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.coya-presence-online {
+  background: #22c55e;
+}
+
+.coya-presence-lunch {
+  background: #f59e0b;
+}
+
+.coya-presence-meeting {
+  background: #3b82f6;
+}
+
+.coya-presence-absent {
+  background: #ef4444;
+}
+
+.coya-presence-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  min-width: 180px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(26, 95, 58, 0.15);
+  z-index: 100;
+  padding: 0.5rem;
+
+  &.show {
+    display: block;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: none;
+    background: transparent;
+    font-size: 0.9rem;
+    color: var(--senegel-green);
+    cursor: pointer;
+    border-radius: 6px;
+    text-align: left;
+
+    &:hover {
+      background: rgba(26, 95, 58, 0.08);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+
+      &.online { background: #22c55e; }
+      &.lunch { background: #f59e0b; }
+      &.meeting { background: #3b82f6; }
+      &.absent { background: #ef4444; }
+    }
+  }
+}
+
+.coya-leader-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  color: var(--senegel-green);
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(26, 95, 58, 0.1);
+  }
+}
+
 // ===== DASHBOARD D'ACCUEIL =====
+// Conteneur scrollable (évite que le dashboard ne déborde sans scroll)
 .coya-home-dashboard {
   padding: 2rem;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 140px);
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .coya-dashboard-header {
@@ -350,6 +545,60 @@ body:has(.coya-sidebar:hover) .o_web_client {
 .coya-dashboard-subtitle {
   color: rgba(26, 95, 58, 0.7);
   font-size: 1rem;
+}
+
+// Ligne KPIs (cartes indicateurs)
+.coya-kpis-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.coya-kpi-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 12px rgba(26, 95, 58, 0.08);
+  border: 1px solid rgba(26, 95, 58, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 6px 20px rgba(26, 95, 58, 0.15);
+    transform: translateY(-2px);
+    border-color: var(--senegel-green);
+  }
+}
+
+.coya-kpi-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(26, 95, 58, 0.12), rgba(232, 185, 35, 0.1));
+  border-radius: 10px;
+  font-size: 1.1rem;
+  color: var(--senegel-green);
+}
+
+.coya-kpi-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--senegel-green);
+  line-height: 1.2;
+}
+
+.coya-kpi-label {
+  font-size: 0.9rem;
+  color: rgba(26, 95, 58, 0.7);
+  font-weight: 500;
 }
 
 // Grille des applications
@@ -461,4 +710,163 @@ body:has(.coya-sidebar:hover) .o_web_client {
 
 .coya-widget-hint {
   font-style: italic;
+}
+
+// Aperçus par domaine (dernières activités)
+.coya-domain-preview {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(26, 95, 58, 0.06);
+  border: 1px solid rgba(26, 95, 58, 0.1);
+}
+
+.coya-preview-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--senegel-green);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.coya-preview-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.coya-preview-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: rgba(26, 95, 58, 0.02);
+  border-left: 3px solid var(--senegel-green);
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(26, 95, 58, 0.05);
+  }
+}
+
+.coya-preview-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.coya-preview-main {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.coya-preview-name {
+  font-weight: 600;
+  color: var(--senegel-green);
+  font-size: 0.95rem;
+}
+
+.coya-preview-meta {
+  color: rgba(26, 95, 58, 0.7);
+  font-size: 0.9rem;
+}
+
+.coya-preview-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  background: rgba(26, 95, 58, 0.1);
+  color: var(--senegel-green);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.coya-preview-amount {
+  font-weight: 700;
+  color: var(--senegel-green);
+  font-size: 1rem;
+}
+
+.coya-preview-date {
+  font-size: 0.85rem;
+  color: rgba(26, 95, 58, 0.6);
+  display: flex;
+  align-items: center;
+}
+
+// Graphiques par domaine (barres simples)
+.coya-domain-chart {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(26, 95, 58, 0.06);
+  border: 1px solid rgba(26, 95, 58, 0.1);
+}
+
+.coya-chart-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--senegel-green);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.coya-chart-container {
+  padding: 1rem 0;
+}
+
+.coya-chart-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: 0.5rem;
+  height: 120px;
+  padding: 0 0.5rem;
+}
+
+.coya-chart-bar-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  height: 100%;
+}
+
+.coya-chart-bar {
+  width: 100%;
+  min-height: 20px;
+  background: linear-gradient(180deg, var(--senegel-green), rgba(26, 95, 58, 0.7));
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 4px;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.coya-chart-value {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.coya-chart-label {
+  font-size: 0.75rem;
+  color: rgba(26, 95, 58, 0.7);
+  text-align: center;
+  white-space: nowrap;
 }
