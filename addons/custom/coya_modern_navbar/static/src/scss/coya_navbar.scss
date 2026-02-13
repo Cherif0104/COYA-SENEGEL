@@ -312,13 +312,22 @@ body:has(.coya-sidebar:hover) .coya-main-content,
 }
 
 // Masquer la navbar Odoo par défaut
-.o_main_navbar {
+.o_main_navbar,
+header.o_navbar {
   display: none !important;
 }
 
 // Ajuster le contenu principal Odoo pour la sidebar
-.o_action_manager {
-  margin-left: 0 !important;
+.o_action_manager,
+.o_web_client {
+  margin-left: var(--coya-sidebar-width-collapsed) !important;
+  transition: margin-left var(--coya-transition-speed) ease;
+}
+
+// Ajuster quand la sidebar est expanded
+body:has(.coya-sidebar:hover) .o_action_manager,
+body:has(.coya-sidebar:hover) .o_web_client {
+  margin-left: var(--coya-sidebar-width-expanded) !important;
 }
 
 // ===== DASHBOARD D'ACCUEIL =====

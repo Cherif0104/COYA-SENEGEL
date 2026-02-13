@@ -22,11 +22,7 @@
     </template>
 
     <!-- Page de login : classe pour appliquer la charte COYA (layout + fond) -->
-    <template id="sunugest_login_page_class" inherit_id="web.login" priority="50">
-        <xpath expr="//main" position="attributes">
-            <attribute name="class" add="coya-login-page" separator=" "/>
-        </xpath>
-    </template>
+    <!-- Note: En Odoo 18, web.login n'a pas d'élément <main>, on applique les styles via CSS directement -->
 
     <!-- Formulaire de login : libellés et bouton en français -->
     <template id="sunugest_login_form_fr" inherit_id="web.login" priority="99">
