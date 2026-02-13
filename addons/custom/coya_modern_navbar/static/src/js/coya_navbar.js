@@ -90,6 +90,7 @@ patch(NavBar.prototype, {
                 </div>
                 <div class="coya-leader-right">
                     <div class="coya-leader-presence">
+                        <span class="coya-presence-timer" id="coya-presence-timer" title="Heure en direct">00:00:00</span>
                         <span class="coya-presence-label">Statut :</span>
                         <div class="coya-presence-dropdown">
                             <button type="button" class="coya-presence-btn" id="coya-presence-btn" data-status="${savedPresence}" title="Cliquez pour pointer / changer le statut">
@@ -146,7 +147,7 @@ patch(NavBar.prototype, {
         const menuService = this.env.services.menu;
         const actionService = this.env.services.action;
 
-        // Date/heure
+        // Date/heure (rafraîchie chaque minute)
         const updateDateTime = () => {
             const el = document.getElementById("coya-leader-datetime");
             if (el) {
@@ -156,6 +157,17 @@ patch(NavBar.prototype, {
         };
         updateDateTime();
         setInterval(updateDateTime, 60000);
+
+        // Minuteur / horloge live (HH:MM:SS) — mise à jour chaque seconde
+        const updateLiveTimer = () => {
+            const el = document.getElementById("coya-presence-timer");
+            if (el) {
+                const now = new Date();
+                el.textContent = now.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
+            }
+        };
+        updateLiveTimer();
+        setInterval(updateLiveTimer, 1000);
 
         // Rôle / Département (RPC optionnel)
         this.loadUserRoleDepartment();
@@ -357,6 +369,8 @@ export class CoyaHomeDashboard extends Component {
             actionsDue: [],
             suggestions: [],
             userIndicators: [],
+            leaves: [],
+            meetings: [],
             activity: [],
             loading: true,
         });
@@ -375,6 +389,8 @@ export class CoyaHomeDashboard extends Component {
                 this.loadActionsDue(),
                 this.loadSuggestions(),
                 this.loadUserIndicators(),
+                this.loadLeaves(),
+                this.loadMeetings(),
                 this.loadGlobalActivity(),
             ]);
         } catch (error) {
@@ -463,6 +479,27 @@ export class CoyaHomeDashboard extends Component {
         }
     }
 
+    /** Congés à valider (pour manager) */
+    async loadLeaves() {
+        try {
+            const records = await this.orm.searchRead("hr.leave", [["state", "=", "confirm"]], ["name", "employee_id", "date_from", "date_to"], { limit: 5 }).catch(() => []);
+            this.state.leaves = records.map((r) => ({ id: r.id, name: r.name, employee: r.employee_id?.[1], from: r.date_from, to: r.date_to, action: "hr_holidays.hr_leave_action_action_to_approve" }));
+        } catch (_) {
+            this.state.leaves = [];
+        }
+    }
+
+    /** Réunions du jour */
+    async loadMeetings() {
+        try {
+            const today = new Date().toISOString().split("T")[0];
+            const records = await this.orm.searchRead("calendar.event", [["start", ">=", today + " 00:00:00"], ["start", "<=", today + " 23:59:59"]], ["name", "start", "partner_ids"], { limit: 5 }).catch(() => []);
+            this.state.meetings = records.map((r) => ({ id: r.id, name: r.name, start: r.start, action: "calendar.action_calendar_event" }));
+        } catch (_) {
+            this.state.meetings = [];
+        }
+    }
+
     /** Activité récente globale */
     async loadGlobalActivity() {
         const activity = [];
@@ -491,6 +528,9 @@ export class CoyaHomeDashboard extends Component {
             { model: "crm.lead", label: "Opportunités", icon: "fa fa-bullhorn", actionXmlId: "crm.crm_lead_action_opportunities" },
             { model: "sale.order", label: "Commandes", icon: "fa fa-shopping-cart", actionXmlId: "sale.action_orders" },
             { model: "project.project", label: "Projets", icon: "fa fa-project-diagram", actionXmlId: "project.open_view_project_all" },
+            { model: "project.task", label: "Tâches", icon: "fa fa-tasks", actionXmlId: "project.action_view_task" },
+            { model: "hr.employee", label: "Employés", icon: "fa fa-id-badge", actionXmlId: "hr.open_view_employee_list_my" },
+            { model: "account.move", label: "Factures", icon: "fa fa-file-text-o", actionXmlId: "account.action_out_invoice_tree" },
         ];
         for (const { model, label, icon, actionXmlId } of candidates) {
             try {
@@ -565,6 +605,14 @@ export class CoyaHomeDashboard extends Component {
 
     openUserIndicator(ind) {
         if (ind.action) this.actionService.doAction(ind.action);
+    }
+
+    openLeave(l) {
+        if (l.action) this.actionService.doAction(l.action);
+    }
+
+    openMeeting(m) {
+        if (m.action) this.actionService.doAction({ type: "ir.actions.act_window", res_model: "calendar.event", res_id: m.id, views: [[false, "form"]], target: "current" });
     }
 }
 
