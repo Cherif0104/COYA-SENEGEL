@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <data>
     <!-- Plans de paie -->
     <record id="view_coya_trinite_plan_tree" model="ir.ui.view">
         <field name="name">coya.trinite.plan.tree</field>
@@ -151,4 +152,5 @@
               parent="menu_coya_trinite_root"
               action="action_coya_trinite_alerte"
               sequence="30"/>
+    </data>
 </odoo>
