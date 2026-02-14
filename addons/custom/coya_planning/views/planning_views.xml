@@ -5,7 +5,7 @@
         <field name="name">coya.planning.slot.tree</field>
         <field name="model">coya.planning.slot</field>
         <field name="arch" type="xml">
-            <tree string="Créneaux" editable="bottom">
+            <list string="Créneaux" editable="bottom">
                 <field name="name"/>
                 <field name="employee_id"/>
                 <field name="slot_type"/>
@@ -13,7 +13,7 @@
                 <field name="date_stop"/>
                 <field name="location"/>
                 <field name="state"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -64,7 +64,7 @@
     <record id="action_coya_planning_slot" model="ir.actions.act_window">
         <field name="name">Planification</field>
         <field name="res_model">coya.planning.slot</field>
-        <field name="view_mode">calendar,tree,form</field>
+        <field name="view_mode">calendar,list,form</field>
         <field name="context">{'search_default_confirmed': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

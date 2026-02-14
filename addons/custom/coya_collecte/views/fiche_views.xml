@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <!-- Champ de fiche (vue dédiée pour éviter validation Odoo 18 sur parent) -->
+    <record id="view_coya_fiche_champ_list" model="ir.ui.view">
+        <field name="name">coya.fiche.champ.list</field>
+        <field name="model">coya.fiche.champ</field>
+        <field name="arch" type="xml">
+            <list string="Champs" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="champ_type"/>
+                <field name="technical_name"/>
+                <field name="required"/>
+            </list>
+        </field>
+    </record>
+
     <!-- Type de fiche -->
     <record id="view_coya_fiche_type_form" model="ir.ui.view">
         <field name="name">coya.fiche.type.form</field>
@@ -23,22 +38,14 @@
                     </group>
                     <notebook>
                         <page string="Champs" name="champs">
-                            <field name="champ_ids">
-                                <tree editable="bottom">
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="name"/>
-                                    <field name="champ_type"/>
-                                    <field name="technical_name"/>
-                                    <field name="required"/>
-                                </tree>
-                            </field>
+                            <field name="champ_ids"/>
                         </page>
                         <page string="Réponses" name="reponses">
                             <field name="reponse_ids" readonly="1">
-                                <tree>
+                                <list>
                                     <field name="date_received"/>
                                     <field name="state"/>
-                                </tree>
+                                </list>
                             </field>
                         </page>
                     </notebook>
@@ -50,10 +57,10 @@
         <field name="name">coya.fiche.type.tree</field>
         <field name="model">coya.fiche.type</field>
         <field name="arch" type="xml">
-            <tree string="Types de fiches">
+            <list string="Types de fiches">
                 <field name="name"/>
                 <field name="reponse_count"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -72,10 +79,10 @@
                         </group>
                     </group>
                     <field name="ligne_ids">
-                        <tree readonly="1">
+                        <list readonly="1">
                             <field name="champ_id"/>
                             <field name="value_text"/>
-                        </tree>
+                        </list>
                     </field>
                 </sheet>
             </form>
@@ -85,11 +92,11 @@
         <field name="name">coya.fiche.reponse.tree</field>
         <field name="model">coya.fiche.reponse</field>
         <field name="arch" type="xml">
-            <tree string="Réponses">
+            <list string="Réponses">
                 <field name="fiche_type_id"/>
                 <field name="date_received"/>
                 <field name="state"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -97,12 +104,12 @@
     <record id="action_coya_fiche_type" model="ir.actions.act_window">
         <field name="name">Types de fiches</field>
         <field name="res_model">coya.fiche.type</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
     <record id="action_coya_fiche_reponse" model="ir.actions.act_window">
         <field name="name">Réponses</field>
         <field name="res_model">coya.fiche.reponse</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <!-- Menus -->
