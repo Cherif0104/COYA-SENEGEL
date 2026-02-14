@@ -47,17 +47,39 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Panneau droit : bienvenue, Trinité -->
+                    <!-- Panneau droit : bloc institutionnel stratégique -->
                     <div class="coya-login-right">
-                        <div class="coya-welcome-block">
-                            <h2 class="coya-welcome-title">Bienvenue sur COYA.PRO</h2>
-                            <p class="coya-welcome-subtitle">Create Opportunity Youth of Africa</p>
-                            <p class="coya-welcome-desc">Plateforme au service de la jeunesse africaine. Connectez-vous pour accéder à votre espace de travail SENEGEL.</p>
+                        <div class="coya-login-hero">
+                            <h2 class="coya-login-hero-title">Plateforme stratégique de gestion et d'accompagnement de la jeunesse africaine</h2>
+                            <p class="coya-login-hero-subtitle">Pilotage, transparence et performance au service de l'impact social.</p>
                         </div>
-                        <div class="coya-values-block">
-                            <p class="coya-tagline">NOTRE TRINITÉ</p>
-                            <p class="coya-trinite-desc"><strong>Ndiguel</strong> Productivité · <strong>Barké</strong> Profitabilité · <strong>Yar</strong> Professionnalisme</p>
+                        <div class="coya-login-metrics">
+                            <div class="coya-metric"><span class="coya-metric-value">+500</span><span class="coya-metric-label">Bénéficiaires</span></div>
+                            <div class="coya-metric"><span class="coya-metric-value">45</span><span class="coya-metric-label">Projets</span></div>
+                            <div class="coya-metric"><span class="coya-metric-value">12</span><span class="coya-metric-label">Partenaires</span></div>
+                            <div class="coya-metric"><span class="coya-metric-value">92%</span><span class="coya-metric-label">Taux de réussite</span></div>
                         </div>
+                        <div class="coya-login-pillars">
+                            <div class="coya-pillar-card">
+                                <span class="coya-pillar-icon"><i class="fa fa-users" aria-hidden="true"/></span>
+                                <h3 class="coya-pillar-title">Ndiguel — Leadership &amp; Engagement</h3>
+                                <p class="coya-pillar-desc">Développement du sens civique et responsabilité sociale.</p>
+                            </div>
+                            <div class="coya-pillar-card">
+                                <span class="coya-pillar-icon"><i class="fa fa-line-chart" aria-hidden="true"/></span>
+                                <h3 class="coya-pillar-title">Barké — Performance &amp; Productivité</h3>
+                                <p class="coya-pillar-desc">Optimisation des ressources et pilotage des projets.</p>
+                            </div>
+                            <div class="coya-pillar-card">
+                                <span class="coya-pillar-icon"><i class="fa fa-graduation-cap" aria-hidden="true"/></span>
+                                <h3 class="coya-pillar-title">Yar — Professionnalisation</h3>
+                                <p class="coya-pillar-desc">Insertion, formation, employabilité.</p>
+                            </div>
+                        </div>
+                        <div class="coya-login-trust">
+                            <p class="coya-trust-tagline">Données sécurisées · Traçabilité · Transparence financière · Reporting en temps réel</p>
+                        </div>
+                        <p class="coya-login-vision">Une plateforme conçue pour les réalités africaines, alignée aux standards internationaux de gouvernance.</p>
                         <div class="coya-login-credit">
                             <a href="https://www.senegel.org" target="_blank" rel="noopener">senegel.org</a>
                             · <a href="mailto:techsupport@senegel.org">techsupport@senegel.org</a>

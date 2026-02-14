@@ -149,78 +149,97 @@ main.coya-login-page,
   gap: 1.75rem;
 }
 
-.coya-welcome-block {
+// ----- Bloc institutionnel panneau droit login -----
+.coya-login-hero {
   text-align: center;
-  max-width: 320px;
+  max-width: 360px;
 }
-
-.coya-welcome-title {
-  font-size: 2rem;
+.coya-login-hero-title {
+  font-size: 1.5rem;
   font-weight: 800;
-  margin: 0 0 0.25rem 0;
-  color: #fff;
+  line-height: 1.3;
+  margin: 0 0 0.5rem 0;
+  color: #fff !important;
   letter-spacing: 0.02em;
-  line-height: 1.2;
 }
-
-.coya-welcome-title::after {
-  content: "";
-  display: block;
-  width: 56px;
-  height: 4px;
-  background: var(--senegel-yellow);
-  margin: 0.6rem auto 0;
-  border-radius: 2px;
-}
-
-.coya-welcome-subtitle {
+.coya-login-hero-subtitle {
   font-size: 0.95rem;
-  color: var(--senegel-yellow);
+  color: var(--senegel-yellow) !important;
   font-weight: 600;
-  margin: 0 0 1rem 0;
-  letter-spacing: 0.03em;
-  opacity: 1;
-}
-
-.coya-welcome-desc {
-  font-size: 0.98rem;
-  opacity: 0.95;
   margin: 0;
-  line-height: 1.5;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.95);
 }
-
-.coya-values-block {
+.coya-login-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+.coya-metric {
+  text-align: center;
+  min-width: 70px;
+}
+.coya-metric-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff !important;
+}
+.coya-metric-label {
+  font-size: 0.7rem;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff !important;
+}
+.coya-login-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  max-width: 360px;
+}
+.coya-pillar-card {
   background: rgba(255, 255, 255, 0.08);
-  border-radius: 1rem;
-  padding: 1.25rem 1.5rem;
-  max-width: 320px;
+  border-radius: 0.75rem;
+  padding: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(8px);
 }
-
-.coya-tagline {
+.coya-pillar-icon {
+  display: block;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--senegel-yellow) !important;
+}
+.coya-pillar-title {
   font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  margin: 0 0 0.75rem 0;
-  opacity: 1;
-  color: #fff;
+  margin: 0 0 0.25rem 0;
+  color: #fff !important;
 }
-
-.coya-trinite-desc {
-  font-size: 0.8rem;
-  line-height: 1.45;
-  max-width: 100%;
-  text-align: center;
+.coya-pillar-desc {
+  font-size: 0.7rem;
+  line-height: 1.4;
   margin: 0;
   opacity: 0.95;
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 0.95) !important;
 }
-.coya-trinite-desc strong {
-  color: var(--senegel-yellow);
-  font-weight: 700;
+.coya-login-trust {
+  font-size: 0.75rem;
+  opacity: 0.9;
+  text-align: center;
+}
+.coya-trust-tagline {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+.coya-login-vision {
+  font-size: 0.85rem;
+  font-style: italic;
+  text-align: center;
+  max-width: 340px;
+  margin: 0;
+  opacity: 0.95;
+  color: rgba(255, 255, 255, 0.95) !important;
 }
 
 .coya-btn-outline {
@@ -266,15 +285,8 @@ main.coya-login-page,
 .coya-login-right a:hover {
   color: var(--senegel-yellow) !important;
 }
-.coya-login-right,
-.coya-welcome-title,
-.coya-welcome-desc,
-.coya-tagline,
-.coya-trinite-desc {
+.coya-login-right {
   color: #fff !important;
-}
-.coya-welcome-subtitle {
-  color: var(--senegel-yellow) !important;
 }
 
 @media (max-width: 768px) {
@@ -287,17 +299,12 @@ main.coya-login-page,
     gap: 1.25rem;
   }
 
-  .coya-welcome-title {
-    font-size: 1.75rem;
+  .coya-login-hero-title {
+    font-size: 1.25rem;
   }
 
-  .coya-welcome-block {
-    max-width: 100%;
-  }
-
-  .coya-values-block {
-    max-width: 100%;
-    padding: 1rem 1.25rem;
+  .coya-login-pillars {
+    grid-template-columns: 1fr;
   }
 }
 
