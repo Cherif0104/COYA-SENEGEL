@@ -21,8 +21,52 @@
         </xpath>
     </template>
 
-    <!-- Page de login : classe pour appliquer la charte COYA (layout + fond) -->
-    <!-- Note: En Odoo 18, web.login n'a pas d'élément <main>, on applique les styles via CSS directement -->
+    <!-- Page de login : layout deux panneaux COYA (gauche = formulaire, droite = bienvenue + Trinité) -->
+    <template id="sunugest_login_layout_coya" inherit_id="web.login_layout" priority="50">
+        <xpath expr="//div[contains(@class, 'container') and contains(@class, 'py-5')]" position="replace">
+            <main class="coya-login-page">
+                <div class="coya-login-split">
+                    <!-- Panneau gauche : logo, formulaire -->
+                    <div class="coya-login-left">
+                        <div class="coya-login-brand">
+                            <div class="coya-login-logo-circle">
+                                <img src="/sunugest_branding/static/img/logo_senegel.png" alt="COYA.PRO"/>
+                            </div>
+                            <p class="coya-login-slogan">CITOYENNETÉ, TRANSPARENCE, COMPÉTENCES</p>
+                            <h2 class="coya-login-title">COYA.PRO</h2>
+                        </div>
+                        <div class="coya-login-card card border-0">
+                            <div class="card-body">
+                                <t t-out="0"/>
+                                <div class="text-center small mt-4 pt-3 border-top" t-if="not disable_footer">
+                                    <t t-if="not disable_database_manager">
+                                        <a class="border-end pe-2 me-1" href="/web/database/manager">Gérer les bases</a>
+                                    </t>
+                                    <a href="https://www.senegel.org" target="_blank" rel="noopener">SENEGEL · COYA.PRO</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Panneau droit : bienvenue, Trinité -->
+                    <div class="coya-login-right">
+                        <div class="coya-welcome-block">
+                            <h2 class="coya-welcome-title">Bienvenue sur COYA.PRO</h2>
+                            <p class="coya-welcome-subtitle">Create Opportunity Youth of Africa</p>
+                            <p class="coya-welcome-desc">Plateforme au service de la jeunesse africaine. Connectez-vous pour accéder à votre espace de travail SENEGEL.</p>
+                        </div>
+                        <div class="coya-values-block">
+                            <p class="coya-tagline">NOTRE TRINITÉ</p>
+                            <p class="coya-trinite-desc"><strong>Ndiguel</strong> Productivité · <strong>Barké</strong> Profitabilité · <strong>Yar</strong> Professionnalisme</p>
+                        </div>
+                        <div class="coya-login-credit">
+                            <a href="https://www.senegel.org" target="_blank" rel="noopener">senegel.org</a>
+                            · <a href="mailto:techsupport@senegel.org">techsupport@senegel.org</a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </xpath>
+    </template>
 
     <!-- Formulaire de login : libellés et bouton en français -->
     <template id="sunugest_login_form_fr" inherit_id="web.login" priority="99">

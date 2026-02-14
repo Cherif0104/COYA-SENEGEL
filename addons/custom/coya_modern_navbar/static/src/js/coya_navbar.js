@@ -302,7 +302,7 @@ patch(NavBar.prototype, {
         if (n.includes("accueil") || n.includes("home") || n.includes("discussion") || n.includes("discuss") || n.includes("calendrier") || n.includes("calendar") || n.includes("to-do") || n.includes("todo") || n.includes("tâches")) return "Core";
         if (n.includes("crm") || n.includes("ventes") || n.includes("sale") || n.includes("facturation") || n.includes("invoic") || n.includes("projet") || n.includes("project") || n.includes("feuille") || n.includes("timesheet")) return "Business";
         if (n.includes("achat") || n.includes("purchase") || n.includes("inventaire") || n.includes("stock") || n.includes("dépense") || n.includes("expense")) return "Opérations";
-        if (n.includes("employé") || n.includes("employee") || n.includes("présence") || n.includes("attendance") || n.includes("recrutement") || n.includes("recruit") || n.includes("congé") || n.includes("leave") || n.includes("déjeuner") || n.includes("lunch") || n.includes("hr ") || n === "hr") return "RH";
+        if (n.includes("employé") || n.includes("employee") || n.includes("présence") || n.includes("attendance") || n.includes("recrutement") || n.includes("recruit") || n.includes("congé") || n.includes("leave") || n.includes("déjeuner") || n.includes("lunch") || n.includes("hr ") || n === "hr" || n.includes("planification") || n.includes("trinité") || n.includes("suivi du temps") || n.includes("collecte") || n.includes("bootcamp")) return "RH";
         if (n.includes("événement") || n.includes("event") || n.includes("sondage") || n.includes("survey")) return "Marketing";
         if (n.includes("app") || n.includes("paramètre") || n.includes("setting") || n.includes("administration")) return "Système";
         return "Business";

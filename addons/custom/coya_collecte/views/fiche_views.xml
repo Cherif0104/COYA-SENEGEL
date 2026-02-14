@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Type de fiche -->
+    <record id="view_coya_fiche_type_form" model="ir.ui.view">
+        <field name="name">coya.fiche.type.form</field>
+        <field name="model">coya.fiche.type</field>
+        <field name="arch" type="xml">
+            <form string="Type de fiche">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="reponse_count" readonly="1"/>
+                            <field name="public_url" readonly="1" string="Lien partageable"/>
+                        </group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Champs" name="champs">
+                            <field name="champ_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="champ_type"/>
+                                    <field name="technical_name"/>
+                                    <field name="required"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Réponses" name="reponses">
+                            <field name="reponse_ids" readonly="1">
+                                <tree>
+                                    <field name="date_received"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_coya_fiche_type_tree" model="ir.ui.view">
+        <field name="name">coya.fiche.type.tree</field>
+        <field name="model">coya.fiche.type</field>
+        <field name="arch" type="xml">
+            <tree string="Types de fiches">
+                <field name="name"/>
+                <field name="reponse_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Réponse -->
+    <record id="view_coya_fiche_reponse_form" model="ir.ui.view">
+        <field name="name">coya.fiche.reponse.form</field>
+        <field name="model">coya.fiche.reponse</field>
+        <field name="arch" type="xml">
+            <form string="Réponse">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="fiche_type_id"/>
+                            <field name="date_received"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    <field name="ligne_ids">
+                        <tree readonly="1">
+                            <field name="champ_id"/>
+                            <field name="value_text"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_coya_fiche_reponse_tree" model="ir.ui.view">
+        <field name="name">coya.fiche.reponse.tree</field>
+        <field name="model">coya.fiche.reponse</field>
+        <field name="arch" type="xml">
+            <tree string="Réponses">
+                <field name="fiche_type_id"/>
+                <field name="date_received"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_coya_fiche_type" model="ir.actions.act_window">
+        <field name="name">Types de fiches</field>
+        <field name="res_model">coya.fiche.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_coya_fiche_reponse" model="ir.actions.act_window">
+        <field name="name">Réponses</field>
+        <field name="res_model">coya.fiche.reponse</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem id="menu_coya_collecte_root"
+              name="Collecte"
+              sequence="70"/>
+
+    <menuitem id="menu_coya_fiche_type"
+              name="Types de fiches"
+              parent="menu_coya_collecte_root"
+              action="action_coya_fiche_type"
+              sequence="10"/>
+
+    <menuitem id="menu_coya_fiche_reponse"
+              name="Réponses"
+              parent="menu_coya_collecte_root"
+              action="action_coya_fiche_reponse"
+              sequence="20"/>
+</odoo>
