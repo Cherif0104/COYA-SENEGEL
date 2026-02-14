@@ -152,4 +152,5 @@
               parent="menu_coya_trinite_root"
               action="action_coya_trinite_alerte"
               sequence="30"/>
+    </data>
 </odoo>
