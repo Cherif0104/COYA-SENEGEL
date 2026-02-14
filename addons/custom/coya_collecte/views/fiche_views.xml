@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <data>
     <!-- Champ de fiche (vue dédiée pour éviter validation Odoo 18 sur parent) -->
     <record id="view_coya_fiche_champ_list" model="ir.ui.view">
         <field name="name">coya.fiche.champ.list</field>
@@ -128,4 +129,5 @@
               parent="menu_coya_collecte_root"
               action="action_coya_fiche_reponse"
               sequence="20"/>
+    </data>
 </odoo>

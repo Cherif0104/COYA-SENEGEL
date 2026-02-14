@@ -340,26 +340,61 @@ header.o_navbar {
 }
 
 // Ajuster le contenu principal Odoo pour la sidebar — éviter que la partie droite soit coupée
-// padding-right pour que les trois points des modules restent accessibles
-$coya-content-padding-right: 2rem;
+// Responsive : évite perte de contenu et interface tirée trop à droite
+$coya-content-padding-right: 1.5rem;
 
 .o_action_manager,
 .o_web_client {
   margin-left: var(--coya-sidebar-width-collapsed) !important;
-  width: calc(100vw - var(--coya-sidebar-width-collapsed) - #{$coya-content-padding-right}) !important;
+  width: 100% !important;
   max-width: calc(100vw - var(--coya-sidebar-width-collapsed) - #{$coya-content-padding-right}) !important;
   padding-right: $coya-content-padding-right !important;
+  padding-left: 0.5rem !important;
   box-sizing: border-box !important;
-  overflow-x: auto;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
   transition: margin-left var(--coya-transition-speed) ease;
+}
+
+// Contenu interne : s'adapte à la largeur disponible
+.o_action_manager .o_content,
+.o_action_manager .o_control_panel,
+.o_action_manager .o_list_view,
+.o_action_manager .o_form_view,
+.o_action_manager .o_kanban_view {
+  max-width: 100% !important;
+  overflow-x: auto !important; // scroll interne si tableau large
 }
 
 // Ajuster quand la sidebar est expanded
 body:has(.coya-sidebar:hover) .o_action_manager,
 body:has(.coya-sidebar:hover) .o_web_client {
   margin-left: var(--coya-sidebar-width-expanded) !important;
-  width: calc(100vw - var(--coya-sidebar-width-expanded) - #{$coya-content-padding-right}) !important;
   max-width: calc(100vw - var(--coya-sidebar-width-expanded) - #{$coya-content-padding-right}) !important;
+}
+
+// Responsive : écrans étroits
+@media (max-width: 1200px) {
+  .o_action_manager,
+  .o_web_client {
+    $pad: 1rem;
+    padding-right: $pad !important;
+    max-width: calc(100vw - var(--coya-sidebar-width-collapsed) - #{$pad}) !important;
+  }
+  body:has(.coya-sidebar:hover) .o_action_manager,
+  body:has(.coya-sidebar:hover) .o_web_client {
+    max-width: calc(100vw - var(--coya-sidebar-width-expanded) - 1rem) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .o_action_manager,
+  .o_web_client {
+    margin-left: 0 !important;
+    max-width: 100vw !important;
+    padding-right: 0.75rem !important;
+    padding-left: 0.25rem !important;
+  }
 }
 
 // ===== HEADER / LEADER (topbar moderne: recherche, user, présence, notifications, profil) =====

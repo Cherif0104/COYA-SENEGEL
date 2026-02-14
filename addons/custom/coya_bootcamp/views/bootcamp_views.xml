@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <data>
     <!-- Extension vue Réponse : champs bootcamp/cohorte -->
     <record id="view_coya_fiche_reponse_form_bootcamp" model="ir.ui.view">
         <field name="name">coya.fiche.reponse.form.bootcamp</field>
@@ -133,4 +134,5 @@
               parent="menu_coya_bootcamp_root"
               action="action_coya_bootcamp_cohorte"
               sequence="20"/>
+    </data>
 </odoo>
