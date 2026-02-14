@@ -340,11 +340,16 @@ header.o_navbar {
 }
 
 // Ajuster le contenu principal Odoo pour la sidebar — éviter que la partie droite soit coupée
+// padding-right pour que les trois points des modules restent accessibles
+$coya-content-padding-right: 2rem;
+
 .o_action_manager,
 .o_web_client {
   margin-left: var(--coya-sidebar-width-collapsed) !important;
-  width: calc(100vw - var(--coya-sidebar-width-collapsed)) !important;
-  max-width: calc(100vw - var(--coya-sidebar-width-collapsed));
+  width: calc(100vw - var(--coya-sidebar-width-collapsed) - #{$coya-content-padding-right}) !important;
+  max-width: calc(100vw - var(--coya-sidebar-width-collapsed) - #{$coya-content-padding-right}) !important;
+  padding-right: $coya-content-padding-right !important;
+  box-sizing: border-box !important;
   overflow-x: auto;
   transition: margin-left var(--coya-transition-speed) ease;
 }
@@ -353,8 +358,8 @@ header.o_navbar {
 body:has(.coya-sidebar:hover) .o_action_manager,
 body:has(.coya-sidebar:hover) .o_web_client {
   margin-left: var(--coya-sidebar-width-expanded) !important;
-  width: calc(100vw - var(--coya-sidebar-width-expanded)) !important;
-  max-width: calc(100vw - var(--coya-sidebar-width-expanded));
+  width: calc(100vw - var(--coya-sidebar-width-expanded) - #{$coya-content-padding-right}) !important;
+  max-width: calc(100vw - var(--coya-sidebar-width-expanded) - #{$coya-content-padding-right}) !important;
 }
 
 // ===== HEADER / LEADER (topbar moderne: recherche, user, présence, notifications, profil) =====
