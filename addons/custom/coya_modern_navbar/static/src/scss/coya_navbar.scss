@@ -125,7 +125,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.5);
+  color: #fff !important;
   padding: 0.5rem 1rem;
   opacity: 0;
   transform: translateX(-10px);
@@ -148,7 +148,7 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1rem;
-  color: rgba(255, 255, 255, 0.85);
+  color: #fff !important;
   text-decoration: none;
   border-radius: 8px;
   margin: 0 0.5rem;
@@ -164,12 +164,12 @@
 
   &:hover {
     background: var(--coya-sidebar-hover-bg);
-    color: #fff;
+    color: #fff !important;
   }
 
   &.active {
     background: var(--coya-sidebar-active-bg);
-    color: #fff;
+    color: #fff !important;
 
     &::before {
       content: "";
@@ -191,6 +191,7 @@
   transform: translateX(-10px);
   transition: opacity var(--coya-transition-speed) ease, transform var(--coya-transition-speed) ease;
   font-weight: 500;
+  color: #fff !important;
 }
 
 // ===== ZONE PRINCIPALE (DASHBOARD) À DROITE =====

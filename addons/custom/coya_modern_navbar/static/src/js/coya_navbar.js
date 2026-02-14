@@ -90,7 +90,7 @@ patch(NavBar.prototype, {
                 </div>
                 <div class="coya-leader-right">
                     <div class="coya-leader-presence">
-                        <span class="coya-presence-timer" id="coya-presence-timer" title="Heure en direct">00:00:00</span>
+                        <span class="coya-presence-timer" id="coya-presence-timer" title="Temps travaillé aujourd'hui">0h 00m</span>
                         <span class="coya-presence-label">Statut :</span>
                         <div class="coya-presence-dropdown">
                             <button type="button" class="coya-presence-btn" id="coya-presence-btn" data-status="${savedPresence}" title="Cliquez pour pointer / changer le statut">
@@ -158,16 +158,40 @@ patch(NavBar.prototype, {
         updateDateTime();
         setInterval(updateDateTime, 60000);
 
-        // Minuteur / horloge live (HH:MM:SS) — mise à jour chaque seconde
-        const updateLiveTimer = () => {
+        // Time tracking — temps travaillé aujourd'hui (depuis la connexion)
+        const COYA_DAY_KEY = "coya_work_date";
+        const COYA_SECONDS_KEY = "coya_work_seconds";
+        const today = new Date().toISOString().slice(0, 10);
+        let storedAtLoad = parseInt(browser.localStorage.getItem(COYA_SECONDS_KEY) || "0", 10);
+        if (browser.localStorage.getItem(COYA_DAY_KEY) !== today) {
+            storedAtLoad = 0;
+            browser.localStorage.setItem(COYA_DAY_KEY, today);
+        }
+        const sessionStart = Date.now();
+        const formatWorkTime = (totalSeconds) => {
+            const h = Math.floor(totalSeconds / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            return `${h}h ${String(m).padStart(2, "0")}m`;
+        };
+        const updateWorkTimer = () => {
             const el = document.getElementById("coya-presence-timer");
             if (el) {
-                const now = new Date();
-                el.textContent = now.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
+                const elapsedThisSession = (Date.now() - sessionStart) / 1000;
+                const totalToday = storedAtLoad + elapsedThisSession;
+                el.textContent = formatWorkTime(totalToday);
             }
         };
-        updateLiveTimer();
-        setInterval(updateLiveTimer, 1000);
+        updateWorkTimer();
+        const workTimerInterval = setInterval(updateWorkTimer, 1000);
+        const saveWorkTime = () => {
+            const elapsed = (Date.now() - sessionStart) / 1000;
+            const total = storedAtLoad + elapsed;
+            browser.localStorage.setItem(COYA_SECONDS_KEY, String(Math.round(total)));
+        };
+        window.addEventListener("beforeunload", saveWorkTime);
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "hidden") saveWorkTime();
+        });
 
         // Rôle / Département (RPC optionnel)
         this.loadUserRoleDepartment();

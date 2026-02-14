@@ -24,7 +24,7 @@ Le **menu de navigation et l'écran d'accueil** sont gérés par **coya_modern_n
 ## Exemples de futurs modules
 
 - **Style du menu des applications** : personnalisation du sélecteur d’apps (barre, icônes, couleurs) → un module dédié, ex. `coya_menu_apps_style`.
-- **Localisation Sénégal** : XOF, TVA, formes juridiques → module `senegal_base` (ou équivalent) quand le besoin reviendra.
+- **Localisation Sénégal** : XOF, TVA, formes juridiques → à recréer en module dédié si le besoin revient.
 - **Dashboard / KPIs** : un module par type de dashboard si besoin plus tard.
 
 Pour chaque nouveau besoin : créer un nouveau répertoire sous `addons/custom/`, avec son `__manifest__.py`, et ne charger que les vues/assets nécessaires à ce besoin.

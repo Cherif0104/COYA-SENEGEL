@@ -1,10 +1,19 @@
 # Déploiement simple – COYA.PRO sur Contabo
 
-Odoo Community + nos modules custom, hébergé sur le VPS Contabo. Pas de déploiement automatique : tu mets à jour quand tu veux.
+Odoo Community + modules custom (**sunugest_branding**, **coya_modern_navbar**). Les anciens modules (senegal_base, coya_dashboard) ont été supprimés du projet.
 
 ---
 
-## Mettre à jour le VPS (après un git push depuis ta machine)
+## Workflow : tout reste à jour
+
+1. **Sur ta machine** : tu modifies le code → `git push origin main`
+2. **Sur le VPS** : tu lances le script → le code est récupéré, les modules mis à jour, Odoo redémarré
+
+Aucun import manuel de module dans Odoo : tout passe par le dépôt Git et le script de déploiement.
+
+---
+
+## Mettre à jour le VPS (après un git push)
 
 1. **Connecte-toi au VPS** (mot de passe ou clé, comme d’habitude) :
    ```bash

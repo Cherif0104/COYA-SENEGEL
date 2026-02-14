@@ -250,13 +250,31 @@ main.coya-login-page,
   padding-top: 0.5rem;
 }
 .coya-login-credit a {
-  color: rgba(255, 255, 255, 0.95);
+  color: #fff !important;
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 .coya-login-credit a:hover {
-  color: var(--senegel-yellow);
+  color: var(--senegel-yellow) !important;
+}
+
+// Panneau droit login : texte blanc sur fond vert (même logique que sidebar)
+.coya-login-right a {
+  color: #fff !important;
+}
+.coya-login-right a:hover {
+  color: var(--senegel-yellow) !important;
+}
+.coya-login-right,
+.coya-welcome-title,
+.coya-welcome-desc,
+.coya-tagline,
+.coya-trinite-desc {
+  color: #fff !important;
+}
+.coya-welcome-subtitle {
+  color: var(--senegel-yellow) !important;
 }
 
 @media (max-width: 768px) {
@@ -443,11 +461,11 @@ header.o_navbar .o_main_navbar,
 
 // ===== Backend (utilisateur connecté) : charte alignée au logo SENEGEL (vert + jaune) =====
 
-// Liens et CTA texte : vert SENEGEL
-a:not(.btn):not(.o_nav_entry):not(.dropdown-item) {
+// Liens et CTA texte : vert SENEGEL (exclure sidebar COYA : texte blanc sur fond vert)
+a:not(.btn):not(.o_nav_entry):not(.dropdown-item):not(.coya-nav-link) {
   color: var(--senegel-green) !important;
 }
-a:not(.btn):not(.o_nav_entry):not(.dropdown-item):hover {
+a:not(.btn):not(.o_nav_entry):not(.dropdown-item):not(.coya-nav-link):hover {
   color: var(--senegel-green-light) !important;
 }
 
