@@ -10,6 +10,18 @@ class CoyaProjet(models.Model):
     _order = "name"
 
     name = fields.Char("Nom du projet", required=True)
+    state = fields.Selection(
+        [
+            ("draft", "Brouillon"),
+            ("active", "Actif"),
+            ("closing", "En clôture"),
+            ("closed", "Clôturé"),
+            ("archived", "Archivé"),
+        ],
+        string="État",
+        default="draft",
+        required=True,
+    )
     programme_id = fields.Many2one(
         "coya.programme",
         string="Programme",

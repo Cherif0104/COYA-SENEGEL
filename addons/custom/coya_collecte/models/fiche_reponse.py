@@ -17,7 +17,13 @@ class CoyaFicheReponse(models.Model):
     )
     date_received = fields.Datetime("Date de réception", default=fields.Datetime.now, required=True)
     state = fields.Selection(
-        [("draft", "Brouillon"), ("received", "Reçue")],
+        [
+            ("draft", "Brouillon"),
+            ("en_cours", "En cours"),
+            ("received", "Reçue"),
+            ("validee", "Validée"),
+            ("refusee", "Refusée"),
+        ],
         string="État",
         default="received",
         required=True,

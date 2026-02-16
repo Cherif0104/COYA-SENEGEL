@@ -1,5 +1,6 @@
 // Charte graphique SENEGEL / COYA.PRO
 // Vert foncé #1a5f3a | Jaune/Or #e8b923 | Blanc #F4F8FB
+// VISION Trinité : Émeraude Ndiguel (discipline) | Ambre Yar (qualité/alertes) | Or Barké (impact)
 :root {
   --senegel-green: #1a5f3a;
   --senegel-green-light: #247a4a;
@@ -11,6 +12,10 @@
   // Neutraliser les couleurs Odoo par défaut (mauve #71639e) si utilisées ailleurs
   --brand-primary: #1a5f3a;
   --brand-optional: #e8b923;
+  // VISION COYA (Émeraude, Ambre, Or)
+  --coya-emeraude: #2E7D32;  /* Ndiguel - discipline, boutons Valider */
+  --coya-ambre: #FF8F00;     /* Yar - éducation, alertes, qualité */
+  --coya-or-barke: #FBC02D;  /* Barké - impact, récompenses */
 }
 
 // Boutons primaires : jaune SENEGEL (thème aligné au logo vert+jaune)

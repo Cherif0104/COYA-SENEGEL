@@ -35,9 +35,12 @@ class CoyaJuridiqueRisque(models.Model):
     mesure_prevue = fields.Text("Mesure prévue / Mitigation")
     state = fields.Selection(
         [
+            ("identifie", "Identifié"),
             ("ouvert", "Ouvert"),
             ("en_cours", "En cours de traitement"),
+            ("surveille", "Surveillé"),
             ("cloture", "Clôturé"),
+            ("archive", "Archivé"),
         ],
         string="État",
         default="ouvert",

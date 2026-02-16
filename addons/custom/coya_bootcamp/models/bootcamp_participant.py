@@ -32,10 +32,16 @@ class CoyaBootcampParticipant(models.Model):
     state = fields.Selection(
         [
             ("candidat", "Candidat / Postulant"),
+            ("inscrit", "Inscrit"),
             ("selectionne", "Sélectionné"),
+            ("en_attente", "En attente"),
             ("apprenant", "Apprenant / En formation"),
+            ("en_stage", "En stage"),
+            ("evaluation", "Évaluation"),
             ("certifie", "Certifié"),
             ("abandon", "Abandon"),
+            ("exclu", "Exclu"),
+            ("suspendu", "Suspendu"),
         ],
         string="Statut parcours",
         required=True,

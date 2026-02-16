@@ -15,10 +15,15 @@ class CoyaTechProjet(models.Model):
     etape = fields.Selection(
         [
             ("idee", "Idée"),
+            ("etude", "Étude"),
             ("poc", "POC"),
+            ("validation_poc", "Validation POC"),
             ("dev", "Développement"),
+            ("tests", "Tests"),
             ("production", "Production"),
             ("maintenance", "Maintenance"),
+            ("obsolescence", "Obsolescence"),
+            ("arrete", "Arrêté"),
         ],
         string="Étape",
         default="idee",

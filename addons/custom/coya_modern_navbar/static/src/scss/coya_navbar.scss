@@ -8,6 +8,11 @@
   --senegel-green-light: #247a4a;
   --senegel-yellow: #e8b923;
 
+  // VISION COYA (Émeraude, Ambre, Or)
+  --coya-emeraude: #2E7D32;  /* Ndiguel - discipline, boutons Valider */
+  --coya-ambre: #FF8F00;     /* Yar - alertes, qualité */
+  --coya-or-barke: #FBC02D;  /* Barké - impact, récompenses */
+
   // Sidebar
   --coya-sidebar-width-collapsed: 70px;
   --coya-sidebar-width-expanded: 280px;
@@ -406,6 +411,12 @@ body:has(.coya-sidebar:hover) .o_web_client {
   box-shadow: var(--coya-shadow-soft);
 }
 
+@media (max-width: 768px) {
+  .coya-leader {
+    padding: var(--coya-spacing-sm) var(--coya-spacing-md);
+  }
+}
+
 .coya-leader-inner {
   display: flex;
   flex-wrap: wrap;
@@ -416,10 +427,24 @@ body:has(.coya-sidebar:hover) .o_web_client {
   margin: 0 auto;
 }
 
+@media (max-width: 768px) {
+  .coya-leader-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+}
+
 .coya-leader-left {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .coya-leader-left {
+    order: 1;
+  }
 }
 
 .coya-leader-welcome {
@@ -427,6 +452,16 @@ body:has(.coya-sidebar:hover) .o_web_client {
   color: rgba(26, 95, 58, 0.8);
   margin: 0;
   font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .coya-leader-welcome {
+    font-size: 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+  }
 }
 
 .coya-leader-user {
@@ -462,6 +497,14 @@ body:has(.coya-sidebar:hover) .o_web_client {
   max-width: 400px;
 }
 
+@media (max-width: 768px) {
+  .coya-leader-center {
+    order: 3;
+    max-width: none;
+    padding: 0;
+  }
+}
+
 .coya-leader-search {
   width: 100%;
   padding: var(--coya-spacing-sm) var(--coya-spacing-md);
@@ -489,6 +532,14 @@ body:has(.coya-sidebar:hover) .o_web_client {
   flex-wrap: wrap;
 }
 
+@media (max-width: 768px) {
+  .coya-leader-right {
+    order: 2;
+    justify-content: flex-start;
+    gap: var(--coya-spacing-sm);
+  }
+}
+
 .coya-leader-presence {
   display: flex;
   align-items: center;
@@ -510,6 +561,20 @@ body:has(.coya-sidebar:hover) .o_web_client {
 .coya-presence-label {
   font-size: 0.85rem;
   color: rgba(26, 95, 58, 0.7);
+}
+
+@media (max-width: 576px) {
+  .coya-presence-label {
+    display: none;
+  }
+  .coya-presence-timer {
+    min-width: 3.5rem;
+    font-size: 0.9rem;
+  }
+  .coya-presence-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }
 
 .coya-presence-dropdown {
@@ -671,6 +736,23 @@ body:has(.coya-sidebar:hover) .o_web_client {
   background: #3b82f6;
 }
 
+.coya-presence-assistance_tech {
+  background: #ff8f00;
+}
+
+.coya-presence-bureau { background: #16a34a; }
+.coya-presence-formation { background: #8b5cf6; }
+.coya-presence-terrain { background: #0d9488; }
+.coya-presence-teletravail { background: #06b6d4; }
+.coya-presence-deplacement { background: #6366f1; }
+.coya-presence-pause { background: #a3a3a3; }
+.coya-presence-conge { background: #64748b; }
+.coya-presence-maladie { background: #f97316; }
+.coya-presence-absence_autorisee { background: #94a3b8; }
+.coya-presence-absence_non_autorisee { background: #dc2626; }
+.coya-presence-retard { background: #eab308; }
+.coya-presence-depart_anticipe { background: #b91c1c; }
+
 .coya-presence-absent {
   background: #ef4444;
 }
@@ -718,8 +800,21 @@ body:has(.coya-sidebar:hover) .o_web_client {
       flex-shrink: 0;
 
       &.online { background: #22c55e; }
+      &.bureau { background: #16a34a; }
       &.lunch { background: #f59e0b; }
       &.meeting { background: #3b82f6; }
+      &.assistance_tech { background: #ff8f00; }
+      &.formation { background: #8b5cf6; }
+      &.terrain { background: #0d9488; }
+      &.teletravail { background: #06b6d4; }
+      &.deplacement { background: #6366f1; }
+      &.pause { background: #a3a3a3; }
+      &.conge { background: #64748b; }
+      &.maladie { background: #f97316; }
+      &.absence_autorisee { background: #94a3b8; }
+      &.absence_non_autorisee { background: #dc2626; }
+      &.retard { background: #eab308; }
+      &.depart_anticipe { background: #b91c1c; }
       &.absent { background: #ef4444; }
     }
   }

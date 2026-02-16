@@ -30,10 +30,13 @@ class CoyaJuridiqueContrat(models.Model):
     )
     state = fields.Selection(
         [
+            ("draft", "Brouillon"),
             ("actif", "Actif"),
             ("a_renouveler", "À renouveler"),
+            ("en_renouvellement", "En renouvellement"),
             ("expire", "Expiré"),
             ("resilie", "Résilié"),
+            ("suspendu", "Suspendu"),
         ],
         string="État",
         default="actif",

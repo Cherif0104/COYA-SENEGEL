@@ -9,7 +9,9 @@
     "depends": ["hr", "coya_planning", "coya_time_tracking", "coya_departments"],
     "data": [
         "security/ir.model.access.csv",
+        "data/cron_data.xml",
         "views/trinite_views.xml",
+        "views/trinite_week_views.xml",
     ],
     "assets": {
         "web.assets_backend": [

@@ -31,8 +31,11 @@ class CoyaJuridiqueContentieux(models.Model):
     state = fields.Selection(
         [
             ("ouvert", "Ouvert"),
+            ("en_instruction", "En instruction"),
             ("en_cours", "En cours"),
+            ("en_appel", "En appel"),
             ("cloture", "Clôturé"),
+            ("classe", "Classé"),
         ],
         string="État",
         default="ouvert",

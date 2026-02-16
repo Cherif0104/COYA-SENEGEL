@@ -39,7 +39,9 @@ class CoyaPlanningSlot(models.Model):
         [
             ("draft", "Brouillon"),
             ("confirmed", "Confirmé"),
+            ("en_cours", "En cours"),
             ("done", "Terminé"),
+            ("reporte", "Reporté"),
             ("cancelled", "Annulé"),
         ],
         string="État",

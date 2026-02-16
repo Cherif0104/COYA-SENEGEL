@@ -6,7 +6,7 @@
     "website": "https://coya.pro",
     "category": "Web",
     "license": "LGPL-3",
-    "depends": ["web", "base"],
+    "depends": ["web", "base", "hr", "hr_attendance", "coya_time_tracking"],
     "data": [
         "views/coya_home_dashboard_views.xml",
     ],

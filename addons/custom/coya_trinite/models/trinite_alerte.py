@@ -29,7 +29,10 @@ class CoyaTriniteAlerte(models.Model):
     state = fields.Selection(
         [
             ("open", "Ouverte"),
+            ("en_cours", "En cours"),
+            ("surveillee", "Surveillée"),
             ("closed", "Fermée"),
+            ("archivee", "Archivée"),
         ],
         string="État",
         default="open",

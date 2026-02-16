@@ -44,7 +44,11 @@ class CoyaImputationDepense(models.Model):
     etat = fields.Selection(
         [
             ("engage", "Engagé"),
+            ("commande", "Commandé"),
+            ("en_attente_paiement", "En attente paiement"),
             ("paye", "Payé"),
+            ("annule", "Annulé"),
+            ("conteste", "Contesté"),
         ],
         string="État",
         default="engage",

@@ -99,9 +99,22 @@ patch(NavBar.prototype, {
                                 <i class="fa fa-chevron-down"></i>
                             </button>
                             <div class="coya-presence-menu" id="coya-presence-menu">
-                                <button type="button" data-status="online"><span class="dot online"></span> En ligne</button>
-                                <button type="button" data-status="lunch"><span class="dot lunch"></span> Post-déjeuner</button>
+                                <button type="button" data-status="online"><span class="dot online"></span> En ligne (production)</button>
+                                <button type="button" data-status="bureau"><span class="dot bureau"></span> Au bureau</button>
+                                <button type="button" data-status="lunch"><span class="dot lunch"></span> Pause déjeuner</button>
                                 <button type="button" data-status="meeting"><span class="dot meeting"></span> En réunion</button>
+                                <button type="button" data-status="assistance_tech"><span class="dot assistance_tech"></span> Assistance tech / Problème technique</button>
+                                <button type="button" data-status="formation"><span class="dot formation"></span> En formation</button>
+                                <button type="button" data-status="terrain"><span class="dot terrain"></span> Sur le terrain</button>
+                                <button type="button" data-status="teletravail"><span class="dot teletravail"></span> Télétravail</button>
+                                <button type="button" data-status="deplacement"><span class="dot deplacement"></span> Déplacement</button>
+                                <button type="button" data-status="pause"><span class="dot pause"></span> Pause courte</button>
+                                <button type="button" data-status="conge"><span class="dot conge"></span> En congé</button>
+                                <button type="button" data-status="maladie"><span class="dot maladie"></span> Arrêt maladie</button>
+                                <button type="button" data-status="absence_autorisee"><span class="dot absence_autorisee"></span> Absence autorisée</button>
+                                <button type="button" data-status="absence_non_autorisee"><span class="dot absence_non_autorisee"></span> Absence non autorisée</button>
+                                <button type="button" data-status="retard"><span class="dot retard"></span> Retard</button>
+                                <button type="button" data-status="depart_anticipe"><span class="dot depart_anticipe"></span> Départ anticipé</button>
                                 <button type="button" data-status="absent"><span class="dot absent"></span> Absent</button>
                             </div>
                         </div>
@@ -139,7 +152,14 @@ patch(NavBar.prototype, {
     },
 
     getPresenceLabel(status) {
-        const labels = { online: "En ligne", lunch: "Post-déjeuner", meeting: "En réunion", absent: "Absent" };
+        const labels = {
+            online: "En ligne", bureau: "Au bureau", lunch: "Pause déjeuner", meeting: "En réunion",
+            assistance_tech: "Assistance tech / Problème technique", formation: "En formation",
+            terrain: "Sur le terrain", teletravail: "Télétravail", deplacement: "Déplacement", pause: "Pause courte",
+            conge: "En congé", maladie: "Arrêt maladie", absence_autorisee: "Absence autorisée",
+            absence_non_autorisee: "Absence non autorisée", retard: "Retard", depart_anticipe: "Départ anticipé",
+            absent: "Absent"
+        };
         return labels[status] || "En ligne";
     },
 
@@ -158,7 +178,7 @@ patch(NavBar.prototype, {
         updateDateTime();
         setInterval(updateDateTime, 60000);
 
-        // Time tracking — temps travaillé aujourd'hui (depuis la connexion)
+        // Time tracking — RPC hr.employee.hours_today + coya.time.entry, fallback localStorage
         const COYA_DAY_KEY = "coya_work_date";
         const COYA_SECONDS_KEY = "coya_work_seconds";
         const today = new Date().toISOString().slice(0, 10);
@@ -167,31 +187,51 @@ patch(NavBar.prototype, {
             storedAtLoad = 0;
             browser.localStorage.setItem(COYA_DAY_KEY, today);
         }
+        let serverHoursToday = 0;
+        let employeeId = null;
         const sessionStart = Date.now();
         const formatWorkTime = (totalSeconds) => {
             const h = Math.floor(totalSeconds / 3600);
             const m = Math.floor((totalSeconds % 3600) / 60);
             return `${h}h ${String(m).padStart(2, "0")}m`;
         };
+        const toOdooDatetime = (d) => {
+            const pad = (n) => String(n).padStart(2, "0");
+            return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+        };
         const updateWorkTimer = () => {
             const el = document.getElementById("coya-presence-timer");
             if (el) {
                 const elapsedThisSession = (Date.now() - sessionStart) / 1000;
-                const totalToday = storedAtLoad + elapsedThisSession;
+                const baseHours = employeeId !== null ? serverHoursToday : storedAtLoad;
+                const totalToday = baseHours + elapsedThisSession;
                 el.textContent = formatWorkTime(totalToday);
             }
         };
         updateWorkTimer();
-        const workTimerInterval = setInterval(updateWorkTimer, 1000);
+        setInterval(updateWorkTimer, 1000);
         const saveWorkTime = () => {
             const elapsed = (Date.now() - sessionStart) / 1000;
-            const total = storedAtLoad + elapsed;
+            const total = (employeeId !== null ? serverHoursToday * 3600 : storedAtLoad) + elapsed;
             browser.localStorage.setItem(COYA_SECONDS_KEY, String(Math.round(total)));
         };
         window.addEventListener("beforeunload", saveWorkTime);
         document.addEventListener("visibilitychange", () => {
             if (document.visibilityState === "hidden") saveWorkTime();
         });
+        // RPC: charger hours_today depuis hr.employee
+        (async () => {
+            try {
+                const orm = this.env.services.orm;
+                const uid = this.env.services.user?.userId;
+                if (!uid || !orm) return;
+                const employees = await orm.searchRead("hr.employee", [["user_id", "=", uid]], ["hours_today", "id"], { limit: 1 });
+                if (employees.length > 0) {
+                    employeeId = employees[0].id;
+                    serverHoursToday = (employees[0].hours_today || 0) * 3600;
+                }
+            } catch (_e) { /* fallback localStorage */ }
+        }).call(this);
 
         // Rôle / Département (RPC optionnel)
         this.loadUserRoleDepartment();
@@ -205,8 +245,16 @@ patch(NavBar.prototype, {
                 menu.classList.toggle("show");
             });
             document.addEventListener("click", () => menu.classList.remove("show"));
+            const presenceToActivity = {
+                online: "production", bureau: "bureau", lunch: "autre", meeting: "reunion",
+                assistance_tech: "assistance_tech", formation: "formation", terrain: "terrain",
+                teletravail: "teletravail", deplacement: "deplacement", pause: "pause",
+                conge: "conge", maladie: "maladie", absence_autorisee: "absence_autorisee",
+                absence_non_autorisee: "absence_non_autorisee", retard: "retard",
+                depart_anticipe: "depart_anticipe", absent: "autre"
+            };
             menu.querySelectorAll("button[data-status]").forEach((opt) => {
-                opt.addEventListener("click", (e) => {
+                opt.addEventListener("click", async (e) => {
                     e.stopPropagation();
                     const status = opt.dataset.status;
                     browser.localStorage.setItem(presenceKey, status);
@@ -214,6 +262,21 @@ patch(NavBar.prototype, {
                     btn.querySelector(".coya-presence-dot").className = "coya-presence-dot coya-presence-" + status;
                     document.getElementById("coya-presence-text").textContent = this.getPresenceLabel(status);
                     menu.classList.remove("show");
+                    // RPC: créer coya.time.entry pour tracer le changement de statut
+                    if (employeeId !== null) {
+                        try {
+                            const orm = this.env.services.orm;
+                            const now = new Date();
+                            const stop = new Date(now.getTime() + 60000);
+                            await orm.create("coya.time.entry", [{
+                                employee_id: employeeId,
+                                date: today,
+                                date_start: toOdooDatetime(now),
+                                date_stop: toOdooDatetime(stop),
+                                activity_type: presenceToActivity[status] || "autre",
+                            }]);
+                        } catch (_err) { /* ignore */ }
+                    }
                 });
             });
         }

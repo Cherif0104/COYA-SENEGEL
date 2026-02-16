@@ -22,9 +22,12 @@ class ResPartner(models.Model):
     partenaire_engagement = fields.Selection(
         [
             ("prospect", "Prospect"),
+            ("contact_initial", "Contact initial"),
             ("en_cours", "Engagement en cours"),
             ("actif", "Partenaire actif"),
+            ("en_veille", "En veille"),
             ("inactif", "Inactif"),
+            ("resilie", "Résilié"),
         ],
         string="Niveau d'engagement",
     )

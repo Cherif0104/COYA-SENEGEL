@@ -10,6 +10,17 @@ class CoyaProgramme(models.Model):
     _order = "date_start desc, name"
 
     name = fields.Char("Nom du programme", required=True)
+    state = fields.Selection(
+        [
+            ("draft", "Brouillon"),
+            ("active", "Actif"),
+            ("closed", "Clôturé"),
+            ("archived", "Archivé"),
+        ],
+        string="État",
+        default="draft",
+        required=True,
+    )
     bailleur_id = fields.Many2one(
         "res.partner",
         string="Bailleur / Financeur",

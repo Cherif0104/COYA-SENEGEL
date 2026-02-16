@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_coya_presence_day_wizard_form" model="ir.ui.view">
+        <field name="name">coya.presence.day.wizard.form</field>
+        <field name="model">coya.presence.day.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Vue présences par jour">
+                <group>
+                    <field name="date"/>
+                </group>
+                <footer>
+                    <button name="action_open_day_view" string="Voir les présences" type="object" class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

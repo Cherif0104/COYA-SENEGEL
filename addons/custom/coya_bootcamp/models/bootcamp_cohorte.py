@@ -22,8 +22,12 @@ class CoyaBootcampCohorte(models.Model):
     state = fields.Selection(
         [
             ("draft", "Prévue"),
+            ("brouillon", "Brouillon"),
+            ("recrutement", "Recrutement"),
             ("ongoing", "En cours"),
+            ("suspension", "Suspension"),
             ("done", "Terminée"),
+            ("cloturee", "Clôturée"),
             ("cancelled", "Annulée"),
         ],
         string="État",

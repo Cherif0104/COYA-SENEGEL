@@ -15,10 +15,16 @@ class CoyaStudioProjet(models.Model):
     etape = fields.Selection(
         [
             ("idee", "Idée"),
+            ("preparation", "Préparation"),
             ("script", "Script"),
+            ("validation_script", "Validation script"),
+            ("preprod", "Préprod"),
             ("tournage", "Tournage"),
+            ("montage", "Montage"),
             ("postprod", "Post-production"),
+            ("validation", "Validation"),
             ("diffusion", "Diffusion"),
+            ("archived", "Archivé"),
         ],
         string="Étape",
         default="idee",

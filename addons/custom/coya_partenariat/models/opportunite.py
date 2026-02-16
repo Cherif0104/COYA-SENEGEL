@@ -18,11 +18,15 @@ class CoyaOpportunite(models.Model):
     sequence = fields.Integer(default=10)
     stage = fields.Selection(
         [
+            ("prospect", "Prospect"),
             ("qualification", "Qualification"),
             ("proposition", "Proposition"),
             ("negociation", "Négociation"),
+            ("validation", "Validation"),
             ("gagne", "Gagné"),
             ("perdu", "Perdu"),
+            ("en_attente", "En attente"),
+            ("reporte", "Reporté"),
         ],
         string="Étape",
         default="qualification",
