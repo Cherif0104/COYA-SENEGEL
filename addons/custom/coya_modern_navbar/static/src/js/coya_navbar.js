@@ -299,6 +299,7 @@ patch(NavBar.prototype, {
     /** Mapping des apps Odoo vers sections sidebar (ERP moderne) */
     getSidebarSectionForApp(appName) {
         const n = (appName || "").toLowerCase();
+        if (n.includes("coya")) return "COYA";
         if (n.includes("accueil") || n.includes("home") || n.includes("discussion") || n.includes("discuss") || n.includes("calendrier") || n.includes("calendar") || n.includes("to-do") || n.includes("todo") || n.includes("tâches")) return "Core";
         if (n.includes("crm") || n.includes("ventes") || n.includes("sale") || n.includes("facturation") || n.includes("invoic") || n.includes("projet") || n.includes("project") || n.includes("feuille") || n.includes("timesheet")) return "Business";
         if (n.includes("achat") || n.includes("purchase") || n.includes("inventaire") || n.includes("stock") || n.includes("dépense") || n.includes("expense")) return "Opérations";
@@ -318,8 +319,8 @@ patch(NavBar.prototype, {
             const apps = menuService.getApps();
             const sorted = [...apps].sort((a, b) => (a.sequence ?? 9999) - (b.sequence ?? 9999));
 
-            const sectionOrder = ["Core", "Business", "Opérations", "RH", "Marketing", "Système"];
-            const sectionLabels = { Core: "Principal", Business: "Business", Opérations: "Opérations", RH: "RH", Marketing: "Marketing", Système: "Système" };
+            const sectionOrder = ["COYA", "Core", "Business", "Opérations", "RH", "Marketing", "Système"];
+            const sectionLabels = { COYA: "COYA", Core: "Principal", Business: "Business", Opérations: "Opérations", RH: "RH", Marketing: "Marketing", Système: "Système" };
             const bySection = {};
             sectionOrder.forEach((s) => (bySection[s] = []));
             sorted.forEach((app) => {

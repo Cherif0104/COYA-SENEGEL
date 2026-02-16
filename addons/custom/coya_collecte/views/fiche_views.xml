@@ -116,7 +116,9 @@
     <!-- Menus -->
     <menuitem id="menu_coya_collecte_root"
               name="Collecte"
-              sequence="70"/>
+              parent="coya_departments.menu_coya_department_formation"
+              sequence="70"
+              groups="coya_departments.group_coya_departments_formation"/>
 
     <menuitem id="menu_coya_fiche_type"
               name="Types de fiches"

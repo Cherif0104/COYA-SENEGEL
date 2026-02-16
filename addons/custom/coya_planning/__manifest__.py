@@ -6,7 +6,7 @@
     "website": "https://coya.pro",
     "category": "Human Resources/Planning",
     "license": "LGPL-3",
-    "depends": ["hr", "calendar"],
+    "depends": ["hr", "calendar", "coya_departments"],
     "data": [
         "security/ir.model.access.csv",
         "views/planning_views.xml",

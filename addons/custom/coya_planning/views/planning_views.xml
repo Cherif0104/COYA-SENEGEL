@@ -81,7 +81,9 @@
     <!-- Menus -->
     <menuitem id="menu_coya_planning_root"
               name="Planification"
+              parent="coya_departments.menu_coya_department_rh"
               sequence="50"
+              groups="coya_departments.group_coya_departments_rh"
               web_icon="calendar,static/description/icon.png"/>
 
     <menuitem id="menu_coya_planning_slot"

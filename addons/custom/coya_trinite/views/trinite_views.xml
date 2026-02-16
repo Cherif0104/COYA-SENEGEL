@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
+<odoo>
+    <data noupdate="1">
     <!-- Plans de paie -->
     <record id="view_coya_trinite_plan_tree" model="ir.ui.view">
         <field name="name">coya.trinite.plan.tree</field>
@@ -26,6 +27,32 @@
                     </group>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <!-- Fiche employé : bloc Trinité -->
+    <record id="view_hr_employee_form_trinite" model="ir.ui.view">
+        <field name="name">hr.employee.form.trinite</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Trinité (dernière période)" name="group_trinite">
+                    <field name="last_trinite_score_id" invisible="1"/>
+                    <field name="score_ndiguel" readonly="1"/>
+                    <field name="score_barke" readonly="1"/>
+                    <field name="score_yar" readonly="1"/>
+                </group>
+                <field name="trinite_score_ids" nolabel="1" readonly="1" colspan="2">
+                    <list string="Historique scores" create="0" delete="0" edit="0">
+                        <field name="periode_start"/>
+                        <field name="periode_end"/>
+                        <field name="score_ndiguel"/>
+                        <field name="score_barke"/>
+                        <field name="score_yar"/>
+                    </list>
+                </field>
+            </xpath>
         </field>
     </record>
 
@@ -125,7 +152,9 @@
     <!-- Menus -->
     <menuitem id="menu_coya_trinite_root"
               name="Trinité"
+              parent="coya_departments.menu_coya_department_qualite"
               sequence="60"
+              groups="coya_departments.group_coya_departments_qualite"
               web_icon="hr,static/description/icon.png"/>
 
     <menuitem id="menu_coya_trinite_dashboard"
@@ -151,4 +180,5 @@
               parent="menu_coya_trinite_root"
               action="action_coya_trinite_alerte"
               sequence="30"/>
-</openerp>
+    </data>
+</odoo>

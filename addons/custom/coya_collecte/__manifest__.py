@@ -6,7 +6,7 @@
     "website": "https://coya.pro",
     "category": "Marketing/Surveys",
     "license": "LGPL-3",
-    "depends": ["base", "web"],
+    "depends": ["base", "web", "coya_departments"],
     "data": [
         "security/ir.model.access.csv",
         "views/fiche_templates.xml",

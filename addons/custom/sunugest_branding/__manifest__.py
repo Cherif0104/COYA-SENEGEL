@@ -23,6 +23,7 @@
             "sunugest_branding/static/src/js/coya_splash_overlay.js",
         ],
     },
+    "post_init_hook": "sunugest_branding.hooks.post_init:post_init_hook",
     "installable": True,
     "application": False,
 }

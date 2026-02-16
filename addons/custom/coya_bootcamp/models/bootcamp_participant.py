@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of COYA.PRO. See LICENSE file for full copyright and licensing details.
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class CoyaBootcampParticipant(models.Model):
@@ -35,10 +35,30 @@ class CoyaBootcampParticipant(models.Model):
             ("selectionne", "Sélectionné"),
             ("apprenant", "Apprenant / En formation"),
             ("certifie", "Certifié"),
+            ("abandon", "Abandon"),
         ],
-        string="Statut",
+        string="Statut parcours",
         required=True,
         default="candidat",
     )
     date_inscription = fields.Date("Date d'inscription", default=fields.Date.context_today)
+    date_certification = fields.Date(
+        "Date de certification",
+        help="Renseignée lorsque le statut passe à Certifié.",
+    )
     notes = fields.Text("Notes")
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("state") == "certifie" and not vals.get("date_certification"):
+                vals["date_certification"] = fields.Date.context_today(self)
+        return super().create(vals_list)
+
+    def write(self, vals):
+        if vals.get("state") == "certifie":
+            for rec in self:
+                if not rec.date_certification:
+                    vals.setdefault("date_certification", fields.Date.context_today(self))
+                break
+        return super().write(vals)

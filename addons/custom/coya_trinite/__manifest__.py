@@ -6,7 +6,7 @@
     "website": "https://coya.pro",
     "category": "Human Resources/Trinité",
     "license": "LGPL-3",
-    "depends": ["hr", "coya_planning", "coya_time_tracking"],
+    "depends": ["hr", "coya_planning", "coya_time_tracking", "coya_departments"],
     "data": [
         "security/ir.model.access.csv",
         "views/trinite_views.xml",

@@ -117,4 +117,77 @@ Référence déploiement : `docker-compose.contabo.yml`, `docs/DEPLOI-CONTABO-ST
 
 Les modules opérationnels (Agile, ISO, Xalima, etc.) restent à installer et configurer selon les phases 2 à 8.
 
+---
+
+## 8. Vision par département et par module (référence managériale)
+
+Organisation de la plateforme par **départements** et **modules fonctionnels / opérationnels**, avec une approche de gestion orientée performance, qualité et transparence.
+
+### 8.1 Comptabilité : deux niveaux distincts
+
+| Niveau | Objet | Odoo / modules |
+|--------|--------|-----------------|
+| **Comptabilité d’entreprise** | Charges, dépenses, achats, trésorerie, paie, TVA, bilans | `account`, `purchase`, `hr_expense`, `hr_payroll`, PCE / OHADA |
+| **Comptabilité programmes & projets (bailleurs)** | Budgets alloués par bailleur, lignes budgétaires, imputation par projet, prévisionnel vs réel, justificatifs, rapports bailleur | Module dédié « Comptabilité analytique programmes » : programmes → projets → lignes → imputation dépenses → rapports |
+
+**Innovation cible** : un module **Comptabilité analytique programmes** qui garde les écritures dans la compta entreprise tout en gérant programmes / projets / lignes budgétaires, imputation des dépenses et rapports par bailleur (prévisionnel vs réel, justificatifs).
+
+---
+
+### 8.2 Départements et modules
+
+#### Administratif & financier
+- Compta entreprise, compta programmes, trésorerie, achats, documents administratifs, contrats & engagements.
+- **Innovation** : Dossier projet financier (budget, dépenses, justificatifs, rapports bailleur).
+
+#### Juridique
+- Risques juridiques, contrats, conformité, contentieux.
+- **Innovation** : Tableau de bord juridique (risques, contrats à renouveler, contentieux, conformité).
+
+#### Audiovisuel / Production
+- Projets de production, équipes, matériel, planning, livrables, budget production.
+- **Innovation** : Studio board (Kanban : idée → script → tournage → postprod → diffusion).
+
+#### Formation & Bootcamp
+- Bootcamps, cohortes, formateurs, participants, fiches de collecte, portail apprenants, évaluation formation.
+- **Innovation** : Parcours apprenant (inscription → certification, lien Trinité).
+
+#### RH
+- Employés, paie, congés, présence, performance, recrutement, politiques RH.
+- **Innovation** : Fiche RH enrichie Trinité (scores Ndiguel / Barké / Yar intégrés à la fiche employé et à l’évaluation).
+
+#### Project Management (Programmes & Projets)
+- Programmes, projets, budget prévisionnel / réel, rapprochement, tâches, équipe projet, reporting bailleur.
+- **Innovation** : Ligne budgétaire intelligente (budget, engagé, payé, restant, justificatifs par ligne).
+
+#### Prospection & Partenariat
+- Partenaires, opportunités, pipeline, engagements, suivi relationnel.
+- **Innovation** : Carte des partenaires (vue par type / secteur / engagement, alertes).
+
+#### Conseil consultatif (Gouvernance)
+- Tableau de bord stratégique, activités & réalisations, décisions, documents de gouvernance, alertes.
+- **Innovation** : Conseil board (tableau de bord temps réel pour administrateurs).
+
+#### Qualité & Suivi performance
+- Trinité (noyau), audits internes, contrôles, notation transversale, indicateurs qualité, plans d’action.
+- **Innovation** : Score qualité global (agrégation Trinité + audits + contrôles par département / personne).
+
+#### IT & Tech Solutions
+- Projets techniques, solutions / produits, support, infrastructure, documentation.
+- **Innovation** : Tech pipeline (cycle de vie : idée → POC → dev → production → maintenance).
+
+#### Trinité (transversal)
+- Productivité (Ndiguel), Profitabilité (Barké), Professionnalisme (Yar) — présents dans tous les départements.
+- Lien RH : alimentation évaluation, paie variable, plan de formation, évolution de carrière.
+
+---
+
+### 8.3 Priorisation (suite aux phases 1–8)
+
+1. **Court terme** : Déblocage Trinité (RelaxNG), intégration Trinité ↔ RH, droits par département (groupes / rôles).
+2. **Moyen terme** : Compta programmes, module Project Management (budget, rapprochement, justificatifs).
+3. **Long terme** : Qualité & suivi performance, Conseil consultatif, Prospection, IT.
+
+---
+
 *Dernière mise à jour : février 2026 — Projet COYA.PRO / SENEGEL.*

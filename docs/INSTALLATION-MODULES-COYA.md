@@ -1,97 +1,97 @@
-# Installation des modules COYA — GitHub et VPS
+# Installation des modules COYA (Odoo 18)
 
-## 1. Pousser les modifications (déjà fait)
-
-Les modifications ont été poussées sur GitHub (branche `main`).
+Guide pour installer et mettre à jour les modules custom COYA sur une instance Odoo 18.
 
 ---
 
-## 2. Déployer sur le VPS (Contabo)
+## 1. Liste des modules custom
 
-### Depuis votre poste (PowerShell ne gère pas `cd /opt/...`)
+| Module | Résumé | Dépendances Odoo / COYA |
+|--------|--------|--------------------------|
+| **sunugest_branding** | Identité COYA.PRO, charte, debrand (titre, footer, login) | `web`, `mail` |
+| **coya_departments** | Groupes et menus racine par département (Administratif, Juridique, Formation, RH, etc.) | `base` |
+| **coya_modern_navbar** | Navbar gauche, écran d'accueil, section COYA en premier | `web`, `base` |
+| **coya_collecte** | Formulaires publics modulables (fiches, types, réponses) | `base`, `web`, `coya_departments` |
+| **coya_planning** | Planification (réunions, télétravail, bureau, terrain, formations) | `hr`, `calendar`, `coya_departments` |
+| **coya_time_tracking** | Suivi du temps (pointage, types d'activité, lien projets) | `hr`, `hr_attendance`, `coya_planning`, `project` |
+| **coya_trinite** | Plans de paie, scores Trinité (Ndiguel, Barké, Yar), alertes Conseil | `hr`, `coya_planning`, `coya_time_tracking`, `coya_departments` |
+| **coya_bootcamp** | Bootcamps, cohortes, intervenants, participants, parcours apprenant | `base`, `coya_collecte`, `coya_departments` |
+| **coya_programme_budget** | Compta programmes (programmes, projets, lignes budgétaires, imputations, rapport bailleur) | `base`, `coya_departments` |
+| **coya_juridique** | Risques juridiques, contrats, contentieux | `base`, `coya_departments` |
+| **coya_studio** | Studio board (Kanban production : idée → script → tournage → postprod → diffusion) | `base`, `coya_departments`, `hr` |
+| **coya_partenariat** | Carte des partenaires, opportunités (pipeline) | `base`, `coya_departments` |
+| **coya_conseil** | Tableau de bord Conseil (gouvernance) | `web`, `base`, `coya_departments` |
+| **coya_qualite** | Score qualité global (Trinité + audits + contrôles) | `base`, `coya_departments`, `coya_trinite`, `hr` |
+| **coya_tech** | Pipeline Tech (idée → POC → dev → production → maintenance) | `base`, `coya_departments` |
+| **coya_programme_budget_project** | Lien Projet Odoo sur les projets compta programmes | `coya_programme_budget`, `project` |
+| **coya_tech_project** | Lien Projet Odoo sur les projets Tech | `coya_tech`, `project` |
+| **coya_hr_trinite_appraisal** | Scores Trinité sur la fiche d'évaluation RH | `coya_trinite`, `hr_appraisal` |
 
-Connectez-vous au VPS en SSH, puis exécutez les commandes **sur le serveur** :
+---
+
+## 2. Ordre d'installation recommandé
+
+Les modules doivent être installés en respectant les dépendances. Ordre suggéré :
+
+1. **Fondations**
+   - `sunugest_branding`
+   - `coya_departments`
+
+2. **Collecte et Planification**
+   - `coya_collecte`
+   - `coya_planning` (nécessite `hr`, `calendar`)
+
+3. **Time tracking et Trinité**
+   - `coya_time_tracking` (nécessite `hr_attendance`, `project`)
+   - `coya_trinite`
+
+4. **Formation, Compta programmes, autres départements**
+   - `coya_bootcamp`
+   - `coya_programme_budget`
+   - `coya_juridique`
+   - `coya_studio`
+   - `coya_partenariat`
+   - `coya_conseil`
+   - `coya_qualite`
+   - `coya_tech`
+
+5. **Optionnels**
+   - `coya_modern_navbar` (à tout moment, dépend seulement de `web`, `base`)
+   - `coya_programme_budget_project` et `coya_tech_project` : uniquement si le module **Projet** (`project`) est installé et que vous souhaitez lier les projets COYA aux projets Odoo.
+   - `coya_hr_trinite_appraisal` : uniquement si le module **Évaluations** (`hr_appraisal`) est installé ; affiche les scores Trinité (Ndiguel, Barké, Yar) sur la fiche d'évaluation de l'employé.
+
+**Note** : `coya_programme_budget` et `coya_tech` **n'exigent plus** le module `project`. Pour avoir le champ « Projet Odoo » sur les projets (compta programmes ou tech), installer en plus les modules pont `coya_programme_budget_project` et/ou `coya_tech_project`.
+
+---
+
+## 3. Configuration post-installation
+
+- **Groupes COYA Départements** : Dans **Paramètres > Utilisateurs**, pour chaque utilisateur, attribuer au moins un groupe sous la catégorie **COYA Départements** (ex. « Formation & Bootcamp », « RH », « Qualité & Suivi performance »). Sans cela, les menus rattachés (Trinité, Bootcamps, Collecte, Planification, etc.) ne seront pas visibles pour cet utilisateur.
+- **Rapport bailleur** : Depuis **COYA > Administratif & Financier > Compta programmes > Programmes**, le bouton **Imprimer** permet d’imprimer le **Rapport bailleur** (prévisionnel vs réel) pour le(s) programme(s) sélectionné(s).
+
+- **Debranding (OdooBot → Assistant COYA)** : Après l'installation ou la mise à jour du module **COYA.PRO Branding** (`sunugest_branding`), le bot système utilisé dans Discuss, Chatter et les notifications est renommé automatiquement de « OdooBot » à « Assistant COYA ». Ce renommage est effectué par un hook exécuté au chargement du module. Si, après une mise à jour majeure d'Odoo, le bot réapparaît sous le nom « OdooBot », mettre à jour à nouveau le module `sunugest_branding` pour réappliquer le renommage.
+
+---
+
+## 4. Mise à jour des modules
+
+Après modification du code des addons, mettre à jour les modules concernés depuis **Applications** (mode développeur) ou en ligne de commande :
 
 ```bash
-# 1. Connexion SSH au VPS
-ssh root@5.189.175.90
-
-# 2. Aller dans le répertoire du projet
-cd /opt/COYA-SENEGEL
-
-# 3. Lancer le script de déploiement (pull + mise à jour des modules + redémarrage Odoo)
-bash scripts/deploy_contabo.sh
+odoo -u module_name -d ma_base --stop-after-init
 ```
 
-Le script va :
-- faire un `git pull origin main`
-- mettre à jour les modules : sunugest_branding, coya_modern_navbar, coya_planning, coya_time_tracking, coya_trinite, coya_collecte, coya_bootcamp
-- redémarrer le conteneur Odoo
-
-### Si vous préférez faire les étapes à la main
-
-```bash
-ssh root@5.189.175.90
-cd /opt/COYA-SENEGEL
-
-git pull origin main
-
-# Mise à jour de tous les modules custom
-docker compose -f docker-compose.contabo.yml run --rm odoo odoo \
-  -c /etc/odoo/odoo-standalone.conf \
-  -u sunugest_branding,coya_modern_navbar,coya_planning,coya_time_tracking,coya_trinite,coya_collecte,coya_bootcamp \
-  -d postgres \
-  --stop-after-init
-
-# Redémarrer Odoo
-docker compose -f docker-compose.contabo.yml restart odoo
-```
+Pour mettre à jour tous les modules COYA, mettre à jour les modules « feuilles » (sans dépendants custom) puis remonter ; ou mettre à jour chaque module listé ci-dessus dans l’ordre inverse des dépendances.
 
 ---
 
-## 3. Installer les nouveaux modules (première fois)
+## 5. Checklist déploiement (premier déploiement / mise en production)
 
-Si les modules **coya_planning**, **coya_time_tracking**, **coya_trinite**, **coya_collecte**, **coya_bootcamp** ne sont pas encore installés sur la base :
-
-1. Dans Odoo : **Paramètres** → **Applications** → **Mettre à jour la liste des applications**.
-2. Rechercher et installer **dans cet ordre** (à cause des dépendances) :
-   - **COYA Planning**
-   - **COYA Time Tracking** (dépend : hr, hr_attendance, coya_planning, project)
-   - **COYA Trinité** (dépend : hr, coya_planning, coya_time_tracking)
-   - **COYA Collecte**
-   - **COYA Bootcamp** (dépend : coya_collecte)
-
-### Prérequis Odoo
-
-Pour que tous les modules fonctionnent, les applications Odoo suivantes doivent être installées :
-
-- **Employés** (hr)
-- **Présence** (hr_attendance)
-- **Calendrier** (calendar)
-- **Projets** (project) — nécessaire pour COYA Time Tracking
-
-Si une dépendance manque, Odoo proposera de l’installer lors de l’installation du module.
+1. Installer les modules COYA selon l'ordre de la section 2.
+2. Attribuer les groupes COYA Départements aux utilisateurs (section 3).
+3. Vérifier le debranding : titre de l'onglet, footer, OdooBot → Assistant COYA (après mise à jour de `sunugest_branding`).
+4. (Optionnel) Installer et configurer les modules tiers selon la vision (compta OHADA, project, hr_attendance, etc.) — voir [VISION-COYA-COMMUNITY.md](docs/VISION-COYA-COMMUNITY.md), section 5.
 
 ---
 
-## 4. Résumé des modules déployés
-
-| Module | Rôle |
-|--------|------|
-| **sunugest_branding** | Charte COYA, page de login deux panneaux |
-| **coya_modern_navbar** | Sidebar, dashboard, menus |
-| **coya_planning** | Créneaux de planification (réunions, télétravail, terrain, etc.) |
-| **coya_time_tracking** | Suivi du temps, entrées de temps |
-| **coya_trinite** | Plans de paie, scores Ndiguel/Barké/Yar, alertes, dashboard Trinité |
-| **coya_collecte** | Types de fiches, formulaires publics avec lien partageable |
-| **coya_bootcamp** | Bootcamps, cohortes, intervenants, participants |
-
----
-
-## 5. Après déploiement
-
-- **Login** : page deux panneaux (gauche formulaire, droite bienvenue + Trinité).
-- **Formulaires publics** : `https://VOTRE-DOMAINE/coya/fiche/<ID_TYPE_FICHE>` (sans connexion).
-- **Menus** : Planification, Suivi du temps, Trinité, Collecte, Bootcamps dans la sidebar (section RH / Business selon le nom).
-
-*Dernière mise à jour : février 2026 — COYA.PRO / SENEGEL.*
+*Dernière mise à jour : février 2026 — Projet COYA.PRO / SENEGEL.*

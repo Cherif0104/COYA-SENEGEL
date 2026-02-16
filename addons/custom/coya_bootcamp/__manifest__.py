@@ -6,7 +6,7 @@
     "website": "https://coya.pro",
     "category": "Marketing/Events",
     "license": "LGPL-3",
-    "depends": ["base", "coya_collecte"],
+    "depends": ["base", "coya_collecte", "coya_departments"],
     "data": [
         "security/ir.model.access.csv",
         "views/bootcamp_views.xml",
